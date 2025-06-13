@@ -141,9 +141,17 @@
         }
 
         function changeCompany() {
-            localStorage.removeItem("ihf_company_name");
-            location.reload();
+            const current = localStorage.getItem("ihf_company_name") || "N/A";
+            const newName = prompt("Enter your company name for donation matching.", current);
+            if (newName) {
+                localStorage.setItem("ihf_company_name", newName);
+                renderCompanyInfo(newName);
+                const isMatch = employerList.some(name => newName.toLowerCase().includes(name.toLowerCase()));
+                const urlType = isMatch ? "vpf" : "ihf";
+                renderTiles(urlType);
+            }
         }
+
 
         function renderCompanyInfo(name) {
             const div = document.getElementById("companyDisplay");
