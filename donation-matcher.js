@@ -52,7 +52,7 @@ const donationForms = {
   },
   "sri-lakshmi-narasimha-homa": {
     label: "Sri Lakshmi Narasimha Homa",
-    img: "https://d2r0txsugik6oi.cloudfront.net/neon/resource/ihf/images/garland_sevas.jpeg",
+    img: "https://www.kbmandir.org/wp-content/uploads/2025/04/slnh-landscape.jpg",
     vpf: "https://secure.kbmandir.org/forms/sri-lakshmi-narasimha-homa-vpf",
     ihf: "https://secure.kbmandir.org/forms/sri-lakshmi-narasimha-homa-ihf"
   },
