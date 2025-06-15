@@ -64,11 +64,23 @@ const donationForms = {
   },
 };
 
+// Cookie helper functions
+function setEmployerCookie(name) {
+  document.cookie = `ihf_employer_name=${encodeURIComponent(name)}; path=/; domain=.kbmandir.org; max-age=31536000`; // 1 year
+}
+
+function getEmployerCookie() {
+  const match = document.cookie.match(/(?:^|; )ihf_employer_name=([^;]*)/);
+  return match ? decodeURIComponent(match[1]) : null;
+}
+
 function updateEmployer() {
   const input = document.getElementById("employerInput");
   const name = input.value.trim() || "N/A";
   localStorage.setItem("ihf_employer_name", name);
+  setEmployerCookie(name);
   document.getElementById("employerName").innerText = name;
+
   const isMatch = employerList.some(employer => name.toLowerCase().includes(employer.toLowerCase()));
   const urlType = isMatch ? "vpf" : "ihf";
   renderTiles(urlType);
@@ -83,9 +95,9 @@ function renderTiles(urlType) {
     a.target = "_blank";
     a.className = "tile";
     a.innerHTML = `
-          <img src="${form.img}" alt="${form.label}" />
-          <span>${form.label}</span>
-        `;
+      <img src="${form.img}" alt="${form.label}" />
+      <span>${form.label}</span>
+    `;
     container.appendChild(a);
   });
 }
@@ -96,10 +108,11 @@ document.getElementById("employerInput").addEventListener("keydown", function (e
   }
 });
 
-// Initial Load
-const storedName = localStorage.getItem("ihf_employer_name") || "N/A";
+// Initial Load - Prefer localStorage, fallback to cookie
+let storedName = localStorage.getItem("ihf_employer_name") || getEmployerCookie() || "N/A";
 document.getElementById("employerName").innerText = storedName;
 document.getElementById("employerInput").value = storedName;
+
 const isMatchInit = employerList.some(employer => storedName.toLowerCase().includes(employer.toLowerCase()));
 const urlTypeInit = isMatchInit ? "vpf" : "ihf";
 renderTiles(urlTypeInit);
