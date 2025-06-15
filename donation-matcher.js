@@ -28,13 +28,13 @@ const donationForms = {
   },
   "sunday-feast-sponsorship": {
     label: "Sponsor a Sunday Feast",
-    img: "https://d2r0txsugik6oi.cloudfront.net/neon/resource/ihf/images/garland_sevas.jpeg",
+    img: "https://www.kbmandir.org/wp-content/uploads/2023/09/WhatsApp-Image-2023-09-11-at-12.04.27-AM-1.jpeg",
     vpf: "https://secure.kbmandir.org/forms/sunday-feast-sponsorship-vpf",
     ihf: "https://secure.kbmandir.org/forms/sunday-feast-sponsorship-ihf"
   },
   "nitya-prasada-seva-sponsorships": {
     label: "Nitya Prasada Seva Sponsorships",
-    img: "https://www.kbmandir.org/wp-content/uploads/2023/09/WhatsApp-Image-2023-09-11-at-12.04.27-AM-1.jpeg",
+    img: "https://www.kbmandir.org/wp-content/uploads/2020/11/Prasadam1-scaled.jpg",
     vpf: "https://secure.kbmandir.org/forms/nitya-prasada-seva-sponsorships-vpf",
     ihf: "https://secure.kbmandir.org/forms/nitya-prasada-seva-sponsorships-ihf"
   },
