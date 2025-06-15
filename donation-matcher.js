@@ -1,4 +1,3 @@
-
 const employerList = [
   "Adobe", "AMD", "Apple", "Applied Materials", "Broadcom",
   "Cadence", "Ciena", "Cisco", "Dell", "Ebay", "Esurance",
@@ -12,66 +11,95 @@ const donationForms = {
   "cow-feeding-seva": {
     label: "Donate to Cow Feeding Seva",
     img: "https://d2r0txsugik6oi.cloudfront.net/neon/resource/ihf/images/WhatsApp%20Image%202025-01-25%20at%2018_32_50.jpeg",
-    vpf: "https://ihf.app.neoncrm.com/forms/cow-feeding-seva-vpf",
-    ihf: "https://ihf.app.neoncrm.com/forms/cow-feeding-seva-ihf"
+    vpf: "https://secure.kbmandir.org/forms/cow-feeding-seva-vpf",
+    ihf: "https://secure.kbmandir.org/forms/cow-feeding-seva-ihf"
   },
   "recurring-sqft-seva": {
     label: "Donate to Sqft seva",
     img: "https://d2r0txsugik6oi.cloudfront.net/neon/resource/ihf/images/Sqft.jpg",
-    vpf: "https://ihf.app.neoncrm.com/forms/recurring-sqft-seva-vpf",
-    ihf: "https://ihf.app.neoncrm.com/forms/recurring-sqft-seva-ihf"
+    vpf: "https://secure.kbmandir.org/forms/recurring-sqft-seva-vpf",
+    ihf: "https://secure.kbmandir.org/forms/recurring-sqft-seva-ihf"
   },
   "garland-sevas": {
     label: "Donate to Garland seva",
     img: "https://d2r0txsugik6oi.cloudfront.net/neon/resource/ihf/images/garland_sevas.jpeg",
-    vpf: "https://ihf.app.neoncrm.com/forms/garland-sevas-vpf",
-    ihf: "https://ihf.app.neoncrm.com/forms/garland-sevas-ihf"
-  }
+    vpf: "https://secure.kbmandir.org/forms/garland-sevas-vpf",
+    ihf: "https://secure.kbmandir.org/forms/garland-sevas-ihf"
+  },
+  "sunday-feast-sponsorship": {
+    label: "Sponsor a Sunday Feast",
+    img: "https://d2r0txsugik6oi.cloudfront.net/neon/resource/ihf/images/garland_sevas.jpeg",
+    vpf: "https://secure.kbmandir.org/forms/sunday-feast-sponsorship-vpf",
+    ihf: "https://secure.kbmandir.org/forms/sunday-feast-sponsorship-ihf"
+  },
+  "nitya-prasada-seva-sponsorships": {
+    label: "Nitya Prasada Seva Sponsorships",
+    img: "https://d2r0txsugik6oi.cloudfront.net/neon/resource/ihf/images/garland_sevas.jpeg",
+    vpf: "https://secure.kbmandir.org/forms/nitya-prasada-seva-sponsorships-vpf",
+    ihf: "https://secure.kbmandir.org/forms/nitya-prasada-seva-sponsorships-ihf"
+  },
+  "new-temple-project-donations": {
+    label: "New Temple Project Donations",
+    img: "https://d2r0txsugik6oi.cloudfront.net/neon/resource/ihf/images/garland_sevas.jpeg",
+    vpf: "https://secure.kbmandir.org/forms/new-temple-project-donations-vpf",
+    ihf: "https://secure.kbmandir.org/forms/new-temple-project-donations-ihf"
+  },
+  "deity-sevas": {
+    label: "Deity Sevas",
+    img: "https://d2r0txsugik6oi.cloudfront.net/neon/resource/ihf/images/garland_sevas.jpeg",
+    vpf: "https://secure.kbmandir.org/forms/deity-sevas-vpf",
+    ihf: "https://secure.kbmandir.org/forms/deity-sevas-ihf"
+  },
+  "sri-lakshmi-narasimha-homa": {
+    label: "Sri Lakshmi Narasimha Homa",
+    img: "https://d2r0txsugik6oi.cloudfront.net/neon/resource/ihf/images/garland_sevas.jpeg",
+    vpf: "https://secure.kbmandir.org/forms/sri-lakshmi-narasimha-homa-vpf",
+    ihf: "https://secure.kbmandir.org/forms/sri-lakshmi-narasimha-homa-ihf"
+  },
+  "general-donation": {
+    label: "General Donation",
+    img: "https://d2r0txsugik6oi.cloudfront.net/neon/resource/ihf/images/garland_sevas.jpeg",
+    vpf: "https://secure.kbmandir.org/forms/general-donation-vpf",
+    ihf: "https://secure.kbmandir.org/forms/general-donation-ihf"
+  },
 };
 
-function getCompanyName() {
-  let name = localStorage.getItem("ihf_company_name");
-  if (!name) {
-    name = prompt("Enter your company name for donation matching. If you don't have one, enter N/A.", "N/A");
-    if (name) {
-      localStorage.setItem("ihf_company_name", name);
-    }
-  }
-  return name || "N/A";
-}
-
-function changeCompany() {
-  localStorage.removeItem("ihf_company_name");
-  location.reload();
-}
-
-function renderCompanyInfo(name) {
-  const div = document.getElementById("companyDisplay");
-  const btn = document.createElement("button");
-  btn.className = "change-btn";
-  btn.innerText = "Change";
-  btn.onclick = changeCompany;
-  div.innerHTML = "Your company: <strong>" + name + "</strong> ";
-  div.appendChild(btn);
+function updateEmployer() {
+  const input = document.getElementById("employerInput");
+  const name = input.value.trim() || "N/A";
+  localStorage.setItem("ihf_employer_name", name);
+  document.getElementById("employerName").innerText = name;
+  const isMatch = employerList.some(employer => name.toLowerCase().includes(employer.toLowerCase()));
+  const urlType = isMatch ? "vpf" : "ihf";
+  renderTiles(urlType);
 }
 
 function renderTiles(urlType) {
   const container = document.getElementById("donationTiles");
   container.innerHTML = "";
-  Object.entries(donationForms).forEach(([key, form]) => {
-    const tile = document.createElement("div");
-    tile.className = "tile";
-    tile.onclick = () => window.open(form[urlType], '_blank');
-    tile.innerHTML = `
-      <img src="${form.img}" alt="${form.label}" />
-      <span>${form.label}</span>
-    `;
-    container.appendChild(tile);
+  Object.values(donationForms).forEach(form => {
+    const a = document.createElement("a");
+    a.href = form[urlType];
+    a.target = "_blank";
+    a.className = "tile";
+    a.innerHTML = `
+          <img src="${form.img}" alt="${form.label}" />
+          <span>${form.label}</span>
+        `;
+    container.appendChild(a);
   });
 }
 
-const employer = getCompanyName();
-renderCompanyInfo(employer);
-const isMatch = employerList.some(name => employer.toLowerCase().includes(name.toLowerCase()));
-const urlType = isMatch ? "vpf" : "ihf";
-renderTiles(urlType);
+document.getElementById("employerInput").addEventListener("keydown", function (e) {
+  if (e.key === "Enter") {
+    updateEmployer();
+  }
+});
+
+// Initial Load
+const storedName = localStorage.getItem("ihf_employer_name") || "N/A";
+document.getElementById("employerName").innerText = storedName;
+document.getElementById("employerInput").value = storedName;
+const isMatchInit = employerList.some(employer => storedName.toLowerCase().includes(employer.toLowerCase()));
+const urlTypeInit = isMatchInit ? "vpf" : "ihf";
+renderTiles(urlTypeInit);
