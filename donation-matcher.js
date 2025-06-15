@@ -77,11 +77,15 @@ function getEmployerCookie() {
 function updateEmployer() {
   const input = document.getElementById("employerInput");
   const name = input.value.trim() || "N/A";
-  localStorage.setItem("ihf_employer_name", name);
+
   setEmployerCookie(name);
+  localStorage.setItem("ihf_employer_name", name);
+
   document.getElementById("employerName").innerText = name;
 
-  const isMatch = employerList.some(employer => name.toLowerCase().includes(employer.toLowerCase()));
+  const isMatch = employerList.some(employer =>
+      name.toLowerCase().includes(employer.toLowerCase())
+  );
   const urlType = isMatch ? "vpf" : "ihf";
   renderTiles(urlType);
 }
@@ -108,11 +112,14 @@ document.getElementById("employerInput").addEventListener("keydown", function (e
   }
 });
 
-// Initial Load - Prefer localStorage, fallback to cookie
-let storedName = localStorage.getItem("ihf_employer_name") || getEmployerCookie() || "N/A";
+// Initial Load – Prefer cookie first, then localStorage, then "N/A"
+let storedName = getEmployerCookie() || localStorage.getItem("ihf_employer_name") || "N/A";
 document.getElementById("employerName").innerText = storedName;
 document.getElementById("employerInput").value = storedName;
 
-const isMatchInit = employerList.some(employer => storedName.toLowerCase().includes(employer.toLowerCase()));
+const isMatchInit = employerList.some(employer =>
+    storedName.toLowerCase().includes(employer.toLowerCase())
+);
 const urlTypeInit = isMatchInit ? "vpf" : "ihf";
 renderTiles(urlTypeInit);
+
