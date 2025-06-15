@@ -58,7 +58,7 @@ const donationForms = {
   },
   "general-donation": {
     label: "General Donation",
-    img: "https://d2r0txsugik6oi.cloudfront.net/neon/resource/ihf/images/garland_sevas.jpeg",
+    img: "https://www.kbmandir.org/wp-content/uploads/2020/11/Krishna-Balaram-Mahamantra.jpg",
     vpf: "https://secure.kbmandir.org/forms/general-donation-vpf",
     ihf: "https://secure.kbmandir.org/forms/general-donation-ihf"
   },
