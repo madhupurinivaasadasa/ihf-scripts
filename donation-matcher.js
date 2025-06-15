@@ -34,7 +34,7 @@ const donationForms = {
   },
   "nitya-prasada-seva-sponsorships": {
     label: "Nitya Prasada Seva Sponsorships",
-    img: "https://www.kbmandir.org/wp-content/uploads/2020/11/Prasadam1-scaled.jpg",
+    img: "https://d2r0txsugik6oi.cloudfront.net/neon/resource/ihf/images/_J1A2922.JPG",
     vpf: "https://secure.kbmandir.org/forms/nitya-prasada-seva-sponsorships-vpf",
     ihf: "https://secure.kbmandir.org/forms/nitya-prasada-seva-sponsorships-ihf"
   },
