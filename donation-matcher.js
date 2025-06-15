@@ -40,7 +40,7 @@ const donationForms = {
   },
   "new-temple-project-donations": {
     label: "New Temple Project Donations",
-    img: "https://d2r0txsugik6oi.cloudfront.net/neon/resource/ihf/images/garland_sevas.jpeg",
+    img: "https://www.kbmandir.org/wp-content/uploads/2017/11/nvw-scaled.jpg",
     vpf: "https://secure.kbmandir.org/forms/new-temple-project-donations-vpf",
     ihf: "https://secure.kbmandir.org/forms/new-temple-project-donations-ihf"
   },
