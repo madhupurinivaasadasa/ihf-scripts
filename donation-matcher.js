@@ -8,6 +8,42 @@ const employerList = [
 ];
 
 const donationForms = {
+  "new-temple-project-donations": {
+    label: "New Temple Project Donations",
+    img: "https://www.kbmandir.org/wp-content/uploads/2017/11/nvw-scaled.jpg",
+    vpf: "https://secure.kbmandir.org/forms/new-temple-project-donations-vpf",
+    ihf: "https://secure.kbmandir.org/forms/new-temple-project-donations-ihf"
+  },
+  "sunday-feast-sponsorship": {
+    label: "Sponsor Sunday Feast",
+    img: "https://www.kbmandir.org/wp-content/uploads/2023/09/WhatsApp-Image-2023-09-11-at-12.04.27-AM-1.jpeg",
+    vpf: "https://secure.kbmandir.org/forms/sunday-feast-sponsorship-vpf",
+    ihf: "https://secure.kbmandir.org/forms/sunday-feast-sponsorship-ihf"
+  },
+  "sri-lakshmi-narasimha-homa": {
+    label: "Sri Lakshmi Narasimha Homa",
+    img: "https://d2r0txsugik6oi.cloudfront.net/neon/resource/ihf/images/lakshmi_narasimha.jpeg",
+    vpf: "https://secure.kbmandir.org/forms/sri-lakshmi-narasimha-homa-vpf",
+    ihf: "https://secure.kbmandir.org/forms/sri-lakshmi-narasimha-homa-ihf"
+  },
+  "garland-sevas": {
+    label: "Deity Garlands Seva",
+    img: "https://d2r0txsugik6oi.cloudfront.net/neon/resource/ihf/images/garland_sevas.jpeg",
+    vpf: "https://secure.kbmandir.org/forms/garland-sevas-vpf",
+    ihf: "https://secure.kbmandir.org/forms/garland-sevas-ihf"
+  },
+  "nitya-prasada-seva-sponsorships": {
+    label: "Nitya Prasada Seva",
+    img: "https://d2r0txsugik6oi.cloudfront.net/neon/resource/ihf/images/_J1A2922.JPG",
+    vpf: "https://secure.kbmandir.org/forms/nitya-prasada-seva-sponsorships-vpf",
+    ihf: "https://secure.kbmandir.org/forms/nitya-prasada-seva-sponsorships-ihf"
+  },
+  "deity-sevas": {
+    label: "Daily Deity Sevas",
+    img: "https://www.kbmandir.org/wp-content/uploads/2022/03/2022_14.jpg",
+    vpf: "https://secure.kbmandir.org/forms/deity-sevas-vpf",
+    ihf: "https://secure.kbmandir.org/forms/deity-sevas-ihf"
+  },
   "cow-feeding-seva": {
     label: "Goshala - Cow Feeding Seva",
     img: "https://d2r0txsugik6oi.cloudfront.net/neon/resource/ihf/images/WhatsApp%20Image%202025-01-25%20at%2018_32_50.jpeg",
@@ -19,42 +55,6 @@ const donationForms = {
     img: "https://d2r0txsugik6oi.cloudfront.net/neon/resource/ihf/images/Sqft.jpg",
     vpf: "https://secure.kbmandir.org/forms/recurring-sqft-seva-vpf",
     ihf: "https://secure.kbmandir.org/forms/recurring-sqft-seva-ihf"
-  },
-  "garland-sevas": {
-    label: "Donate to Garland seva",
-    img: "https://d2r0txsugik6oi.cloudfront.net/neon/resource/ihf/images/garland_sevas.jpeg",
-    vpf: "https://secure.kbmandir.org/forms/garland-sevas-vpf",
-    ihf: "https://secure.kbmandir.org/forms/garland-sevas-ihf"
-  },
-  "sunday-feast-sponsorship": {
-    label: "Sponsor a Sunday Feast",
-    img: "https://www.kbmandir.org/wp-content/uploads/2023/09/WhatsApp-Image-2023-09-11-at-12.04.27-AM-1.jpeg",
-    vpf: "https://secure.kbmandir.org/forms/sunday-feast-sponsorship-vpf",
-    ihf: "https://secure.kbmandir.org/forms/sunday-feast-sponsorship-ihf"
-  },
-  "nitya-prasada-seva-sponsorships": {
-    label: "Nitya Prasada Seva Sponsorships",
-    img: "https://d2r0txsugik6oi.cloudfront.net/neon/resource/ihf/images/_J1A2922.JPG",
-    vpf: "https://secure.kbmandir.org/forms/nitya-prasada-seva-sponsorships-vpf",
-    ihf: "https://secure.kbmandir.org/forms/nitya-prasada-seva-sponsorships-ihf"
-  },
-  "new-temple-project-donations": {
-    label: "New Temple Project Donations",
-    img: "https://www.kbmandir.org/wp-content/uploads/2017/11/nvw-scaled.jpg",
-    vpf: "https://secure.kbmandir.org/forms/new-temple-project-donations-vpf",
-    ihf: "https://secure.kbmandir.org/forms/new-temple-project-donations-ihf"
-  },
-  "deity-sevas": {
-    label: "Deity Sevas",
-    img: "https://www.kbmandir.org/wp-content/uploads/2022/03/2022_14.jpg",
-    vpf: "https://secure.kbmandir.org/forms/deity-sevas-vpf",
-    ihf: "https://secure.kbmandir.org/forms/deity-sevas-ihf"
-  },
-  "sri-lakshmi-narasimha-homa": {
-    label: "Sri Lakshmi Narasimha Homa",
-    img: "https://d2r0txsugik6oi.cloudfront.net/neon/resource/ihf/images/lakshmi_narasimha.jpeg",
-    vpf: "https://secure.kbmandir.org/forms/sri-lakshmi-narasimha-homa-vpf",
-    ihf: "https://secure.kbmandir.org/forms/sri-lakshmi-narasimha-homa-ihf"
   },
   "general-donation": {
     label: "General Donation",
