@@ -8,6 +8,12 @@ const employerList = [
 ];
 
 const donationForms = {
+  "jnm-2025": {
+    label: "Janmashtami 2025",
+    img: "https://secure.kbmandir.org/neon/resource/ihf/images/jnm_2025_flyer.jpeg",
+    vpf: "https://secure.kbmandir.org/forms/janmashtami-2025-vpf",
+    ihf: "https://secure.kbmandir.org/forms/janmashtami-2025-ihf"
+  },
   "new-temple-project-donations": {
     label: "New Temple Project Donations",
     img: "https://www.kbmandir.org/wp-content/uploads/2017/11/nvw-scaled.jpg",
