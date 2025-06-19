@@ -14,6 +14,12 @@ const donationForms = {
   //   vpf: "https://secure.kbmandir.org/forms/janmashtami-2025-vpf",
   //   ihf: "https://secure.kbmandir.org/forms/janmashtami-2025-ihf"
   // },
+  // "anniversary": {
+  //   label: "Anniversary Celebrations",
+  //   img: "https://secure.kbmandir.org/neon/resource/ihf/images/anniversary.jpeg",
+  //   vpf: "https://secure.kbmandir.org/forms/kbm-anniversary-vpf",
+  //   ihf: "https://secure.kbmandir.org/forms/kbm-anniversary-ihf"
+  // },
   "new-temple-project-donations": {
     label: "New Temple Project Donations",
     img: "https://www.kbmandir.org/wp-content/uploads/2017/11/nvw-scaled.jpg",
