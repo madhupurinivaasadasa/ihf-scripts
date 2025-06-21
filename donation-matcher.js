@@ -34,13 +34,13 @@ const donationForms = {
   },
   "sri-lakshmi-narasimha-homa": {
     label: "Sri Lakshmi Narasimha Homa",
-    img: "https://secure.kbmandir.org/neon/resource/ihf/images/lakshmi_narasimha.jpeg",
+    img: "https://secure.kbmandir.org/neon/resource/ihf/images/narsimha_homa.jpg",
     vpf: "https://secure.kbmandir.org/forms/sri-lakshmi-narasimha-homa-vpf",
     ihf: "https://secure.kbmandir.org/forms/sri-lakshmi-narasimha-homa-ihf"
   },
   "garland-sevas": {
     label: "Deity Garlands Seva",
-    img: "https://secure.kbmandir.org/neon/resource/ihf/images/garland_sevas.jpeg",
+    img: "https://secure.kbmandir.org/neon/resource/ihf/images/garland_seva.JPG",
     vpf: "https://secure.kbmandir.org/forms/garland-sevas-vpf",
     ihf: "https://secure.kbmandir.org/forms/garland-sevas-ihf"
   },
@@ -58,13 +58,13 @@ const donationForms = {
   },
   "cow-feeding-seva": {
     label: "Goshala - Cow Feeding Seva",
-    img: "https://secure.kbmandir.org/neon/resource/ihf/images/WhatsApp%20Image%202025-01-25%20at%2018_32_50.jpeg",
+    img: "https://secure.kbmandir.org/neon/resource/ihf/images/cow_feeding_seva.jpeg",
     vpf: "https://secure.kbmandir.org/forms/cow-feeding-seva-vpf",
     ihf: "https://secure.kbmandir.org/forms/cow-feeding-seva-ihf"
   },
   "recurring-sqft-seva": {
     label: "Goshala - Square Feet Seva",
-    img: "https://secure.kbmandir.org/neon/resource/ihf/images/Sqft.jpg",
+    img: "https://secure.kbmandir.org/neon/resource/ihf/images/sq_foot_campaign.png",
     vpf: "https://secure.kbmandir.org/forms/recurring-sqft-seva-vpf",
     ihf: "https://secure.kbmandir.org/forms/recurring-sqft-seva-ihf"
   },
@@ -76,7 +76,7 @@ const donationForms = {
   },
   "general-donation": {
     label: "General Donation",
-    img: "https://www.kbmandir.org/wp-content/uploads/2020/11/Krishna-Balaram-Mahamantra.jpg",
+    img: "https://secure.kbmandir.org/neon/resource/ihf/images/general_donations.jpeg",
     vpf: "https://secure.kbmandir.org/forms/general-donation-vpf",
     ihf: "https://secure.kbmandir.org/forms/general-donation-ihf"
   },
