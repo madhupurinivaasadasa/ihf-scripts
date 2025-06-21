@@ -64,7 +64,7 @@ const donationForms = {
   },
   "recurring-sqft-seva": {
     label: "Goshala - Square Feet Seva",
-    img: "https://secure.kbmandir.org/neon/resource/ihf/images/sq_foot_campaign.png",
+    img: "https://www.kbgoshala.org/wp-content/uploads/2017/11/kbg-sq1-1187x1536.jpg",
     vpf: "https://secure.kbmandir.org/forms/recurring-sqft-seva-vpf",
     ihf: "https://secure.kbmandir.org/forms/recurring-sqft-seva-ihf"
   },
