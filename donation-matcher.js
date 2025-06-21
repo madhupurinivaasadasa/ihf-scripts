@@ -28,7 +28,7 @@ const donationForms = {
   },
   "sunday-feast-sponsorship": {
     label: "Sponsor Sunday Feast",
-    img: "https://www.kbmandir.org/wp-content/uploads/2023/09/WhatsApp-Image-2023-09-11-at-12.04.27-AM-1.jpeg",
+    img: "https://secure.kbmandir.org/neon/resource/ihf/images/sunday_feast.JPG",
     vpf: "https://secure.kbmandir.org/forms/sunday-feast-sponsorship-vpf",
     ihf: "https://secure.kbmandir.org/forms/sunday-feast-sponsorship-ihf"
   },
