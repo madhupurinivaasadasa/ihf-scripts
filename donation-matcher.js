@@ -75,7 +75,7 @@ const donationForms = {
     ihf: "https://secure.kbmandir.org/forms/upcoming-goshala-project-ihf"
   },
   "general-donation": {
-    label: "General Donation",
+    label: "General Donations",
     img: "https://secure.kbmandir.org/neon/resource/ihf/images/general_donations.jpeg",
     vpf: "https://secure.kbmandir.org/forms/general-donation-vpf",
     ihf: "https://secure.kbmandir.org/forms/general-donation-ihf"
