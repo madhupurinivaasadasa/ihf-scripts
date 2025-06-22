@@ -64,13 +64,13 @@ const donationForms = {
   },
   "cow-feeding-seva": {
     label: "Goshala - Cow Feeding Seva",
-    img: "https://secure.kbmandir.org/neon/resource/ihf/images/cow_feeding_seva.jpeg",
+    img: "https://secure.kbmandir.org/neon/resource/ihf/images/WhatsApp%20Image%202025-01-25%20at%2018_32_50.jpeg",
     vpf: "https://secure.kbmandir.org/forms/cow-feeding-seva-vpf",
     ihf: "https://secure.kbmandir.org/forms/cow-feeding-seva-ihf"
   },
   "recurring-sqft-seva": {
     label: "Goshala - Square Feet Seva",
-    img: "https://secure.kbmandir.org/neon/resource/ihf/images/cow_sq_ft.png",
+    img: "https://secure.kbmandir.org/neon/resource/ihf/images/IMG_4143.jpg",
     vpf: "https://secure.kbmandir.org/forms/recurring-sqft-seva-vpf",
     ihf: "https://secure.kbmandir.org/forms/recurring-sqft-seva-ihf"
   },
