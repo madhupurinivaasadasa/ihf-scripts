@@ -14,12 +14,12 @@ const donationForms = {
   //   vpf: "https://secure.kbmandir.org/forms/janmashtami-2025-vpf",
   //   ihf: "https://secure.kbmandir.org/forms/janmashtami-2025-ihf"
   // },
-  // "anniversary": {
-  //   label: "Anniversary Celebrations",
-  //   img: "https://secure.kbmandir.org/neon/resource/ihf/images/anniversary.jpeg",
-  //   vpf: "https://secure.kbmandir.org/forms/kbm-anniversary-vpf",
-  //   ihf: "https://secure.kbmandir.org/forms/kbm-anniversary-ihf"
-  // },
+  "anniversary": {
+    label: "Anniversary Celebrations",
+    img: "https://secure.kbmandir.org/neon/resource/ihf/images/anniversary.jpeg",
+    vpf: "https://secure.kbmandir.org/forms/kbm-anniversary-vpf",
+    ihf: "https://secure.kbmandir.org/forms/kbm-anniversary-ihf"
+  },
   "kbm festival": {
     label: "Ratha Yatra - Sunday, June 29, 2025",
     img: "https://www.kbmandir.org/wp-content/uploads/2025/06/RY_25-2.jpg",
