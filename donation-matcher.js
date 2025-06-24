@@ -15,7 +15,7 @@ const donationForms = {
   //   ihf: "https://secure.kbmandir.org/forms/janmashtami-2025-ihf"
   // },
   "anniversary": {
-    label: "Anniversary Celebrations",
+    label: "Anniversary Celebrations - 27 and 29 June 2025",
     img: "https://secure.kbmandir.org/neon/resource/ihf/images/anniversary.jpeg",
     vpf: "https://secure.kbmandir.org/forms/kbm-anniversary-vpf",
     ihf: "https://secure.kbmandir.org/forms/kbm-anniversary-ihf"
