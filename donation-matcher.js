@@ -8,12 +8,12 @@ const employerList = [
 ];
 
 const donationForms = {
-  // "jnm-2025": {
-  //   label: "Janmashtami 2025",
-  //   img: "https://secure.kbmandir.org/neon/resource/ihf/images/jnm_2025_flyer.jpeg",
-  //   vpf: "https://secure.kbmandir.org/forms/janmashtami-2025-vpf",
-  //   ihf: "https://secure.kbmandir.org/forms/janmashtami-2025-ihf"
-  // },
+   "jnm-2025": {
+     label: "Janmashtami 2025",
+     img: "https://secure.kbmandir.org/neon/resource/ihf/images/jnm_2025_flyer.jpeg",
+     vpf: "https://secure.kbmandir.org/forms/janmashtami-2025-vpf",
+     ihf: "https://secure.kbmandir.org/forms/janmashtami-2025-ihf"
+   },
   // "kbm festival": {
   //   label: "Ratha Yatra - Sunday, June 29, 2025",
   //   img: "https://www.kbmandir.org/wp-content/uploads/2025/06/RY_25-2.jpg",
