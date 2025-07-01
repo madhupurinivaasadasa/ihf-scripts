@@ -9,7 +9,7 @@ const employerList = [
 
 const donationForms = {
    "jnm-2025": {
-     label: "Janmashtami 2025",
+     label: "Janmashtami 2025 - Saturday, August 16th",
      img: "https://secure.kbmandir.org/neon/resource/ihf/images/Janmashtami_2025.jpeg",
      vpf: "https://secure.kbmandir.org/forms/janmashtami-2025-vpf",
      ihf: "https://secure.kbmandir.org/forms/janmashtami-2025-ihf"
