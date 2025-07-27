@@ -103,6 +103,68 @@
         align-items: center;
         justify-content: center;
     }
+
+    /*
+ * Styles for the hero tile displayed at the top of the page.
+ * The hero tile uses the same height (300px) as the grid tiles
+ * with an image height of 200px and a label height of 100px. This
+ * preserves a consistent aspect ratio between the hero and
+ * subsequent tiles while allowing it to span the full width of the
+ * container.
+ */
+    #heroTile {
+        width: 100%;
+        max-width: 720px;
+        margin: 0 auto 20px auto;
+    }
+    #heroTile .hero {
+        position: relative;
+        display: block;
+        background-color: #fff;
+        border-radius: 12px;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        overflow: hidden;
+        text-decoration: none;
+        cursor: pointer;
+        transition: transform 0.2s ease-in-out;
+    }
+    #heroTile .hero:hover {
+        transform: scale(1.05);
+    }
+    /*
+     * The pseudo-element defines the responsive height of the hero tile.
+     * We use the image's aspect ratio (875 / 1440 ≈ 0.607) and add 100px
+     * to leave room for the label. The percentage is relative to the
+     * element's width.
+     */
+    #heroTile .hero::before {
+        content: "";
+        display: block;
+        padding-top: calc(60.8% + 100px);
+    }
+    #heroTile .hero img {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: calc(100% - 100px);
+        object-fit: cover;
+    }
+    #heroTile .hero span {
+        position: absolute;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        height: 100px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 18px;
+        font-weight: bold;
+        color: #333;
+        background-color: rgba(255,255,255,0.9);
+        padding: 0 10px;
+    }
 </style>
 
 <div class="select-donation-wrapper">
@@ -120,7 +182,11 @@
         <button onclick="updateEmployer()">Apply</button>
     </div>
 
+    <div id="heroTile"></div>
     <div class="container" id="donationTiles"></div>
 </div>
+
+<!-- Use the local copy of donation-matcher.js for testing so that custom ordering and hero layout take effect -->
+<!--<script src="donation-matcher.js"></script>-->
 
 <script src="https://madhupurinivaasadasa.github.io/ihf-scripts/donation-matcher.js"></script>
