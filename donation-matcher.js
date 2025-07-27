@@ -20,13 +20,13 @@ const donationForms = {
   //   vpf: "https://secure.kbmandir.org/forms/kbm-festival-seva-vpf",
   //   ihf: "https://secure.kbmandir.org/forms/kbm-festival-seva-ihf"
   // },
-  "new-temple-project-donations": {
+  "new-temple-project": {
     label: "New Temple Project Donations",
     img: "https://www.kbmandir.org/wp-content/uploads/2017/11/nvw-scaled.jpg",
     vpf: "https://secure.kbmandir.org/forms/new-temple-project-donations-vpf",
     ihf: "https://secure.kbmandir.org/forms/new-temple-project-donations-ihf"
   },
-  "sunday-feast-sponsorship": {
+  "sunday-feast": {
     label: "Sponsor Sunday Feast",
     img: "https://secure.kbmandir.org/neon/resource/ihf/images/sunday_feast.JPG",
     vpf: "https://secure.kbmandir.org/forms/sunday-feast-sponsorship-vpf",
@@ -38,19 +38,19 @@ const donationForms = {
     vpf: "https://secure.kbmandir.org/forms/sri-lakshmi-narasimha-homa-vpf",
     ihf: "https://secure.kbmandir.org/forms/sri-lakshmi-narasimha-homa-ihf"
   },
-  "garland-sevas": {
+  "garland-seva": {
     label: "Deity Garlands Seva",
     img: "https://secure.kbmandir.org/neon/resource/ihf/images/garland_seva.JPG",
     vpf: "https://secure.kbmandir.org/forms/garland-sevas-vpf",
     ihf: "https://secure.kbmandir.org/forms/garland-sevas-ihf"
   },
-  "nitya-prasada-seva-sponsorships": {
+  "nitya-prasada-seva": {
     label: "Nitya Prasada Seva",
     img: "https://secure.kbmandir.org/neon/resource/ihf/images/_J1A2922.JPG",
     vpf: "https://secure.kbmandir.org/forms/nitya-prasada-seva-sponsorships-vpf",
     ihf: "https://secure.kbmandir.org/forms/nitya-prasada-seva-sponsorships-ihf"
   },
-  "deity-sevas": {
+  "deity-seva": {
     label: "Daily Deity Sevas",
     img: "https://www.kbmandir.org/wp-content/uploads/2022/03/2022_14.jpg",
     vpf: "https://secure.kbmandir.org/forms/deity-sevas-vpf",
@@ -62,13 +62,13 @@ const donationForms = {
     vpf: "https://secure.kbmandir.org/forms/cow-feeding-seva-vpf",
     ihf: "https://secure.kbmandir.org/forms/cow-feeding-seva-ihf"
   },
-  "recurring-sqft-seva": {
+  "sqft-seva": {
     label: "Goshala - Square Feet Seva",
     img: "https://secure.kbmandir.org/neon/resource/ihf/images/IMG_4143.jpg",
     vpf: "https://secure.kbmandir.org/forms/recurring-sqft-seva-vpf",
     ihf: "https://secure.kbmandir.org/forms/recurring-sqft-seva-ihf"
   },
-  "upcoming goshala-project": {
+  "upcoming-goshala-project": {
     label: "Goshala - Upcoming Project",
     img: "https://www.kbgoshala.org/wp-content/uploads/2017/11/Screenshot-2024-06-17-at-8.04.18%E2%80%AFPM-2048x1324.png",
     vpf: "https://secure.kbmandir.org/forms/upcoming-goshala-project-vpf",
