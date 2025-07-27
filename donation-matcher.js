@@ -117,10 +117,10 @@ function renderTiles(urlType) {
   if (container) container.innerHTML = "";
 
   // Check if a specific donation form key has been passed via the
-  // "donationForms" query parameter.  When provided, this key will
+  // "form" query parameter.  When provided, this key will
   // determine which tile should be rendered first (as the hero tile).
   const urlParams = new URLSearchParams(window.location.search);
-  const priorityKey = urlParams.get("donationForms");
+  const priorityKey = urlParams.get("form");
 
   // Convert the donationForms object into an array of [key, form] pairs
   const entries = Object.entries(donationForms);
