@@ -7,6 +7,15 @@ const employerList = [
   "VMware", "Yahoo"
 ];
 
+/*
+ * Donation forms configuration.
+ *
+ * To allow the ordering of tiles via URL query parameters, you can pass a
+ * "donationForms" parameter containing the key of the form you want to
+ * highlight. For example, visiting your donation page with the query
+ * string `?donationForms=sunday-feast-sponsorship` will cause the
+ * "Sponsor Sunday Feast" tile to appear first.
+ */
 const donationForms = {
    "jnm-2025": {
      label: "Janmashtami 2025 - Saturday, August 16th",
@@ -109,59 +118,44 @@ function updateEmployer() {
 }
 
 function renderTiles(urlType) {
-  // Containers for the hero tile and the grid of tiles.  The hero tile
-  // container may not exist on pages that don't include the hero layout.
-  const heroContainer = document.getElementById("heroTile");
   const container = document.getElementById("donationTiles");
-  if (heroContainer) heroContainer.innerHTML = "";
-  if (container) container.innerHTML = "";
+  container.innerHTML = "";
 
-  // Check if a specific donation form key has been passed via the
-  // "donationForms" query parameter.  When provided, this key will
-  // determine which tile should be rendered first (as the hero tile).
+  // Determine if a priority donation form was specified via the
+  // "donationForms" query parameter. If present and valid, we will
+  // re‑order the list of forms so that the specified form appears first.
   const urlParams = new URLSearchParams(window.location.search);
   const priorityKey = urlParams.get("donationForms");
 
-  // Convert the donationForms object into an array of [key, form] pairs
+  // Convert donationForms object into an array of [key, form] entries.
   const entries = Object.entries(donationForms);
 
   if (priorityKey) {
-    // Preserve the original order of entries for all other items
+    // Sort entries so that the entry whose key matches the priorityKey
+    // appears at the front. Other entries retain their original order.
     const originalOrder = entries.slice();
     entries.sort((a, b) => {
       if (a[0] === priorityKey) return -1;
       if (b[0] === priorityKey) return 1;
+      // Preserve original order for all other entries by comparing
+      // positions in originalOrder.
       const indexA = originalOrder.findIndex(([k]) => k === a[0]);
       const indexB = originalOrder.findIndex(([k]) => k === b[0]);
       return indexA - indexB;
     });
   }
 
-  // Render the first entry as the hero tile if a hero container is present
-  if (entries.length > 0 && heroContainer) {
-    const [, firstForm] = entries[0];
-    const heroLink = document.createElement("a");
-    heroLink.href = firstForm[urlType];
-    heroLink.target = "_blank";
-    heroLink.className = "hero";
-    heroLink.innerHTML = `
-      <img src="${firstForm.img}" alt="${firstForm.label}" />
-      <span>${firstForm.label}</span>
-    `;
-    heroContainer.appendChild(heroLink);
-  }
-
-  // Render the remaining entries as grid tiles
-  entries.slice(heroContainer ? 1 : 0).forEach(([, form]) => {
-    const tileLink = document.createElement("a");
-    tileLink.href = form[urlType];
-    tileLink.target = "_blank";
-    tileLink.className = "tile";
-    tileLink.innerHTML = `
+  // Render each tile according to the sorted order.
+  entries.forEach(([, form]) => {
+    const a = document.createElement("a");
+    a.href = form[urlType];
+    a.target = "_blank";
+    a.className = "tile";
+    a.innerHTML = `
       <img src="${form.img}" alt="${form.label}" />
       <span>${form.label}</span>
     `;
-    if (container) container.appendChild(tileLink);
+    container.appendChild(a);
   });
 }
 
