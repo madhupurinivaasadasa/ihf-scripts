@@ -18,6 +18,14 @@
             margin-bottom: 5px;
             color: #333;
             text-align: center;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        @media (max-width: 480px) {
+            h1 {
+                font-size: 1.5rem;
+            }
         }
         .instructions {
             margin: 0 auto 10px auto;
@@ -132,16 +140,10 @@
         #heroTile .hero:hover {
             transform: scale(1.05);
         }
-        /*
-         * The pseudo-element defines the responsive height of the hero tile.
-         * We use the image's aspect ratio (875 / 1440 ≈ 0.607) and add 100px
-         * to leave room for the label. The percentage is relative to the
-         * element's width.
-         */
         #heroTile .hero::before {
             content: "";
             display: block;
-            padding-top: calc(60.8% + 100px);
+            padding-top: calc(56.25% + 100px);
         }
         #heroTile .hero img {
             position: absolute;
@@ -171,7 +173,7 @@
 <body>
 <h1>Select a Donation Form</h1>
 <p class="instructions">
-    Click a donation form below. Employer information will help double your donation with minimal steps from your side. Thank you!
+    Employer information will help double your donation with minimal steps from your side. Thank you!
 </p>
 
 <div class="employer-info">
