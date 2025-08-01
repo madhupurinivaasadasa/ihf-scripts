@@ -56,12 +56,12 @@ const donationForms = {
     vpf: "https://secure.kbmandir.org/forms/deity-sevas-vpf",
     ihf: "https://secure.kbmandir.org/forms/deity-sevas-ihf"
   },
-  // "sastra-seva": {
-  //   label: "Sastra Dana Seva",
-  //   img: "https://secure.kbmandir.org/neon/resource/ihf/images/book-distribution.jpeg",
-  //   vpf: "https://secure.kbmandir.org/forms/deity-sevas-vpf",
-  //   ihf: "https://secure.kbmandir.org/forms/deity-sevas-ihf"
-  // },
+  "sastra-seva": {
+    label: "Sastra Dana Seva",
+    img: "https://secure.kbmandir.org/neon/resource/ihf/images/book_distribution.jpeg",
+    vpf: "https://secure.kbmandir.org/forms/book-distribution-vpf",
+    ihf: "https://secure.kbmandir.org/forms/book-distribution-ihf"
+  },
   "cow-feeding-seva": {
     label: "Goshala - Cow Feeding Seva",
     img: "https://secure.kbmandir.org/neon/resource/ihf/images/WhatsApp%20Image%202025-01-25%20at%2018_32_50.jpeg",
