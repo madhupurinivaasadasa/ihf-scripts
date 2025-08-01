@@ -10,18 +10,18 @@ const employerList = [
 const donationForms = {
   "cow-feeding-seva": {
     label: "Cow Feeding Seva",
-    img: "https://d2r0txsugik6oi.cloudfront.net/neon/resource/ihf/images/WhatsApp%20Image%202025-01-25%20at%2018_32_50.jpeg",
+    img: "https://secure.kbmandir.org/neon/resource/ihf/images/WhatsApp%20Image%202025-01-25%20at%2018_32_50.jpeg",
     vpf: "https://secure.kbmandir.org/forms/cow-feeding-seva-vpf",
     ihf: "https://secure.kbmandir.org/forms/cow-feeding-seva-ihf"
   },
-  "recurring-sqft-seva": {
+  "sqft-seva": {
     label: "Square Feet Seva",
-    img: "https://d2r0txsugik6oi.cloudfront.net/neon/resource/ihf/images/Sqft.jpg",
+    img: "https://secure.kbmandir.org/neon/resource/ihf/images/IMG_4143.jpg",
     vpf: "https://secure.kbmandir.org/forms/recurring-sqft-seva-vpf",
     ihf: "https://secure.kbmandir.org/forms/recurring-sqft-seva-ihf"
   },
-  "upcoming goshala-project": {
-    label: "Upcoming Goshala Project",
+  "upcoming-goshala-project": {
+    label: "Upcoming Project",
     img: "https://www.kbgoshala.org/wp-content/uploads/2017/11/Screenshot-2024-06-17-at-8.04.18%E2%80%AFPM-2048x1324.png",
     vpf: "https://secure.kbmandir.org/forms/upcoming-goshala-project-vpf",
     ihf: "https://secure.kbmandir.org/forms/upcoming-goshala-project-ihf"
@@ -55,18 +55,59 @@ function updateEmployer() {
 }
 
 function renderTiles(urlType) {
+  // Containers for the hero tile and the grid of tiles.  The hero tile
+  // container may not exist on pages that don't include the hero layout.
+  const heroContainer = document.getElementById("heroTile");
   const container = document.getElementById("donationTiles");
-  container.innerHTML = "";
-  Object.values(donationForms).forEach(form => {
-    const a = document.createElement("a");
-    a.href = form[urlType];
-    a.target = "_blank";
-    a.className = "tile";
-    a.innerHTML = `
+  if (heroContainer) heroContainer.innerHTML = "";
+  if (container) container.innerHTML = "";
+
+  // Check if a specific donation form key has been passed via the
+  // "form" query parameter.  When provided, this key will
+  // determine which tile should be rendered first (as the hero tile).
+  const urlParams = new URLSearchParams(window.location.search);
+  const priorityKey = urlParams.get("form");
+
+  // Convert the donationForms object into an array of [key, form] pairs
+  const entries = Object.entries(donationForms);
+
+  if (priorityKey) {
+    // Preserve the original order of entries for all other items
+    const originalOrder = entries.slice();
+    entries.sort((a, b) => {
+      if (a[0] === priorityKey) return -1;
+      if (b[0] === priorityKey) return 1;
+      const indexA = originalOrder.findIndex(([k]) => k === a[0]);
+      const indexB = originalOrder.findIndex(([k]) => k === b[0]);
+      return indexA - indexB;
+    });
+  }
+
+  // Render the first entry as the hero tile if a hero container is present
+  if (entries.length > 0 && heroContainer) {
+    const [, firstForm] = entries[0];
+    const heroLink = document.createElement("a");
+    heroLink.href = firstForm[urlType];
+    heroLink.target = "_blank";
+    heroLink.className = "hero";
+    heroLink.innerHTML = `
+      <img src="${firstForm.img}" alt="${firstForm.label}" />
+      <span>${firstForm.label}</span>
+    `;
+    heroContainer.appendChild(heroLink);
+  }
+
+  // Render the remaining entries as grid tiles
+  entries.slice(heroContainer ? 1 : 0).forEach(([, form]) => {
+    const tileLink = document.createElement("a");
+    tileLink.href = form[urlType];
+    tileLink.target = "_blank";
+    tileLink.className = "tile";
+    tileLink.innerHTML = `
       <img src="${form.img}" alt="${form.label}" />
       <span>${form.label}</span>
     `;
-    container.appendChild(a);
+    if (container) container.appendChild(tileLink);
   });
 }
 

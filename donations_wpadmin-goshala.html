@@ -17,6 +17,14 @@
         margin-bottom: 5px;
         color: #333;
         text-align: center;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+    @media (max-width: 480px) {
+        h1 {
+            font-size: 1.5rem;
+        }
     }
     .instructions {
         margin: 0 auto 10px auto;
@@ -103,12 +111,59 @@
         align-items: center;
         justify-content: center;
     }
+    #heroTile {
+        width: 100%;
+        max-width: 720px;
+        margin: 0 auto 20px auto;
+    }
+    #heroTile .hero {
+        position: relative;
+        display: block;
+        background-color: #fff;
+        border-radius: 12px;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        overflow: hidden;
+        text-decoration: none;
+        cursor: pointer;
+        transition: transform 0.2s ease-in-out;
+    }
+    #heroTile .hero:hover {
+        transform: scale(1.05);
+    }
+    #heroTile .hero::before {
+        content: "";
+        display: block;
+        padding-top: calc(56.25% + 100px);
+    }
+    #heroTile .hero img {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: calc(100% - 100px);
+        object-fit: cover;
+    }
+    #heroTile .hero span {
+        position: absolute;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        height: 100px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 18px;
+        font-weight: bold;
+        color: #333;
+        background-color: rgba(255,255,255,0.9);
+        padding: 0 10px;
+    }
 </style>
 
 <div class="select-donation-wrapper">
     <h1>Select a Donation Form</h1>
     <p class="instructions">
-        Click a donation form below. Employer information will help double your donation with minimal steps from your side. Thank you!
+        Employer information will help double your donation with minimal steps from your side. Thank you!
     </p>
 
     <div class="employer-info">
@@ -120,7 +175,11 @@
         <button onclick="updateEmployer()">Apply</button>
     </div>
 
+<!--    <div id="heroTile"></div>-->
     <div class="container" id="donationTiles"></div>
 </div>
+
+<!-- Use the local copy of donation-matcher.js for testing so that custom ordering and hero layout take effect -->
+<!--<script src="donation-matcher-goshala.js"></script>-->
 
 <script src="https://madhupurinivaasadasa.github.io/ihf-scripts/donation-matcher-goshala.js"></script>
