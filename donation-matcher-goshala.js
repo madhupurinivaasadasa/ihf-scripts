@@ -17,8 +17,8 @@ const donationForms = {
   "goshala-project": {
     label: "Goshala Project Donations",
     img: "https://www.kbgoshala.org/wp-content/uploads/2017/11/Screenshot-2024-06-17-at-8.04.18%E2%80%AFPM-2048x1324.png",
-    vpf: "https://secure.kbmandir.org/forms/recurring-sqft-seva-vpf",
-    ihf: "https://secure.kbmandir.org/forms/recurring-sqft-seva-ihf"
+    vpf: "https://secure.kbmandir.org/forms/goshala-project-vpf",
+    ihf: "https://secure.kbmandir.org/forms/goshala-project-ihf"
   },
   "sastra-seva": {
     label: "Sastra Dana Seva",
