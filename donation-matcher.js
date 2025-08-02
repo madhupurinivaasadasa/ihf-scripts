@@ -68,17 +68,11 @@ const donationForms = {
     vpf: "https://secure.kbmandir.org/forms/cow-feeding-seva-vpf",
     ihf: "https://secure.kbmandir.org/forms/cow-feeding-seva-ihf"
   },
-  "sqft-seva": {
-    label: "Goshala - Square Feet Seva",
-    img: "https://secure.kbmandir.org/neon/resource/ihf/images/IMG_4143.jpg",
+  "goshala-project": {
+    label: "Goshala Project Donations",
+    img: "https://www.kbgoshala.org/wp-content/uploads/2017/11/Screenshot-2024-06-17-at-8.04.18%E2%80%AFPM-2048x1324.png",
     vpf: "https://secure.kbmandir.org/forms/recurring-sqft-seva-vpf",
     ihf: "https://secure.kbmandir.org/forms/recurring-sqft-seva-ihf"
-  },
-  "upcoming-goshala-project": {
-    label: "Goshala - Upcoming Project",
-    img: "https://www.kbgoshala.org/wp-content/uploads/2017/11/Screenshot-2024-06-17-at-8.04.18%E2%80%AFPM-2048x1324.png",
-    vpf: "https://secure.kbmandir.org/forms/upcoming-goshala-project-vpf",
-    ihf: "https://secure.kbmandir.org/forms/upcoming-goshala-project-ihf"
   },
   "general-donation": {
     label: "General Donations",
