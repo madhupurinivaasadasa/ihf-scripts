@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8" />
+    <meta charset="UTF-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <title>Select a Donation Form</title>
     <style>
@@ -14,25 +14,30 @@
             background-color: #f0f0f0;
             text-align: center;
         }
+
         h1 {
             margin-bottom: 5px;
             color: #333;
         }
+
         .instructions {
             margin-bottom: 10px;
             color: #555;
             font-size: 16px;
             max-width: 600px;
         }
+
         .employer-info {
             font-size: 18px;
             color: #222;
             margin-bottom: 15px;
         }
+
         .employer-info strong {
             color: #000;
             font-size: 20px;
         }
+
         .input-group {
             display: flex;
             align-items: center;
@@ -41,6 +46,7 @@
             flex-wrap: wrap;
             justify-content: center;
         }
+
         .input-group input[type="text"] {
             font-size: 16px;
             padding: 6px 12px;
@@ -48,6 +54,7 @@
             border-radius: 5px;
             border: 1px solid #ccc;
         }
+
         .input-group button {
             font-size: 14px;
             padding: 6px 16px;
@@ -57,9 +64,11 @@
             color: white;
             cursor: pointer;
         }
+
         .input-group button:hover {
             background-color: #0056b3;
         }
+
         .container {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
@@ -68,10 +77,11 @@
             max-width: 1000px;
             margin-top: 10px;
         }
+
         .tile {
             background-color: #fff;
             border-radius: 12px;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
             text-align: center;
             overflow: hidden;
             transition: transform 0.2s ease-in-out;
@@ -81,15 +91,18 @@
             height: 300px;
             cursor: pointer;
         }
+
         .tile:hover {
             transform: scale(1.05);
         }
+
         .tile img {
             width: 100%;
             height: 200px;
             object-fit: cover;
             border-bottom: 1px solid #eee;
         }
+
         .tile span {
             padding: 12px;
             font-size: 16px;
@@ -105,14 +118,15 @@
 <body>
 <h1>Select a Donation Form</h1>
 <p class="instructions">
-    Click a donation form below. Employer information will help double your donation with minimal steps from your side. Thank you!
+    Click a donation form below. Employer information will help double your donation with minimal steps from your side.
+    Thank you!
 </p>
 
 <div class="employer-info">
     Your Employer: <strong id="employerName">N/A</strong>
 </div>
 <div class="input-group">
-    <input type="text" id="employerInput" placeholder="Employer name (e.g., Apple)" />
+    <input type="text" id="employerInput" placeholder="Employer name (e.g., Apple)"/>
     <button onclick="updateEmployer()">Apply</button>
 </div>
 
@@ -120,15 +134,21 @@
 
 <div style="margin-bottom: 16px;"></div>
 
-<script id = "NeonOAuth2Script">
-    (function(w,d,t,s,p,c,r,u){a=d.createElement(t);a.async=1;
-        a.src=u+s;es=d.getElementsByTagName(t);e=es[es.length-1];
-        e.parentNode.insertBefore(a,e);w[p]=c;w[r]=u;
-    })(window,document,'script','/js/oauth/npsi.js','client_id',
-        'wqAItUW7cuiGpj5NaiO8bevHTz_HxIp52qUZ_X6tphzEMmgZQFcmD9A3rpUXe99v','domain',
+<script id="NeonOAuth2Script">
+    (function (w, d, t, s, p, c, r, u) {
+        a = d.createElement(t);
+        a.async = 1;
+        a.src = u + s;
+        es = d.getElementsByTagName(t);
+        e = es[es.length - 1];
+        e.parentNode.insertBefore(a, e);
+        w[p] = c;
+        w[r] = u;
+    })(window, document, 'script', '/js/oauth/npsi.js', 'client_id',
+        'wqAItUW7cuiGpj5NaiO8bevHTz_HxIp52qUZ_X6tphzEMmgZQFcmD9A3rpUXe99v', 'domain',
         'https://secure.kbmandir.org/np');
     setting = {
-        "redirect_uri":"https://secure.kbmandir.org/neonPage.jsp?pageId=2"
+        "redirect_uri": "https://secure.kbmandir.org/neonPage.jsp?pageId=2"
     }
 </script>
 
