@@ -25,7 +25,13 @@ const donationForms = {
     img: "https://secure.kbmandir.org/neon/resource/ihf/images/book_distribution.jpeg",
     vpf: "https://secure.kbmandir.org/forms/book-distribution-vpf",
     ihf: "https://secure.kbmandir.org/forms/book-distribution-ihf"
-  }
+  },
+  "general-donation": {
+    label: "KBMandir General Donations",
+    img: "https://secure.kbmandir.org/neon/resource/ihf/images/general_donations.jpeg",
+    vpf: "https://secure.kbmandir.org/forms/general-donation-vpf",
+    ihf: "https://secure.kbmandir.org/forms/general-donation-ihf"
+  },
 };
 
 // Cookie helper functions
@@ -68,6 +74,10 @@ function renderTiles(urlType) {
   const urlParams = new URLSearchParams(window.location.search);
   const priorityKey = urlParams.get("form");
 
+  // Remove the "form" parameter from the URL to avoid appending it to every link
+  // when rendering the tiles to pass the utm parameters for tracking.
+  urlParams.delete('form');
+  const queryString = urlParams.toString() ? `?${urlParams.toString()}` : '';
   // Convert the donationForms object into an array of [key, form] pairs
   const entries = Object.entries(donationForms);
 
@@ -87,7 +97,7 @@ function renderTiles(urlType) {
   if (entries.length > 0 && heroContainer) {
     const [, firstForm] = entries[0];
     const heroLink = document.createElement("a");
-    heroLink.href = firstForm[urlType];
+    heroLink.href = firstForm[urlType] + queryString;
     heroLink.target = "_blank";
     heroLink.className = "hero";
     heroLink.innerHTML = `
@@ -100,7 +110,7 @@ function renderTiles(urlType) {
   // Render the remaining entries as grid tiles
   entries.slice(heroContainer ? 1 : 0).forEach(([, form]) => {
     const tileLink = document.createElement("a");
-    tileLink.href = form[urlType];
+    tileLink.href = form[urlType] + queryString;
     tileLink.target = "_blank";
     tileLink.className = "tile";
     tileLink.innerHTML = `
