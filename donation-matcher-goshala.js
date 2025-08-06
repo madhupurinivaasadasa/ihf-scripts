@@ -1,7 +1,7 @@
 const employerList = [
-    "Adobe", "AMD", "Apple", "Applied Materials", "Broadcom",
-    "Cadence", "Ciena", "Cisco", "Dell", "Ebay", "Esurance",
-    "Intel", "Juniper", "Lam Research", "McAfee", "Microsoft",
+    "Adobe", "Applied Materials", "Broadcom",
+    "Cadence", "Cisco", "Dell", "Ebay", "Esurance",
+    "Intel", "Juniper", "McAfee", "Microsoft",
     "NetApp", "Oracle", "Paypal", "Qualcomm", "Samsung",
     "ServiceNow", "Splunk", "Symantec", "Veritas", "Visa",
     "VMware", "Yahoo"
