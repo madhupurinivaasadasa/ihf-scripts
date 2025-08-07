@@ -159,7 +159,7 @@ function renderTiles(urlType) {
     // Render the remaining entries as grid tiles
     entries.slice(heroContainer ? 1 : 0).forEach(([, form]) => {
         const tileLink = document.createElement("a");
-        // tileLink.href = form[urlType] + queryString;
+        tileLink.href = form[urlType] + queryString;
         tileLink.target = "_blank";
         tileLink.className = "tile";
         tileLink.innerHTML = `
