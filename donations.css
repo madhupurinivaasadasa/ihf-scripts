@@ -256,9 +256,7 @@ h1 {
     background: rgba(255, 255, 255, 0.3);
 }
 
-.step-text-mobile {
-    display: none;
-}
+
 
 
 @media (max-width: 768px) {
@@ -284,10 +282,7 @@ h1 {
         font-weight: 500;
     }
 
-    /* Hide mobile text completely */
-    .step-text-mobile {
-        display: none;
-    }
+
 
     /* Adjust number styling for mobile horizontal layout */
     .step-number {
