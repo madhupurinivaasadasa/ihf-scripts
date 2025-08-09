@@ -27,7 +27,7 @@ const donationForms = {
         ihf: "https://secure.kbmandir.org/forms/book-distribution-ihf"
     },
     "general-donation": {
-        label: "KBMandir General Donation Opportunity",
+        label: "KBMandir - General Donations",
         img: "https://secure.kbmandir.org/neon/resource/ihf/images/general_donations.jpeg",
         vpf: "https://secure.kbmandir.org/forms/general-donation-vpf",
         ihf: "https://secure.kbmandir.org/forms/general-donation-ihf"
