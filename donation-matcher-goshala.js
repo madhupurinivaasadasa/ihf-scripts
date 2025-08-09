@@ -9,25 +9,25 @@ const employerList = [
 
 const donationForms = {
     "goshala-project": {
-        label: "Goshala Project Donations",
+        label: "Goshala Project- Seva Sponsorship Opportunity",
         img: "https://www.kbgoshala.org/wp-content/uploads/2017/11/Screenshot-2024-06-17-at-8.04.18%E2%80%AFPM-2048x1324.png",
         vpf: "https://secure.kbmandir.org/forms/goshala-project-vpf",
         ihf: "https://secure.kbmandir.org/forms/goshala-project-ihf"
     },
     "cow-feeding-seva": {
-        label: "Cow Feeding Seva",
+        label: "Cow Feeding Seva Sponsorship Opportunity",
         img: "https://secure.kbmandir.org/neon/resource/ihf/images/WhatsApp%20Image%202025-01-25%20at%2018_32_50.jpeg",
         vpf: "https://secure.kbmandir.org/forms/cow-feeding-seva-vpf",
         ihf: "https://secure.kbmandir.org/forms/cow-feeding-seva-ihf"
     },
     "sastra-seva": {
-        label: "Sastra Dana Seva",
+        label: "Sastra Dana - Seva Sponsorship Opportunity",
         img: "https://secure.kbmandir.org/neon/resource/ihf/images/book_distribution.jpeg",
         vpf: "https://secure.kbmandir.org/forms/book-distribution-vpf",
         ihf: "https://secure.kbmandir.org/forms/book-distribution-ihf"
     },
     "general-donation": {
-        label: "KBMandir General Donations",
+        label: "KBMandir General Donation Opportunity",
         img: "https://secure.kbmandir.org/neon/resource/ihf/images/general_donations.jpeg",
         vpf: "https://secure.kbmandir.org/forms/general-donation-vpf",
         ihf: "https://secure.kbmandir.org/forms/general-donation-ihf"
@@ -44,20 +44,153 @@ function getEmployerCookie() {
     return match ? decodeURIComponent(match[1]) : null;
 }
 
+function toggleInstructions(employerName) {
+    const instructionsElement = document.getElementById("instructionsText");
+    if (instructionsElement) {
+        // Hide instructions if employer name is present
+        if (employerName && employerName.trim()) {
+            instructionsElement.style.display = "none";
+        } else {
+            instructionsElement.style.display = "block";
+        }
+    }
+}
+
+function disableFormClicks() {
+    const heroContainer = document.getElementById("heroTile");
+    const container = document.getElementById("donationTiles");
+
+    if (heroContainer) {
+        heroContainer.style.pointerEvents = "none";
+        heroContainer.style.opacity = "0.5";
+    }
+    if (container) {
+        container.style.pointerEvents = "none";
+        container.style.opacity = "0.5";
+    }
+}
+
+function enableFormClicks() {
+    const heroContainer = document.getElementById("heroTile");
+    const container = document.getElementById("donationTiles");
+
+    if (heroContainer) {
+        heroContainer.style.pointerEvents = "auto";
+        heroContainer.style.opacity = "1";
+    }
+    if (container) {
+        container.style.pointerEvents = "auto";
+        container.style.opacity = "1";
+    }
+}
+
+function updateEmployerDisplay(text, isInfoText = false) {
+    const employerInfo = document.querySelector(".employer-info");
+    const employerName = document.getElementById("employerName");
+
+    if (isInfoText) {
+        // Hide "Your Employer:" prefix when showing info text
+        employerInfo.innerHTML = `<strong id="employerName">${text}</strong>
+            <span id="editLink" class="edit-link" onclick="toggleEditMode()" style="display: none;">Edit</span>`;
+    } else {
+        // Show "Your Employer:" prefix when showing actual employer name
+        employerInfo.innerHTML = `Your Employer: <strong id="employerName">${text}</strong>
+            <span id="editLink" class="edit-link" onclick="toggleEditMode()" style="display: none;">Edit</span>`;
+    }
+}
+
+function updateProgressSteps(currentStep) {
+    const steps = document.querySelectorAll('.step');
+    steps.forEach((step, index) => {
+        if (index < currentStep) {
+            step.classList.add('completed');
+            step.classList.remove('active');
+        } else if (index === currentStep) {
+            step.classList.add('active');
+            step.classList.remove('completed');
+        } else {
+            step.classList.remove('active', 'completed');
+        }
+    });
+}
+
+function toggleEditMode() {
+    const inputGroup = document.getElementById('inputGroup');
+    const editLink = document.getElementById('editLink');
+    const stepsContainer = document.querySelector('.steps-container');
+    const formInstruction = document.getElementById('formInstruction');
+
+    // Show input group and hide edit link and form instruction
+    inputGroup.style.display = 'flex';
+    editLink.style.display = 'none';
+    if (formInstruction) formInstruction.style.display = 'none';
+
+    // Show progress steps again
+    if (stepsContainer) {
+        stepsContainer.style.display = 'flex';
+    }
+
+    // Focus on input
+    document.getElementById('employerInput').focus();
+}
+
+
 function updateEmployer() {
     const input = document.getElementById("employerInput");
-    const name = input.value.trim() || "N/A";
+    const name = input.value.trim();
 
-    setEmployerCookie(name);
-    localStorage.setItem("ihf_employer_name", name);
+    if (name) {
+        setEmployerCookie(name);
+        localStorage.setItem("ihf_employer_name", name);
 
-    document.getElementById("employerName").innerText = name;
+        updateEmployerDisplay(name, false);
 
-    const isMatch = employerList.some(employer =>
-        name.toLowerCase().includes(employer.toLowerCase())
-    );
-    const urlType = isMatch ? "vpf" : "ihf";
-    renderTiles(urlType);
+        // Hide progress steps and input group, show edit link and form instruction
+        const stepsContainer = document.querySelector('.steps-container');
+        const inputGroup = document.getElementById('inputGroup');
+        const editLink = document.getElementById('editLink');
+        const formInstruction = document.getElementById('formInstruction');
+
+        if (stepsContainer) stepsContainer.style.display = 'none';
+        if (inputGroup) inputGroup.style.display = 'none';
+        if (editLink) editLink.style.display = 'inline';
+        if (formInstruction) formInstruction.style.display = 'block';
+
+        const isMatch = employerList.some(employer =>
+            name.toLowerCase().includes(employer.toLowerCase())
+        );
+        const urlType = isMatch ? "vpf" : "ihf";
+        renderTiles(urlType);
+        enableFormClicks();
+    } else {
+        // Clear stored employer data when empty
+        setEmployerCookie("");
+        localStorage.removeItem("ihf_employer_name");
+
+        updateEmployerDisplay("Please enter your Employer name. Enter NA if not applicable.", true);
+
+        // Show progress steps and input group, hide edit link and form instruction
+        const stepsContainer = document.querySelector('.steps-container');
+        const inputGroup = document.getElementById('inputGroup');
+        const editLink = document.getElementById('editLink');
+        const formInstruction = document.getElementById('formInstruction');
+
+        if (stepsContainer) stepsContainer.style.display = 'flex';
+        if (inputGroup) inputGroup.style.display = 'flex';
+        if (editLink) editLink.style.display = 'none';
+        if (formInstruction) formInstruction.style.display = 'none';
+
+        updateProgressSteps(0); // Back to step 1 (Enter Employer)
+        disableFormClicks();
+
+        // Clear the donation tiles when no employer is set
+        const heroContainer = document.getElementById("heroTile");
+        const container = document.getElementById("donationTiles");
+        if (heroContainer) heroContainer.innerHTML = "";
+        if (container) container.innerHTML = "";
+    }
+
+    toggleInstructions(name);
 }
 
 function renderTiles(urlType) {
@@ -68,16 +201,18 @@ function renderTiles(urlType) {
     if (heroContainer) heroContainer.innerHTML = "";
     if (container) container.innerHTML = "";
 
-    // Check if a specific donation form key has been passed via the
-    // "form" query parameter.  When provided, this key will
+    // Check if a specific donation opportunity key has been passed via the
+    // "form" or "opportunity" query parameter. When provided, this key will
     // determine which tile should be rendered first (as the hero tile).
     const urlParams = new URLSearchParams(window.location.search);
-    const priorityKey = urlParams.get("form");
+    const priorityKey = urlParams.get("opportunity") || urlParams.get("form");
 
-    // Remove the "form" parameter from the URL to avoid appending it to every link
+    // Remove the "form" and "opportunity" parameters from the URL to avoid appending them to every link
     // when rendering the tiles to pass the utm parameters for tracking.
     urlParams.delete('form');
+    urlParams.delete('opportunity');
     const queryString = urlParams.toString() ? `?${urlParams.toString()}` : '';
+
     // Convert the donationForms object into an array of [key, form] pairs
     const entries = Object.entries(donationForms);
 
@@ -127,14 +262,90 @@ document.getElementById("employerInput").addEventListener("keydown", function (e
     }
 });
 
-// Initial Load – Prefer cookie first, then localStorage, then "N/A"
-let storedName = getEmployerCookie() || localStorage.getItem("ihf_employer_name") || "N/A";
-document.getElementById("employerName").innerText = storedName;
-document.getElementById("employerInput").value = storedName;
+// Add real-time input validation (but don't enable forms until Apply is clicked)
+document.getElementById("employerInput").addEventListener("input", function (e) {
+    const name = e.target.value.trim();
+    if (name) {
+        updateEmployerDisplay(name, false);
+    } else {
+        // Immediately disable forms and clear tiles when text field is emptied
+        updateEmployerDisplay("Please enter your Employer name. Enter NA if not applicable.", true);
 
-const isMatchInit = employerList.some(employer =>
-    storedName.toLowerCase().includes(employer.toLowerCase())
-);
-const urlTypeInit = isMatchInit ? "vpf" : "ihf";
-renderTiles(urlTypeInit);
+        // Show progress steps and input group, hide edit link and form instruction
+        const stepsContainer = document.querySelector('.steps-container');
+        const inputGroup = document.getElementById('inputGroup');
+        const editLink = document.getElementById('editLink');
+        const formInstruction = document.getElementById('formInstruction');
 
+        if (stepsContainer) stepsContainer.style.display = 'flex';
+        if (inputGroup) inputGroup.style.display = 'flex';
+        if (editLink) editLink.style.display = 'none';
+        if (formInstruction) formInstruction.style.display = 'none';
+
+        updateProgressSteps(0); // Back to step 1 (Enter Employer)
+        disableFormClicks();
+
+        // Clear stored employer data
+        setEmployerCookie("");
+        localStorage.removeItem("ihf_employer_name");
+
+        // Clear the donation tiles when no employer is set
+        const heroContainer = document.getElementById("heroTile");
+        const container = document.getElementById("donationTiles");
+        if (heroContainer) heroContainer.innerHTML = "";
+        if (container) container.innerHTML = "";
+    }
+    toggleInstructions(name);
+});
+
+// Initial Load – Prefer cookie first, then localStorage
+let storedName = getEmployerCookie() || localStorage.getItem("ihf_employer_name") || "";
+const employerInput = document.getElementById("employerInput");
+const employerNameElement = document.getElementById("employerName");
+
+if (storedName && storedName.trim()) {
+    updateEmployerDisplay(storedName, false);
+    employerInput.value = storedName;
+
+    // Hide progress steps and input group, show edit link and form instruction for stored employer
+    const stepsContainer = document.querySelector('.steps-container');
+    const inputGroup = document.getElementById('inputGroup');
+    const editLink = document.getElementById('editLink');
+    const formInstruction = document.getElementById('formInstruction');
+
+    if (stepsContainer) stepsContainer.style.display = 'none';
+    if (inputGroup) inputGroup.style.display = 'none';
+    if (editLink) editLink.style.display = 'inline';
+    if (formInstruction) formInstruction.style.display = 'block';
+
+    const isMatchInit = employerList.some(employer =>
+        storedName.toLowerCase().includes(employer.toLowerCase())
+    );
+    const urlTypeInit = isMatchInit ? "vpf" : "ihf";
+    renderTiles(urlTypeInit);
+    enableFormClicks(); // Only enable if there's a stored employer name from previous session
+} else {
+    updateEmployerDisplay("Please enter your Employer name. Enter NA if not applicable.", true);
+    employerInput.value = "";
+
+    // Show progress steps and input group, hide edit link and form instruction for no employer
+    const stepsContainer = document.querySelector('.steps-container');
+    const inputGroup = document.getElementById('inputGroup');
+    const editLink = document.getElementById('editLink');
+    const formInstruction = document.getElementById('formInstruction');
+
+    if (stepsContainer) stepsContainer.style.display = 'flex';
+    if (inputGroup) inputGroup.style.display = 'flex';
+    if (editLink) editLink.style.display = 'none';
+    if (formInstruction) formInstruction.style.display = 'none';
+
+    updateProgressSteps(0); // Start at step 1 (Enter Employer)
+    disableFormClicks(); // Forms disabled by default
+}
+
+toggleInstructions(storedName);
+
+// Set focus to the employer input text box only if it's visible
+if (inputGroup && inputGroup.style.display !== 'none') {
+    employerInput.focus();
+}

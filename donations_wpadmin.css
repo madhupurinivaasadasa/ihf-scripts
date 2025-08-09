@@ -73,10 +73,10 @@ h1 {
 
 .form-instruction {
     margin: 10px auto 15px auto;
-    color: #666;
-    font-size: 14px;
+    color: #222;
+    font-size: 16px;
     text-align: center;
-    font-style: italic;
+    font-style: normal;
 }
 
 .input-group {

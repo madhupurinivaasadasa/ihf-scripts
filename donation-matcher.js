@@ -9,67 +9,67 @@ const employerList = [
 
 const donationForms = {
     "jnm-2025": {
-        label: "Janmashtami 2025 - Seva Sponsorship Form",
+        label: "Janmashtami 2025 - Seva Sponsorship Opportunity",
         img: "https://secure.kbmandir.org/neon/resource/ihf/images/jnm_2025_flyer_updated.jpeg",
         vpf: "https://secure.kbmandir.org/forms/janmashtami-2025-vpf",
         ihf: "https://secure.kbmandir.org/forms/janmashtami-2025-ihf"
     },
     "new-temple-project": {
-        label: "New Temple Project - Seva Sponsorship Form",
+        label: "New Temple Project - Seva Sponsorship Opportunity",
         img: "https://www.kbmandir.org/wp-content/uploads/2017/11/nvw-scaled.jpg",
         vpf: "https://secure.kbmandir.org/forms/new-temple-project-donations-vpf",
         ihf: "https://secure.kbmandir.org/forms/new-temple-project-donations-ihf"
     },
     "sunday-feast": {
-        label: "Sunday Feast Sponsorship Form",
+        label: "Sunday Feast Sponsorship Opportunity",
         img: "https://secure.kbmandir.org/neon/resource/ihf/images/sunday_feast.JPG",
         vpf: "https://secure.kbmandir.org/forms/sunday-feast-sponsorship-vpf",
         ihf: "https://secure.kbmandir.org/forms/sunday-feast-sponsorship-ihf"
     },
     "sri-lakshmi-narasimha-homa": {
-        label: "Sri Lakshmi Narasimha Homa Sponsorship Form",
+        label: "Sri Lakshmi Narasimha Homa Sponsorship Opportunity",
         img: "https://secure.kbmandir.org/neon/resource/ihf/images/narsimha_homa.jpg",
         vpf: "https://secure.kbmandir.org/forms/sri-lakshmi-narasimha-homa-vpf",
         ihf: "https://secure.kbmandir.org/forms/sri-lakshmi-narasimha-homa-ihf"
     },
     "garland-seva": {
-        label: "Deity Garlands - Seva Sponsorship Form",
+        label: "Deity Garlands - Seva Sponsorship Opportunity",
         img: "https://secure.kbmandir.org/neon/resource/ihf/images/garland_seva.JPG",
         vpf: "https://secure.kbmandir.org/forms/garland-sevas-vpf",
         ihf: "https://secure.kbmandir.org/forms/garland-sevas-ihf"
     },
     "nitya-prasada-seva": {
-        label: "Nitya Prasada Seva Sponsorship Form",
+        label: "Nitya Prasada Seva Sponsorship Opportunity",
         img: "https://secure.kbmandir.org/neon/resource/ihf/images/_J1A2922.JPG",
         vpf: "https://secure.kbmandir.org/forms/nitya-prasada-seva-sponsorships-vpf",
         ihf: "https://secure.kbmandir.org/forms/nitya-prasada-seva-sponsorships-ihf"
     },
     "deity-seva": {
-        label: "Daily Deity Seva Sponsorship Form",
+        label: "Daily Deity Seva Sponsorship Opportunity",
         img: "https://www.kbmandir.org/wp-content/uploads/2022/03/2022_14.jpg",
         vpf: "https://secure.kbmandir.org/forms/deity-sevas-vpf",
         ihf: "https://secure.kbmandir.org/forms/deity-sevas-ihf"
     },
     "sastra-seva": {
-        label: "Sastra Dana - Seva Sponsorship Form",
+        label: "Sastra Dana - Seva Sponsorship Opportunity",
         img: "https://secure.kbmandir.org/neon/resource/ihf/images/book_distribution.jpeg",
         vpf: "https://secure.kbmandir.org/forms/book-distribution-vpf",
         ihf: "https://secure.kbmandir.org/forms/book-distribution-ihf"
     },
     "cow-feeding-seva": {
-        label: "Goshala - Cow Feeding Seva Sponsorship Form",
+        label: "Goshala - Cow Feeding Seva Sponsorship Opportunity",
         img: "https://secure.kbmandir.org/neon/resource/ihf/images/WhatsApp%20Image%202025-01-25%20at%2018_32_50.jpeg",
         vpf: "https://secure.kbmandir.org/forms/cow-feeding-seva-vpf",
         ihf: "https://secure.kbmandir.org/forms/cow-feeding-seva-ihf"
     },
     "goshala-project": {
-        label: "Goshala Project - Seva Sponsorship Form",
+        label: "Goshala Project - Seva Sponsorship Opportunity",
         img: "https://www.kbgoshala.org/wp-content/uploads/2017/11/Screenshot-2024-06-17-at-8.04.18%E2%80%AFPM-2048x1324.png",
         vpf: "https://secure.kbmandir.org/forms/goshala-project-vpf",
         ihf: "https://secure.kbmandir.org/forms/goshala-project-ihf"
     },
     "general-donation": {
-        label: "General Donations Form",
+        label: "General Donation Opportunity",
         img: "https://secure.kbmandir.org/neon/resource/ihf/images/general_donations.jpeg",
         vpf: "https://secure.kbmandir.org/forms/general-donation-vpf",
         ihf: "https://secure.kbmandir.org/forms/general-donation-ihf"
@@ -243,15 +243,16 @@ function renderTiles(urlType) {
     if (heroContainer) heroContainer.innerHTML = "";
     if (container) container.innerHTML = "";
 
-    // Check if a specific donation form key has been passed via the
-    // "form" query parameter.  When provided, this key will
+    // Check if a specific donation opportunity key has been passed via the
+    // "form" or "opportunity" query parameter. When provided, this key will
     // determine which tile should be rendered first (as the hero tile).
     const urlParams = new URLSearchParams(window.location.search);
-    const priorityKey = urlParams.get("form");
+    const priorityKey = urlParams.get("opportunity") || urlParams.get("form");
 
-    // Remove the "form" parameter from the URL to avoid appending it to every link
+    // Remove the "form" and "opportunity" parameters from the URL to avoid appending them to every link
     // when rendering the tiles to pass the utm parameters for tracking.
     urlParams.delete('form');
+    urlParams.delete('opportunity');
     const queryString = urlParams.toString() ? `?${urlParams.toString()}` : '';
 
     // Convert the donationForms object into an array of [key, form] pairs
@@ -390,4 +391,3 @@ toggleInstructions(storedName);
 if (inputGroup && inputGroup.style.display !== 'none') {
     employerInput.focus();
 }
-
