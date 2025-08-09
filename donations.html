@@ -10,18 +10,34 @@
     <link rel="stylesheet" href="https://madhupurinivaasadasa.github.io/ihf-scripts/donations.min.css"/>
 </head>
 <body>
-<h1>Click on a Sponsorship Form</h1>
-<p class="instructions">
+<h1>Donation Forms</h1>
+
+<!-- Progress Steps -->
+<div class="steps-container">
+    <div class="step active" id="step1">
+        <span class="step-number">1</span>
+        <span class="step-text">Enter Employer</span>
+        <span class="step-text-mobile">Employer</span>
+    </div>
+    <div class="step" id="step2">
+        <span class="step-number">2</span>
+        <span class="step-text">Click on a form</span>
+        <span class="step-text-mobile">Choose</span>
+    </div>
+</div>
+
+<p id="instructionsText" class="instructions">
     Employer information will help double your donation with minimal steps from your side. Thank you!
 </p>
 
 <div class="employer-info">
-    Your Employer: <strong id="employerName">N/A</strong>
+    Your Employer: <strong id="employerName">Please enter your Employer name. Enter NA if not applicable.</strong>
 </div>
 <div class="input-group">
     <input type="text" id="employerInput" placeholder="Employer name (e.g., Apple)"/>
     <button onclick="updateEmployer()">Apply</button>
 </div>
+
 
 <div id="heroTile"></div>
 <div class="container" id="donationTiles"></div>

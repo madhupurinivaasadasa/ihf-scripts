@@ -86,20 +86,109 @@ function getEmployerCookie() {
     return match ? decodeURIComponent(match[1]) : null;
 }
 
+function toggleInstructions(employerName) {
+    const instructionsElement = document.getElementById("instructionsText");
+    if (instructionsElement) {
+        // Hide instructions if employer name is present
+        if (employerName && employerName.trim()) {
+            instructionsElement.style.display = "none";
+        } else {
+            instructionsElement.style.display = "block";
+        }
+    }
+}
+
+function disableFormClicks() {
+    const heroContainer = document.getElementById("heroTile");
+    const container = document.getElementById("donationTiles");
+
+    if (heroContainer) {
+        heroContainer.style.pointerEvents = "none";
+        heroContainer.style.opacity = "0.5";
+    }
+    if (container) {
+        container.style.pointerEvents = "none";
+        container.style.opacity = "0.5";
+    }
+}
+
+function enableFormClicks() {
+    const heroContainer = document.getElementById("heroTile");
+    const container = document.getElementById("donationTiles");
+
+    if (heroContainer) {
+        heroContainer.style.pointerEvents = "auto";
+        heroContainer.style.opacity = "1";
+    }
+    if (container) {
+        container.style.pointerEvents = "auto";
+        container.style.opacity = "1";
+    }
+}
+
+function updateEmployerDisplay(text, isInfoText = false) {
+    const employerInfo = document.querySelector(".employer-info");
+    const employerName = document.getElementById("employerName");
+
+    if (isInfoText) {
+        // Hide "Your Employer:" prefix when showing info text
+        employerInfo.innerHTML = `<strong id="employerName">${text}</strong>`;
+    } else {
+        // Show "Your Employer:" prefix when showing actual employer name
+        employerInfo.innerHTML = `Your Employer: <strong id="employerName">${text}</strong>`;
+    }
+}
+
+function updateProgressSteps(currentStep) {
+    const steps = document.querySelectorAll('.step');
+    steps.forEach((step, index) => {
+        if (index < currentStep) {
+            step.classList.add('completed');
+            step.classList.remove('active');
+        } else if (index === currentStep) {
+            step.classList.add('active');
+            step.classList.remove('completed');
+        } else {
+            step.classList.remove('active', 'completed');
+        }
+    });
+}
+
+
 function updateEmployer() {
     const input = document.getElementById("employerInput");
-    const name = input.value.trim() || "N/A";
+    const name = input.value.trim();
 
-    setEmployerCookie(name);
-    localStorage.setItem("ihf_employer_name", name);
+    if (name) {
+        setEmployerCookie(name);
+        localStorage.setItem("ihf_employer_name", name);
 
-    document.getElementById("employerName").innerText = name;
+        updateEmployerDisplay(name, false);
+        updateProgressSteps(1); // Move to step 2 (Choose Form)
 
-    const isMatch = employerList.some(employer =>
-        name.toLowerCase().includes(employer.toLowerCase())
-    );
-    const urlType = isMatch ? "vpf" : "ihf";
-    renderTiles(urlType);
+        const isMatch = employerList.some(employer =>
+            name.toLowerCase().includes(employer.toLowerCase())
+        );
+        const urlType = isMatch ? "vpf" : "ihf";
+        renderTiles(urlType);
+        enableFormClicks();
+    } else {
+        // Clear stored employer data when empty
+        setEmployerCookie("");
+        localStorage.removeItem("ihf_employer_name");
+
+        updateEmployerDisplay("Please enter your Employer name. Enter NA if not applicable.", true);
+        updateProgressSteps(0); // Back to step 1 (Enter Employer)
+        disableFormClicks();
+
+        // Clear the donation tiles when no employer is set
+        const heroContainer = document.getElementById("heroTile");
+        const container = document.getElementById("donationTiles");
+        if (heroContainer) heroContainer.innerHTML = "";
+        if (container) container.innerHTML = "";
+    }
+
+    toggleInstructions(name);
 }
 
 function renderTiles(urlType) {
@@ -170,14 +259,55 @@ document.getElementById("employerInput").addEventListener("keydown", function (e
     }
 });
 
-// Initial Load – Prefer cookie first, then localStorage, then "N/A"
-let storedName = getEmployerCookie() || localStorage.getItem("ihf_employer_name") || "N/A";
-document.getElementById("employerName").innerText = storedName;
-document.getElementById("employerInput").value = storedName;
+// Add real-time input validation (but don't enable forms until Apply is clicked)
+document.getElementById("employerInput").addEventListener("input", function (e) {
+    const name = e.target.value.trim();
+    if (name) {
+        updateEmployerDisplay(name, false);
+    } else {
+        // Immediately disable forms and clear tiles when text field is emptied
+        updateEmployerDisplay("Please enter your Employer name. Enter NA if not applicable.", true);
+        updateProgressSteps(0); // Back to step 1 (Enter Employer)
+        disableFormClicks();
 
-const isMatchInit = employerList.some(employer =>
-    storedName.toLowerCase().includes(employer.toLowerCase())
-);
-const urlTypeInit = isMatchInit ? "vpf" : "ihf";
-renderTiles(urlTypeInit);
+        // Clear stored employer data
+        setEmployerCookie("");
+        localStorage.removeItem("ihf_employer_name");
+
+        // Clear the donation tiles when no employer is set
+        const heroContainer = document.getElementById("heroTile");
+        const container = document.getElementById("donationTiles");
+        if (heroContainer) heroContainer.innerHTML = "";
+        if (container) container.innerHTML = "";
+    }
+    toggleInstructions(name);
+});
+
+// Initial Load – Prefer cookie first, then localStorage
+let storedName = getEmployerCookie() || localStorage.getItem("ihf_employer_name") || "";
+const employerInput = document.getElementById("employerInput");
+const employerNameElement = document.getElementById("employerName");
+
+if (storedName && storedName.trim()) {
+    updateEmployerDisplay(storedName, false);
+    employerInput.value = storedName;
+    updateProgressSteps(1); // Move to step 2 (Choose Form)
+
+    const isMatchInit = employerList.some(employer =>
+        storedName.toLowerCase().includes(employer.toLowerCase())
+    );
+    const urlTypeInit = isMatchInit ? "vpf" : "ihf";
+    renderTiles(urlTypeInit);
+    enableFormClicks(); // Only enable if there's a stored employer name from previous session
+} else {
+    updateEmployerDisplay("Please enter your Employer name. Enter NA if not applicable.", true);
+    employerInput.value = "";
+    updateProgressSteps(0); // Start at step 1 (Enter Employer)
+    disableFormClicks(); // Forms disabled by default
+}
+
+toggleInstructions(storedName);
+
+// Set focus to the employer input text box
+employerInput.focus();
 
