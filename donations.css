@@ -32,22 +32,53 @@ h1 {
 }
 
 .employer-info {
-    font-size: 18px;
+    font-size: 16px;
     color: #222;
-    margin-bottom: 15px;
+    margin: 15px auto 10px auto;
     text-align: center;
 }
 
 .employer-info strong {
     color: #000;
-    font-size: 20px;
+    font-size: 18px;
+}
+
+.edit-link {
+    margin-left: 8px;
+    padding: 4px 12px;
+    background-color: #f8f9fa;
+    border: 1px solid #dee2e6;
+    border-radius: 20px;
+    color: #6c757d;
+    cursor: pointer;
+    text-decoration: none;
+    font-size: 12px;
+    font-weight: 500;
+    transition: all 0.2s ease;
+    display: inline-block;
+    vertical-align: middle;
+}
+
+.edit-link:hover {
+    background-color: #e9ecef;
+    border-color: #adb5bd;
+    color: #495057;
+    transform: translateY(-1px);
+}
+
+.form-instruction {
+    margin: 10px auto 15px auto;
+    color: #666;
+    font-size: 14px;
+    text-align: center;
+    font-style: italic;
 }
 
 .input-group {
     display: flex;
     align-items: center;
     gap: 10px;
-    margin-bottom: 20px;
+    margin: 15px auto 20px auto;
     flex-wrap: wrap;
     justify-content: center;
 }
@@ -178,7 +209,7 @@ h1 {
     display: flex;
     justify-content: center;
     align-items: center;
-    margin: 20px 0;
+    margin: 20px auto 15px auto;
     gap: 40px;
 }
 
@@ -235,7 +266,7 @@ h1 {
         gap: 6px;
         flex-wrap: wrap;
         justify-content: center;
-        margin: 15px 0;
+        margin: 15px auto 10px auto;
     }
 
     .step {

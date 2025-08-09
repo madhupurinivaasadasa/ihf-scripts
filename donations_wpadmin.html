@@ -22,12 +22,14 @@
 
 <div class="employer-info">
     Your Employer: <strong id="employerName">Please enter your Employer name. Enter NA if not applicable.</strong>
+    <span id="editLink" class="edit-link" onclick="toggleEditMode()" style="display: none;">Edit</span>
 </div>
-<div class="input-group">
+<div class="input-group" id="inputGroup">
     <input type="text" id="employerInput" placeholder="Employer name (e.g., Apple)"/>
     <button onclick="updateEmployer()">Apply</button>
 </div>
 
+<p id="formInstruction" class="form-instruction" style="display: none;">Click on a donation form below to proceed</p>
 
 <div id="heroTile"></div>
 <div class="container" id="donationTiles"></div>
