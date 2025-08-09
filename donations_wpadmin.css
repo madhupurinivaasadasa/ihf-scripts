@@ -4,6 +4,12 @@ body.wp-admin {
     padding: 0;
 }
 
+/* Reduce top spacing in WordPress admin */
+.wp-admin h1:first-child {
+    margin-top: 0 !important;
+    padding-top: 5px;
+}
+
 .select-donation-wrapper {
     font-family: Arial, sans-serif;
     text-align: center;
@@ -14,7 +20,8 @@ body.wp-admin {
 }
 
 h1 {
-    margin-bottom: 5px;
+    margin: 0 auto 5px auto;
+    padding-top: 5px;
     color: #333;
     text-align: center;
     white-space: nowrap;
