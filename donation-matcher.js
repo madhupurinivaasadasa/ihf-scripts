@@ -1,10 +1,10 @@
 const employerList = [
-    "Adobe", "Applied Materials", "Broadcom",
-    "Cadence", "Cisco", "Dell", "Ebay", "Esurance",
-    "Intel", "Juniper", "McAfee", "Microsoft",
-    "NetApp", "Oracle", "Paypal", "Qualcomm", "Samsung",
-    "ServiceNow", "Splunk", "Symantec", "Veritas", "Visa",
-    "VMware", "Yahoo"
+    "Adobe", "AMD", "Applied Materials", "Broadcom", "ByteDance", "Cadence", "Cisco",
+    "Cloudera", "Coupa Software", "Dell", "Esurance", "Etsy", "HPI", "IBM", "Intel",
+    "Juniper", "Lam Research", "LexisNexis", "LinkedIn", "McAfee", "Microsoft",
+    "NetApp", "Oracle", "Palo Alto Networks", "PayPal", "Pfizer", "PlayStation Cares",
+    "Qualcomm", "Roblox", "Samsung", "SAP", "Splunk", "Symantec", "UHG", "Unum", "Veritas",
+    "VISA", "Wells Fargo", "Yahoo"
 ];
 
 const donationForms = {
@@ -129,7 +129,7 @@ function enableFormClicks() {
 function updateEmployerDisplay(text, isInfoText = false) {
     const employerInfo = document.querySelector(".employer-info");
     const employerName = document.getElementById("employerName");
-    
+
     if (isInfoText) {
         // Hide "Your Employer:" prefix when showing info text
         employerInfo.innerHTML = `<strong id="employerName">${text}</strong>
@@ -161,17 +161,17 @@ function toggleEditMode() {
     const editLink = document.getElementById('editLink');
     const stepsContainer = document.querySelector('.steps-container');
     const formInstruction = document.getElementById('formInstruction');
-    
+
     // Show input group and hide edit link and form instruction
     inputGroup.style.display = 'flex';
     editLink.style.display = 'none';
     if (formInstruction) formInstruction.style.display = 'none';
-    
+
     // Show progress steps again
     if (stepsContainer) {
         stepsContainer.style.display = 'flex';
     }
-    
+
     // Focus on input
     document.getElementById('employerInput').focus();
 }
@@ -181,18 +181,18 @@ function updateEmployer() {
     const input = document.getElementById("employerInput");
     const name = input.value.trim();
 
-        if (name) {
+    if (name) {
         setEmployerCookie(name);
         localStorage.setItem("ihf_employer_name", name);
-        
+
         updateEmployerDisplay(name, false);
-        
+
         // Hide progress steps and input group, show edit link and form instruction
         const stepsContainer = document.querySelector('.steps-container');
         const inputGroup = document.getElementById('inputGroup');
         const editLink = document.getElementById('editLink');
         const formInstruction = document.getElementById('formInstruction');
-        
+
         if (stepsContainer) stepsContainer.style.display = 'none';
         if (inputGroup) inputGroup.style.display = 'none';
         if (editLink) editLink.style.display = 'inline';
@@ -208,23 +208,23 @@ function updateEmployer() {
         // Clear stored employer data when empty
         setEmployerCookie("");
         localStorage.removeItem("ihf_employer_name");
-        
+
         updateEmployerDisplay("Please enter your Employer name. Enter NA if not applicable.", true);
-        
+
         // Show progress steps and input group, hide edit link and form instruction
         const stepsContainer = document.querySelector('.steps-container');
         const inputGroup = document.getElementById('inputGroup');
         const editLink = document.getElementById('editLink');
         const formInstruction = document.getElementById('formInstruction');
-        
+
         if (stepsContainer) stepsContainer.style.display = 'flex';
         if (inputGroup) inputGroup.style.display = 'flex';
         if (editLink) editLink.style.display = 'none';
         if (formInstruction) formInstruction.style.display = 'none';
-        
+
         updateProgressSteps(0); // Back to step 1 (Enter Employer)
         disableFormClicks();
-        
+
         // Clear the donation tiles when no employer is set
         const heroContainer = document.getElementById("heroTile");
         const container = document.getElementById("donationTiles");
@@ -309,28 +309,28 @@ document.getElementById("employerInput").addEventListener("input", function (e) 
     const name = e.target.value.trim();
     if (name) {
         updateEmployerDisplay(name, false);
-        } else {
+    } else {
         // Immediately disable forms and clear tiles when text field is emptied
         updateEmployerDisplay("Please enter your Employer name. Enter NA if not applicable.", true);
-        
+
         // Show progress steps and input group, hide edit link and form instruction
         const stepsContainer = document.querySelector('.steps-container');
         const inputGroup = document.getElementById('inputGroup');
         const editLink = document.getElementById('editLink');
         const formInstruction = document.getElementById('formInstruction');
-        
+
         if (stepsContainer) stepsContainer.style.display = 'flex';
         if (inputGroup) inputGroup.style.display = 'flex';
         if (editLink) editLink.style.display = 'none';
         if (formInstruction) formInstruction.style.display = 'none';
-        
+
         updateProgressSteps(0); // Back to step 1 (Enter Employer)
         disableFormClicks();
-        
+
         // Clear stored employer data
         setEmployerCookie("");
         localStorage.removeItem("ihf_employer_name");
-        
+
         // Clear the donation tiles when no employer is set
         const heroContainer = document.getElementById("heroTile");
         const container = document.getElementById("donationTiles");
@@ -348,18 +348,18 @@ const employerNameElement = document.getElementById("employerName");
 if (storedName && storedName.trim()) {
     updateEmployerDisplay(storedName, false);
     employerInput.value = storedName;
-    
+
     // Hide progress steps and input group, show edit link and form instruction for stored employer
     const stepsContainer = document.querySelector('.steps-container');
     const inputGroup = document.getElementById('inputGroup');
     const editLink = document.getElementById('editLink');
     const formInstruction = document.getElementById('formInstruction');
-    
+
     if (stepsContainer) stepsContainer.style.display = 'none';
     if (inputGroup) inputGroup.style.display = 'none';
     if (editLink) editLink.style.display = 'inline';
     if (formInstruction) formInstruction.style.display = 'block';
-    
+
     const isMatchInit = employerList.some(employer =>
         storedName.toLowerCase().includes(employer.toLowerCase())
     );
@@ -369,18 +369,18 @@ if (storedName && storedName.trim()) {
 } else {
     updateEmployerDisplay("Please enter your Employer name. Enter NA if not applicable.", true);
     employerInput.value = "";
-    
+
     // Show progress steps and input group, hide edit link and form instruction for no employer
     const stepsContainer = document.querySelector('.steps-container');
     const inputGroup = document.getElementById('inputGroup');
     const editLink = document.getElementById('editLink');
     const formInstruction = document.getElementById('formInstruction');
-    
+
     if (stepsContainer) stepsContainer.style.display = 'flex';
     if (inputGroup) inputGroup.style.display = 'flex';
     if (editLink) editLink.style.display = 'none';
     if (formInstruction) formInstruction.style.display = 'none';
-    
+
     updateProgressSteps(0); // Start at step 1 (Enter Employer)
     disableFormClicks(); // Forms disabled by default
 }

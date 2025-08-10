@@ -1,10 +1,10 @@
 const employerList = [
-    "Adobe", "Applied Materials", "Broadcom",
-    "Cadence", "Cisco", "Dell", "Ebay", "Esurance",
-    "Intel", "Juniper", "McAfee", "Microsoft",
-    "NetApp", "Oracle", "Paypal", "Qualcomm", "Samsung",
-    "ServiceNow", "Splunk", "Symantec", "Veritas", "Visa",
-    "VMware", "Yahoo"
+    "Adobe", "AMD", "Applied Materials", "Broadcom", "ByteDance", "Cadence", "Cisco",
+    "Cloudera", "Coupa Software", "Dell", "Esurance", "Etsy", "HPI", "IBM", "Intel",
+    "Juniper", "Lam Research", "LexisNexis", "LinkedIn", "McAfee", "Microsoft",
+    "NetApp", "Oracle", "Palo Alto Networks", "PayPal", "Pfizer", "PlayStation Cares",
+    "Qualcomm", "Roblox", "Samsung", "SAP", "Splunk", "Symantec", "UHG", "Unum", "Veritas",
+    "VISA", "Wells Fargo", "Yahoo"
 ];
 
 const donationForms = {
