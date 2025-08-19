@@ -1,3 +1,12 @@
+// Load the base functionality and standard donation forms
+// This approach uses script concatenation - in production, you would include both files
+
+// You can include this by having two script tags in your HTML:
+// <script src="donation-matcher-base.js"></script>
+// <script src="donation-forms-config.js"></script>
+
+// OR for backwards compatibility, include everything in this single file:
+
 const employerList = [
     "Adobe", "AMD", "Applied Materials", "Broadcom", "ByteDance", "Cadence", "Cisco",
     "Cloudera", "Coupa Software", "Dell", "Esurance", "Etsy", "HPI", "IBM", "Intel",
@@ -212,7 +221,7 @@ function updateEmployer() {
         setEmployerCookie("");
         localStorage.removeItem("ihf_employer_name");
 
-        updateEmployerDisplay("Please enter your Employer name. Enter NA if not applicable.", true);
+        updateEmployerDisplay("Please enter your Employer name. Enter NA if not applicable. Click Apply to select a donation opportunity", true);
 
         // Show progress steps and input group, hide edit link and form instruction
         const stepsContainer = document.querySelector('.steps-container');
@@ -314,7 +323,7 @@ document.getElementById("employerInput").addEventListener("input", function (e) 
         updateEmployerDisplay(name, false);
     } else {
         // Immediately disable forms and clear tiles when text field is emptied
-        updateEmployerDisplay("Please enter your Employer name. Enter NA if not applicable.", true);
+        updateEmployerDisplay("Please enter your Employer name. Enter NA if not applicable. Click Apply to select a donation opportunity", true);
 
         // Show progress steps and input group, hide edit link and form instruction
         const stepsContainer = document.querySelector('.steps-container');
@@ -370,7 +379,7 @@ if (storedName && storedName.trim()) {
     renderTiles(urlTypeInit);
     enableFormClicks(); // Only enable if there's a stored employer name from previous session
 } else {
-    updateEmployerDisplay("Please enter your Employer name. Enter NA if not applicable.", true);
+    updateEmployerDisplay("Please enter your Employer name. Enter NA if not applicable. Click Apply to select a donation opportunity", true);
     employerInput.value = "";
 
     // Show progress steps and input group, hide edit link and form instruction for no employer
@@ -391,6 +400,7 @@ if (storedName && storedName.trim()) {
 toggleInstructions(storedName);
 
 // Set focus to the employer input text box only if it's visible
+const inputGroup = document.getElementById('inputGroup');
 if (inputGroup && inputGroup.style.display !== 'none') {
     employerInput.focus();
 }
