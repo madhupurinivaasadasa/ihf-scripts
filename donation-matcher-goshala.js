@@ -88,9 +88,12 @@ function updateEmployerDisplay(text, isInfoText = false) {
     const employerInfo = document.querySelector(".employer-info");
     const employerName = document.getElementById("employerName");
 
+    // When showing info text, style the NA part
+    const styledText = text.replace(/\bNA\b/, '<span style="color: #007BFF; font-weight: bold;">NA</span>');
+
     if (isInfoText) {
         // Hide "Your Employer:" prefix when showing info text
-        employerInfo.innerHTML = `<strong id="employerName">${text}</strong>
+        employerInfo.innerHTML = `<strong id="employerName">${styledText}</strong>
             <span id="editLink" class="edit-link" onclick="toggleEditMode()" style="display: none;">Edit</span>`;
     } else {
         // Show "Your Employer:" prefix when showing actual employer name
