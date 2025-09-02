@@ -9,10 +9,10 @@ const employerList = [
 
 const donationForms = {
     "kbm-festival": {
-        label: "Sri Radhashtami - Seva Sponsorships",
-        img: "https://secure.kbmandir.org/neon/resource/ihf/images/Radhashtami%202025.jpg",
-        vpf: "https://secure.kbmandir.org/forms/kbm-festival-seva-vpf",
-        ihf: "https://secure.kbmandir.org/forms/kbm-festival-seva-ihf"
+        label: "Bhadra Purnima - Seva Sponsorships",
+        img: "https://secure.kbmandir.org/neon/resource/ihf/images/bhadra_purnima_2025_portrait.jpeg",
+        vpf: "https://pci.jotform.com/form/212567398686171",
+        ihf: "https://pci.jotform.com/form/212567398686171"
     },
     "new-temple-project": {
         label: "New Temple Project - Seva Sponsorships",
