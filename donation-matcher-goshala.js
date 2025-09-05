@@ -9,13 +9,13 @@ const employerList = [
 
 const donationForms = {
     "goshala-project": {
-        label: "Goshala Project- Seva Sponsorships",
+        label: "Goshala Project - Pitru Paksha Seva Sponsorships",
         img: "https://www.kbgoshala.org/wp-content/uploads/2017/11/Screenshot-2024-06-17-at-8.04.18%E2%80%AFPM-2048x1324.png",
         vpf: "https://secure.kbmandir.org/forms/goshala-project-vpf",
         ihf: "https://secure.kbmandir.org/forms/goshala-project-ihf"
     },
     "cow-feeding-seva": {
-        label: "Cow Feeding Seva Sponsorships",
+        label: "Cow Feeding - Pitru Paksha Seva Sponsorships",
         img: "https://secure.kbmandir.org/neon/resource/ihf/images/WhatsApp%20Image%202025-01-25%20at%2018_32_50.jpeg",
         vpf: "https://secure.kbmandir.org/forms/cow-feeding-seva-vpf",
         ihf: "https://secure.kbmandir.org/forms/cow-feeding-seva-ihf"
