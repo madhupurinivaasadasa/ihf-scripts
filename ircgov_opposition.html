@@ -1,0 +1,22 @@
+<p>If your mail client does not open automatically, please use one of the options below to send an email to Indian River County officials to respectfully oppose the proposed amendments.</p>
+<ul>
+    <li><a id="mailtoLink" href="#" style="color: #0073aa; text-decoration: underline; cursor: pointer;">Open in Local Mail App</a></li>
+    <li><a id="gmailLink" href="#" target="_blank" style="color: #0073aa; text-decoration: underline; cursor: pointer;">Open in Gmail</a></li>
+</ul>
+
+<script>
+    const to = "rsweeney@ircgov.com,jearman@ircgov.com";
+    const subject = "Formal Opposition to 2025 EAR-Based Amendments and “New Town” Development Requirements";
+    const body = `Dear Mr. Sweeney and Commissioner Earman,%0D%0A%0D%0AI am writing as a property owner with holdings west of I-95 within the St. Johns Improvement District to express my concerns regarding the proposed 2025 Comprehensive Plan Evaluation and Appraisal Report (EAR)-based amendments, particularly those that would implement a “new town” development framework for unincorporated agricultural lands in Indian River County. I strongly oppose these amendments as they represent a drastic and unwarranted departure from the County’s established land use policies.%0D%0A%0D%0AThe proposed amendments would lower the maximum allowable density for the "new town" development area west of I-95 to two residential units per acre, a change that is of significant concern to our interests.%0D%0A%0D%0AWhen investors and landowners purchased agricultural property in this area, we did so with the expectation—based on longstanding County planning and land use designations—that development would be possible under standard-density zoning or through the existing Planned Unit Development (PUD) process. The proposal to eliminate these options and instead impose large-scale, master-planned “new town” requirements is both economically unfeasible for most landowners and fundamentally unfair.%0D%0A%0D%0AAbandoning the flexible and proven PUD approach removes a viable path to responsible development that has effectively balanced infrastructure, housing, and environmental protection for decades. The new policy would inflict real and measurable losses on property owners and may expose the County to significant legal risks, including potential inverse condemnation claims when regulation deprives owners of practicable land use.%0D%0A%0D%0AFor these reasons, I urge the Board to reconsider these amendments. If changes to the growth framework are deemed necessary, they should:%0D%0A- Respect the legitimate expectations and rights of current property owners,%0D%0A- Include comprehensive legal and financial impact analyses,%0D%0A- Provide fair transitional provisions such as grandfathering or continued eligibility for PUD applications.%0D%0A%0D%0ASustainable growth policies must be balanced with fairness, economic feasibility, and protection of established property rights. I respectfully ask you to reject the proposed amendments in their current form and work toward a more balanced approach.%0D%0A%0D%0AThank you for your consideration.%0D%0A%0D%0ASincerely,%0D%0A[Your Name]`;
+
+    // mailto link
+    let mailto = `mailto:${to}?subject=${encodeURIComponent(subject)}&body=${body}`;
+    document.getElementById("mailtoLink").href = mailto;
+
+    // Gmail compose link
+    let gmail = `https://mail.google.com/mail/?view=cm&fs=1&to=${encodeURIComponent(to)}&su=${encodeURIComponent(subject)}&body=${body}`;
+    document.getElementById("gmailLink").href = gmail;
+
+    // Optionally, auto-open mail client
+    window.location.href = mailto;
+</script>
