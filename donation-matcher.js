@@ -10,7 +10,7 @@ const employerList = [
 const donationForms = {
     "kbm-festival": {
         label: "Sri Vijayadashami  - Seva Sponsorships",
-        img: "https://secure.kbmandir.org/neon/resource/ihf/images/vijayadashami_landscape.png",
+        img: "https://secure.kbmandir.org/neon/resource/ihf/images/vijayadashami_landscape.jpeg",
         vpf: "https://secure.kbmandir.org/forms/kbm-festival-seva-vpf",
         ihf: "https://secure.kbmandir.org/forms/kbm-festival-seva-ihf"
     },
