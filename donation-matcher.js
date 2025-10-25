@@ -8,12 +8,12 @@ const employerList = [
 ];
 
 const donationForms = {
-    "kbm-festival": {
-        label: "Deepavali & Govardhana Puja - Seva Sponsorships",
-        img: "https://secure.kbmandir.org/neon/resource/ihf/images/Deepavali%20landscape.jpg",
-        vpf: "https://secure.kbmandir.org/forms/kbm-festival-seva-vpf",
-        ihf: "https://secure.kbmandir.org/forms/kbm-festival-seva-ihf"
-    },
+    // "kbm-festival": {
+    //     label: "Deepavali & Govardhana Puja - Seva Sponsorships",
+    //     img: "https://secure.kbmandir.org/neon/resource/ihf/images/Deepavali%20landscape.jpg",
+    //     vpf: "https://secure.kbmandir.org/forms/kbm-festival-seva-vpf",
+    //     ihf: "https://secure.kbmandir.org/forms/kbm-festival-seva-ihf"
+    // },
     "new-temple-project": {
         label: "New Temple Project - Seva Sponsorships",
         img: "https://www.kbmandir.org/wp-content/uploads/2017/11/nvw-scaled.jpg",
