@@ -27,7 +27,7 @@ const donationForms = {
         ihf: "https://secure.kbmandir.org/forms/goshala-general-donation-ihf"
     },
     "sastra-seva": {
-        label: "Sastra Dana - Seva Sponsorships",
+        label: "Gita Dana - Seva Sponsorships",
         img: "https://secure.kbmandir.org/neon/resource/ihf/images/book_distribution.jpeg",
         vpf: "https://secure.kbmandir.org/forms/book-distribution-vpf",
         ihf: "https://secure.kbmandir.org/forms/book-distribution-ihf"
