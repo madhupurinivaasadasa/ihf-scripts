@@ -14,6 +14,12 @@ const donationForms = {
     //     vpf: "https://secure.kbmandir.org/forms/kbm-festival-seva-vpf",
     //     ihf: "https://secure.kbmandir.org/forms/kbm-festival-seva-ihf"
     // },
+    "sastra-seva": {
+        label: "Sastra Dana - Seva Sponsorships",
+        img: "https://secure.kbmandir.org/neon/resource/ihf/images/book_distribution.jpeg",
+        vpf: "https://secure.kbmandir.org/forms/book-distribution-vpf",
+        ihf: "https://secure.kbmandir.org/forms/book-distribution-ihf"
+    },
     "new-temple-project": {
         label: "New Temple Project - Seva Sponsorships",
         img: "https://www.kbmandir.org/wp-content/uploads/2017/11/nvw-scaled.jpg",
@@ -49,12 +55,6 @@ const donationForms = {
         img: "https://www.kbmandir.org/wp-content/uploads/2022/03/2022_14.jpg",
         vpf: "https://secure.kbmandir.org/forms/deity-sevas-vpf",
         ihf: "https://secure.kbmandir.org/forms/deity-sevas-ihf"
-    },
-    "sastra-seva": {
-        label: "Sastra Dana - Seva Sponsorships",
-        img: "https://secure.kbmandir.org/neon/resource/ihf/images/book_distribution.jpeg",
-        vpf: "https://secure.kbmandir.org/forms/book-distribution-vpf",
-        ihf: "https://secure.kbmandir.org/forms/book-distribution-ihf"
     },
     "cow-feeding-seva": {
         label: "Goshala - Cow Feeding Seva Sponsorships",
