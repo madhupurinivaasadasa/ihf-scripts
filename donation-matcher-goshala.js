@@ -28,7 +28,7 @@ const donationForms = {
     },
     "sastra-seva": {
         label: "Gita Dana - Seva Sponsorships",
-        img: "https://secure.kbmandir.org/neon/resource/ihf/images/book_distribution.jpeg",
+        img: "https://secure.kbmandir.org/neon/resource/ihf/images/gita_jayanti_donate.jpg",
         vpf: "https://secure.kbmandir.org/forms/book-distribution-vpf",
         ihf: "https://secure.kbmandir.org/forms/book-distribution-ihf"
     },
