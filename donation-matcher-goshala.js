@@ -15,7 +15,7 @@ const donationForms = {
         ihf: "https://secure.kbmandir.org/forms/goshala-project-ihf"
     },
     "cow-feeding-seva": {
-        label: "Cow Feeding",
+        label: "Cow Feeding - Seva Sponsorships",
         img: "https://secure.kbmandir.org/neon/resource/ihf/images/WhatsApp%20Image%202025-01-25%20at%2018_32_50.jpeg",
         vpf: "https://secure.kbmandir.org/forms/cow-feeding-seva-vpf",
         ihf: "https://secure.kbmandir.org/forms/cow-feeding-seva-ihf"
