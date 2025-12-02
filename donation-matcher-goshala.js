@@ -21,7 +21,7 @@ const donationForms = {
         ihf: "https://secure.kbmandir.org/forms/cow-feeding-seva-ihf"
     },
     "general-donation": {
-        label: "KBGoshala - General Donations",
+        label: "General Donations",
         img: "https://secure.kbmandir.org/neon/resource/ihf/images/general_donations.jpeg",
         vpf: "https://secure.kbmandir.org/forms/goshala-general-donation-vpf",
         ihf: "https://secure.kbmandir.org/forms/goshala-general-donation-ihf"
