@@ -10,7 +10,7 @@ const employerList = [
 const donationForms = {
     "kbm-festival": {
         label: "Sri Vaikuntha Ekadashi - Seva Sponsorships",
-        img: "https://secure.kbmandir.org/neon/resource/ihf/images/garland_sevas.jpeg",
+        img: "https://secure.kbmandir.org/neon/resource/ihf/images/VE_2025_landscape.jpeg",
         vpf: "https://secure.kbmandir.org/forms/kbm-festival-seva-vpf",
         ihf: "https://secure.kbmandir.org/forms/kbm-festival-seva-ihf"
     },
