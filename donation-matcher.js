@@ -14,6 +14,12 @@ const donationForms = {
         vpf: "https://secure.kbmandir.org/forms/kbm-festival-seva-vpf",
         ihf: "https://secure.kbmandir.org/forms/kbm-festival-seva-ihf"
     },
+    "new-year": {
+        label: "New Year 2026 - Seva Sponsorships",
+        img: "https://secure.kbmandir.org/neon/resource/ihf/images/new_year_2026.jpg",
+        vpf: "https://secure.kbmandir.org/forms/new-year-vpf",
+        ihf: "https://secure.kbmandir.org/forms/new-year-ihf"
+    },
     "sastra-seva": {
         label: "Gita Dana - Seva Sponsorships",
         img: "https://secure.kbmandir.org/neon/resource/ihf/images/gita_jayanti_donate.jpg",
