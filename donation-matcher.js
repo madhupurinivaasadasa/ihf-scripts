@@ -74,6 +74,12 @@ const donationForms = {
         vpf: "https://secure.kbmandir.org/forms/goshala-project-vpf",
         ihf: "https://secure.kbmandir.org/forms/goshala-project-ihf"
     },
+    "gopuja": {
+        label: "Gopuja - Seva Sponsorships",
+        img: "https://www.kbgoshala.org/wp-content/uploads/2017/11/km.jpg",
+        vpf: "https://secure.kbmandir.org/forms/gopuja-vpf",
+        ihf: "https://secure.kbmandir.org/forms/gopuja-ihf"
+    },
     "general-donation": {
         label: "General Donations",
         img: "https://secure.kbmandir.org/neon/resource/ihf/images/general_donations.jpeg",
