@@ -20,17 +20,17 @@ const donationForms = {
         vpf: "https://secure.kbmandir.org/forms/cow-feeding-seva-vpf",
         ihf: "https://secure.kbmandir.org/forms/cow-feeding-seva-ihf"
     },
+    "gopuja": {
+        label: "Gopuja - Seva Sponsorships",
+        img: "https://www.kbgoshala.org/wp-content/uploads/2017/11/km.jpg",
+        vpf: "https://secure.kbmandir.org/forms/gopuja-vpf",
+        ihf: "https://secure.kbmandir.org/forms/gopuja-ihf"
+    },
     "general-donation": {
         label: "General Donations",
         img: "https://secure.kbmandir.org/neon/resource/ihf/images/general_donations.jpeg",
         vpf: "https://secure.kbmandir.org/forms/goshala-general-donation-vpf",
         ihf: "https://secure.kbmandir.org/forms/goshala-general-donation-ihf"
-    },
-    "sastra-seva": {
-        label: "Gita Dana - Seva Sponsorships",
-        img: "https://secure.kbmandir.org/neon/resource/ihf/images/gita_jayanti_donate.jpg",
-        vpf: "https://secure.kbmandir.org/forms/book-distribution-vpf",
-        ihf: "https://secure.kbmandir.org/forms/book-distribution-ihf"
     },
 };
 
