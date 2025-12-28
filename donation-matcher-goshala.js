@@ -4,7 +4,7 @@ const employerList = [
     "Juniper", "Lam Research", "LexisNexis", "LinkedIn", "McAfee", "Microsoft",
     "NetApp", "Oracle", "Palo Alto Networks", "PayPal", "Pfizer", "PlayStation Cares",
     "Qualcomm", "Roblox", "Samsung", "SAP", "Splunk", "Symantec", "UHG", "Unum", "Veritas",
-    "VISA", "Wells Fargo", "Yahoo", "Genworth financial", "Morgan stanley"
+    "VISA", "Wells Fargo", "Yahoo", "Genworth financial", "Morgan stanley", "Cloudera"
 ];
 
 const donationForms = {
