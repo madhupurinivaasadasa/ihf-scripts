@@ -14,12 +14,18 @@ const donationForms = {
         // vpf: "https://secure.kbmandir.org/forms/kbm-festival-seva-vpf",
         // ihf: "https://secure.kbmandir.org/forms/kbm-festival-seva-ihf"
     // },
-    "new-year": {
-        label: "New Year 2026 - Seva Sponsorships",
-        img: "https://secure.kbmandir.org/neon/resource/ihf/images/new_year_2026.jpg",
-        vpf: "https://secure.kbmandir.org/forms/new-year-vpf",
-        ihf: "https://secure.kbmandir.org/forms/new-year-ihf"
-    },
+    // "new-year": {
+        // label: "New Year 2026 - Seva Sponsorships",
+        // img: "https://secure.kbmandir.org/neon/resource/ihf/images/new_year_2026.jpg",
+        // vpf: "https://secure.kbmandir.org/forms/new-year-vpf",
+        // ihf: "https://secure.kbmandir.org/forms/new-year-ihf"
+    // },
+	    "goshala-project": {
+	        label: "Goshala Project - Square-Foot Seva Sponsorships",
+	        img: "https://www.kbgoshala.org/wp-content/uploads/2017/11/Screenshot-2024-06-17-at-8.04.18%E2%80%AFPM-2048x1324.png",
+	        vpf: "https://secure.kbmandir.org/forms/goshala-project-vpf",
+	        ihf: "https://secure.kbmandir.org/forms/goshala-project-ihf"
+	    },		
     "sastra-seva": {
         label: "Gita Dana - Seva Sponsorships",
         img: "https://secure.kbmandir.org/neon/resource/ihf/images/gita_jayanti_donate.jpg",
@@ -67,12 +73,6 @@ const donationForms = {
         img: "https://secure.kbmandir.org/neon/resource/ihf/images/WhatsApp%20Image%202025-01-25%20at%2018_32_50.jpeg",
         vpf: "https://secure.kbmandir.org/forms/cow-feeding-seva-vpf",
         ihf: "https://secure.kbmandir.org/forms/cow-feeding-seva-ihf"
-    },
-    "goshala-project": {
-        label: "Goshala Project - Square-Foot Seva Sponsorships",
-        img: "https://www.kbgoshala.org/wp-content/uploads/2017/11/Screenshot-2024-06-17-at-8.04.18%E2%80%AFPM-2048x1324.png",
-        vpf: "https://secure.kbmandir.org/forms/goshala-project-vpf",
-        ihf: "https://secure.kbmandir.org/forms/goshala-project-ihf"
     },
     "gopuja": {
         label: "Gopuja - Seva Sponsorships",
