@@ -10,7 +10,7 @@ const employerList = [
 const donationForms = {
     "kbm-festival": {
         label: "Makara Sankranthi - Seva Sponsorships",
-        img: "https://secure.kbmandir.org/neon/resource/ihf/images/makara_sankranti.jpeg",
+        img: "https://secure.kbmandir.org/neon/resource/ihf/images/makara_sankranti_landscape.jpeg",
         vpf: "https://secure.kbmandir.org/forms/kbm-festival-seva-vpf",
         ihf: "https://secure.kbmandir.org/forms/kbm-festival-seva-ihf"
     },
