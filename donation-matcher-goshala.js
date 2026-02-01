@@ -330,6 +330,38 @@ document.getElementById("employerInput").addEventListener("keydown", function (e
     }
 });
 
+// Prefetch all donation images immediately on page load
+let prefetchedImages = new Set();
+
+function prefetchAllDonationImages() {
+    // Prefetch ALL donation images immediately (both VPF and IHF use same images)
+    Object.values(donationForms).forEach(form => {
+        // Only prefetch if not already prefetched
+        if (!prefetchedImages.has(form.img)) {
+            // Method 1: Use Image object (works in all browsers)
+            const img = new Image();
+            img.src = form.img;
+            
+            // Method 2: Add link prefetch tag (additional optimization)
+            const link = document.createElement('link');
+            link.rel = 'prefetch';
+            link.as = 'image';
+            link.href = form.img;
+            document.head.appendChild(link);
+            
+            prefetchedImages.add(form.img);
+        }
+    });
+}
+
+// Start prefetching immediately when script loads (parallel to user interaction)
+if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', prefetchAllDonationImages);
+} else {
+    // DOM already loaded
+    prefetchAllDonationImages();
+}
+
 // Add real-time input validation (but don't enable forms until Apply is clicked)
 document.getElementById("employerInput").addEventListener("input", function (e) {
     const name = e.target.value.trim();
