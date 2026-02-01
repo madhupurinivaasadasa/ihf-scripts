@@ -12,31 +12,46 @@ const donationForms = {
         label: "Goshala Project: Square-Foot Seva",
         img: "https://www.kbgoshala.org/wp-content/uploads/2017/11/Screenshot-2024-06-17-at-8.04.18%E2%80%AFPM-2048x1324.png",
         vpf: "https://secure.kbmandir.org/forms/goshala-project-vpf",
-        ihf: "https://secure.kbmandir.org/forms/goshala-project-ihf"
+        ihf: "https://secure.kbmandir.org/forms/goshala-project-ihf",
+        bgColor: "#87CEEB", // Sky blue placeholder
+        icon: "🐄"
     },
     "cow-feeding-seva": {
         label: "Cow Feeding - Seva Sponsorships",
         img: "https://secure.kbmandir.org/neon/resource/ihf/images/WhatsApp%20Image%202025-01-25%20at%2018_32_50.jpeg",
         vpf: "https://secure.kbmandir.org/forms/cow-feeding-seva-vpf",
-        ihf: "https://secure.kbmandir.org/forms/cow-feeding-seva-ihf"
+        ihf: "https://secure.kbmandir.org/forms/cow-feeding-seva-ihf",
+        bgColor: "#98D8C8", // Sage green placeholder
+        icon: "🐄"
     },
     "gopuja": {
         label: "Gopuja - Seva Sponsorships",
         img: "https://www.kbgoshala.org/wp-content/uploads/2017/11/km.jpg",
         vpf: "https://secure.kbmandir.org/forms/gopuja-vpf",
-        ihf: "https://secure.kbmandir.org/forms/gopuja-ihf"
+        ihf: "https://secure.kbmandir.org/forms/gopuja-ihf",
+        bgColor: "#FFD700", // Gold placeholder
+        icon: "🐄"
     },
     "general-donation": {
         label: "General Donations",
         img: "https://secure.kbmandir.org/neon/resource/ihf/images/general_donations.jpeg",
         vpf: "https://secure.kbmandir.org/forms/goshala-general-donation-vpf",
-        ihf: "https://secure.kbmandir.org/forms/goshala-general-donation-ihf"
+        ihf: "https://secure.kbmandir.org/forms/goshala-general-donation-ihf",
+        bgColor: "#F4A460", // Sandy brown placeholder
+        icon: "💝"
     },
 };
 
-// Cookie helper functions
+// Cookie helper functions - Set cookies across all domains
 function setEmployerCookie(name) {
-    document.cookie = `ihf_employer_name=${encodeURIComponent(name)}; path=/; domain=.kbmandir.org; max-age=31536000`; // 1 year
+    const encodedName = encodeURIComponent(name);
+    const maxAge = 'max-age=31536000'; // 1 year
+    const path = 'path=/';
+    
+    // Set cookie for all our domains so employer name persists across sites
+    document.cookie = `ihf_employer_name=${encodedName}; ${path}; domain=.kbmandir.org; ${maxAge}`;
+    document.cookie = `ihf_employer_name=${encodedName}; ${path}; domain=.kbgoshala.org; ${maxAge}`;
+    document.cookie = `ihf_employer_name=${encodedName}; ${path}; ${maxAge}`; // Current domain
 }
 
 function getEmployerCookie() {
@@ -238,23 +253,73 @@ function renderTiles(urlType) {
         heroLink.href = firstForm[urlType] + queryString;
         heroLink.target = "_blank";
         heroLink.className = "hero";
-        heroLink.innerHTML = `
-      <img src="${firstForm.img}" alt="${firstForm.label}" />
-      <span>${firstForm.label}</span>
-    `;
+        
+        // Create placeholder div with background color and text for instant render
+        const placeholder = document.createElement("div");
+        placeholder.className = "image-placeholder hero-placeholder";
+        placeholder.style.backgroundColor = firstForm.bgColor || "#e0e0e0";
+        const icon = firstForm.icon || "🙏";
+        placeholder.innerHTML = `<div class="placeholder-content"><div class="placeholder-icon">${icon}</div><div class="placeholder-text">Click here to donate for<br><strong>${firstForm.label}</strong></div></div>`;
+        
+        // Create image with lazy loading
+        const img = document.createElement("img");
+        img.src = firstForm.img;
+        img.alt = firstForm.label;
+        img.loading = "lazy";
+        img.style.opacity = "0";
+        img.style.transition = "opacity 0.3s ease-in";
+        
+        // Show image when loaded, hide placeholder
+        img.onload = function() {
+            img.style.opacity = "1";
+            placeholder.style.opacity = "0";
+            setTimeout(() => placeholder.remove(), 300);
+        };
+        
+        const span = document.createElement("span");
+        span.textContent = firstForm.label;
+        
+        heroLink.appendChild(placeholder);
+        heroLink.appendChild(img);
+        heroLink.appendChild(span);
         heroContainer.appendChild(heroLink);
     }
 
-    // Render the remaining entries as grid tiles
+    // Render the remaining entries as grid tiles with placeholders
     entries.slice(heroContainer ? 1 : 0).forEach(([, form]) => {
         const tileLink = document.createElement("a");
         tileLink.href = form[urlType] + queryString;
         tileLink.target = "_blank";
         tileLink.className = "tile";
-        tileLink.innerHTML = `
-      <img src="${form.img}" alt="${form.label}" />
-      <span>${form.label}</span>
-    `;
+        
+        // Create placeholder div with background color and text
+        const placeholder = document.createElement("div");
+        placeholder.className = "image-placeholder";
+        placeholder.style.backgroundColor = form.bgColor || "#e0e0e0";
+        const icon = form.icon || "🙏";
+        placeholder.innerHTML = `<div class="placeholder-content"><div class="placeholder-icon">${icon}</div><div class="placeholder-text">Click to donate for<br><strong>${form.label}</strong></div></div>`;
+        
+        // Create image with lazy loading
+        const img = document.createElement("img");
+        img.src = form.img;
+        img.alt = form.label;
+        img.loading = "lazy";
+        img.style.opacity = "0";
+        img.style.transition = "opacity 0.3s ease-in";
+        
+        // Show image when loaded, hide placeholder
+        img.onload = function() {
+            img.style.opacity = "1";
+            placeholder.style.opacity = "0";
+            setTimeout(() => placeholder.remove(), 300);
+        };
+        
+        const span = document.createElement("span");
+        span.textContent = form.label;
+        
+        tileLink.appendChild(placeholder);
+        tileLink.appendChild(img);
+        tileLink.appendChild(span);
         if (container) container.appendChild(tileLink);
     });
 }
@@ -350,5 +415,12 @@ toggleInstructions(storedName);
 
 // Set focus to the employer input text box only if it's visible
 if (inputGroup && inputGroup.style.display !== 'none') {
-    employerInput.focus();
+    // Use setTimeout to ensure DOM is ready and bypass some mobile browser restrictions
+    setTimeout(function() {
+        employerInput.focus();
+        // For mobile devices, try to trigger the keyboard
+        if (/iPhone|iPad|iPod|Android/i.test(navigator.userAgent)) {
+            employerInput.click();
+        }
+    }, 100);
 }

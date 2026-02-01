@@ -21,6 +21,26 @@ h1 {
     h1 {
         font-size: 1.5rem;
     }
+
+    /* Ensure hero tile and container have same alignment on mobile */
+    #heroTile,
+    .container {
+        padding: 0 10px;
+        max-width: 100%;
+    }
+
+    /* Make input field more prominent on mobile */
+    .input-group input[type="text"] {
+        width: 100%;
+        max-width: 280px;
+        font-size: 16px; /* Prevents auto-zoom on iOS */
+        padding: 10px 14px;
+    }
+
+    .input-group button {
+        padding: 10px 20px;
+        font-size: 16px;
+    }
 }
 
 .instructions {
@@ -88,7 +108,14 @@ h1 {
     padding: 6px 12px;
     width: 260px;
     border-radius: 5px;
-    border: 1px solid #ccc;
+    border: 2px solid #007BFF;
+    outline: none;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.input-group input[type="text"]:focus {
+    border-color: #0056b3;
+    box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.1);
 }
 
 .input-group button {
@@ -140,6 +167,105 @@ h1 {
     border-bottom: 1px solid #eee;
 }
 
+/* Placeholder for images while loading */
+.image-placeholder {
+    width: 100%;
+    height: 200px;
+    background-color: #e0e0e0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    transition: opacity 0.3s ease-in;
+}
+
+/* Placeholder content with text and icon */
+.placeholder-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 20px;
+    z-index: 1;
+    color: rgba(0, 0, 0, 0.7);
+}
+
+.placeholder-icon {
+    font-size: 48px;
+    margin-bottom: 10px;
+    animation: gentle-pulse 2s ease-in-out infinite;
+}
+
+.placeholder-text {
+    font-size: 14px;
+    line-height: 1.4;
+    font-weight: 500;
+}
+
+.placeholder-text strong {
+    display: block;
+    margin-top: 5px;
+    font-size: 15px;
+    color: rgba(0, 0, 0, 0.85);
+}
+
+/* Hero placeholder styling */
+.hero-placeholder .placeholder-content {
+    padding: 40px;
+}
+
+.hero-placeholder .placeholder-icon {
+    font-size: 72px;
+    margin-bottom: 15px;
+}
+
+.hero-placeholder .placeholder-text {
+    font-size: 18px;
+}
+
+.hero-placeholder .placeholder-text strong {
+    font-size: 20px;
+    margin-top: 8px;
+}
+
+/* Animation for loading placeholder */
+.image-placeholder::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(
+        90deg,
+        transparent,
+        rgba(255, 255, 255, 0.2),
+        transparent
+    );
+    animation: loading-shimmer 2s infinite;
+}
+
+@keyframes loading-shimmer {
+    0% {
+        left: -100%;
+    }
+    100% {
+        left: 100%;
+    }
+}
+
+@keyframes gentle-pulse {
+    0%, 100% {
+        transform: scale(1);
+        opacity: 0.8;
+    }
+    50% {
+        transform: scale(1.1);
+        opacity: 1;
+    }
+}
+
 .tile span {
     padding: 12px;
     font-size: 16px;
@@ -186,6 +312,16 @@ h1 {
     width: 100%;
     height: calc(100% - 100px);
     object-fit: cover;
+}
+
+/* Hero image placeholder */
+#heroTile .hero .image-placeholder {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: calc(100% - 100px);
+    background-color: #e0e0e0;
 }
 
 #heroTile .hero span {
@@ -282,8 +418,6 @@ h1 {
         font-weight: 500;
     }
 
-
-
     /* Adjust number styling for mobile horizontal layout */
     .step-number {
         margin-right: 6px;
@@ -292,5 +426,46 @@ h1 {
         height: 22px;
         font-size: 12px;
         font-weight: bold;
+    }
+}
+
+@media (max-width: 480px) {
+    /* Adjust placeholder content for small mobile screens */
+    .placeholder-content {
+        padding: 15px 10px;
+    }
+
+    .placeholder-icon {
+        font-size: 36px;
+        margin-bottom: 8px;
+    }
+
+    .placeholder-text {
+        font-size: 12px;
+        line-height: 1.3;
+    }
+
+    .placeholder-text strong {
+        font-size: 13px;
+        margin-top: 4px;
+    }
+
+    /* Hero placeholder adjustments for mobile */
+    .hero-placeholder .placeholder-content {
+        padding: 25px 15px;
+    }
+
+    .hero-placeholder .placeholder-icon {
+        font-size: 56px;
+        margin-bottom: 12px;
+    }
+
+    .hero-placeholder .placeholder-text {
+        font-size: 14px;
+    }
+
+    .hero-placeholder .placeholder-text strong {
+        font-size: 16px;
+        margin-top: 6px;
     }
 }

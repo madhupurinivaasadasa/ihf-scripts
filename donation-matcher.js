@@ -12,85 +12,118 @@ const donationForms = {
     //     label: "Sri Nityanada Trayodashi - Seva Sponsorships",
     //     img: "https://secure.kbmandir.org/neon/resource/ihf/images/Nityananda_trayidasi_2026.jpg",
     //     vpf: "https://secure.kbmandir.org/forms/kbm-festival-seva-vpf",
-    //     ihf: "https://secure.kbmandir.org/forms/kbm-festival-seva-ihf"
+    //     ihf: "https://secure.kbmandir.org/forms/kbm-festival-seva-ihf",
+    //     bgColor: "#FFE5B4",
+    //     icon: "🕉️"
     // },
     // "new-year": {
         // label: "New Year 2026 - Seva Sponsorships",
         // img: "https://secure.kbmandir.org/neon/resource/ihf/images/new_year_2026.jpg",
         // vpf: "https://secure.kbmandir.org/forms/new-year-vpf",
-        // ihf: "https://secure.kbmandir.org/forms/new-year-ihf"
+        // ihf: "https://secure.kbmandir.org/forms/new-year-ihf",
+        // bgColor: "#FFD700",
+        // icon: "🕉️"
     // },
 	    "goshala-project": {
 	        label: "Goshala Project - Square-Foot Seva Sponsorships",
 	        img: "https://www.kbgoshala.org/wp-content/uploads/2017/11/Screenshot-2024-06-17-at-8.04.18%E2%80%AFPM-2048x1324.png",
 	        vpf: "https://secure.kbmandir.org/forms/goshala-project-vpf",
-	        ihf: "https://secure.kbmandir.org/forms/goshala-project-ihf"
+	        ihf: "https://secure.kbmandir.org/forms/goshala-project-ihf",
+	        bgColor: "#87CEEB", // Sky blue
+	        icon: "🐄"
 	    },		
     "sastra-seva": {
         label: "Gita Dana - Seva Sponsorships",
         img: "https://secure.kbmandir.org/neon/resource/ihf/images/gita_jayanti_donate.jpg",
         vpf: "https://secure.kbmandir.org/forms/book-distribution-vpf",
-        ihf: "https://secure.kbmandir.org/forms/book-distribution-ihf"
+        ihf: "https://secure.kbmandir.org/forms/book-distribution-ihf",
+        bgColor: "#FFB347", // Pastel orange
+        icon: "📖"
     },
     "new-temple-project": {
         label: "New Temple Project - Seva Sponsorships",
         img: "https://www.kbmandir.org/wp-content/uploads/2017/11/nvw-scaled.jpg",
         vpf: "https://secure.kbmandir.org/forms/new-temple-project-donations-vpf",
-        ihf: "https://secure.kbmandir.org/forms/new-temple-project-donations-ihf"
+        ihf: "https://secure.kbmandir.org/forms/new-temple-project-donations-ihf",
+        bgColor: "#B19CD9", // Lavender
+        icon: "🛕"
     },
     "sunday-feast": {
         label: "Sunday Feast Sponsorship",
         img: "https://secure.kbmandir.org/neon/resource/ihf/images/sunday_feast.JPG",
         vpf: "https://secure.kbmandir.org/forms/sunday-feast-sponsorship-vpf",
-        ihf: "https://secure.kbmandir.org/forms/sunday-feast-sponsorship-ihf"
+        ihf: "https://secure.kbmandir.org/forms/sunday-feast-sponsorship-ihf",
+        bgColor: "#FFD1A4", // Peach
+        icon: "🍛"
     },
     "sri-lakshmi-narasimha-homa": {
         label: "Sri Lakshmi Narasimha Homa Sponsorship",
         img: "https://secure.kbmandir.org/neon/resource/ihf/images/narsimha_homa.jpg",
         vpf: "https://secure.kbmandir.org/forms/sri-lakshmi-narasimha-homa-vpf",
-        ihf: "https://secure.kbmandir.org/forms/sri-lakshmi-narasimha-homa-ihf"
+        ihf: "https://secure.kbmandir.org/forms/sri-lakshmi-narasimha-homa-ihf",
+        bgColor: "#FF6B6B", // Coral red
+        icon: "🔥"
     },
     "garland-seva": {
         label: "Deity Garlands - Seva Sponsorships",
         img: "https://secure.kbmandir.org/neon/resource/ihf/images/garland_seva.JPG",
         vpf: "https://secure.kbmandir.org/forms/garland-sevas-vpf",
-        ihf: "https://secure.kbmandir.org/forms/garland-sevas-ihf"
+        ihf: "https://secure.kbmandir.org/forms/garland-sevas-ihf",
+        bgColor: "#FFB6D9", // Pink
+        icon: "🌺"
     },
     "nitya-prasada-seva": {
         label: "Nitya Prasada Seva Sponsorships",
         img: "https://secure.kbmandir.org/neon/resource/ihf/images/_J1A2922.JPG",
         vpf: "https://secure.kbmandir.org/forms/nitya-prasada-seva-sponsorships-vpf",
-        ihf: "https://secure.kbmandir.org/forms/nitya-prasada-seva-sponsorships-ihf"
+        ihf: "https://secure.kbmandir.org/forms/nitya-prasada-seva-sponsorships-ihf",
+        bgColor: "#F7DC6F", // Light yellow
+        icon: "🥘"
     },
     "deity-seva": {
         label: "Daily Deity Seva Sponsorships",
         img: "https://www.kbmandir.org/wp-content/uploads/2022/03/2022_14.jpg",
         vpf: "https://secure.kbmandir.org/forms/deity-sevas-vpf",
-        ihf: "https://secure.kbmandir.org/forms/deity-sevas-ihf"
+        ihf: "https://secure.kbmandir.org/forms/deity-sevas-ihf",
+        bgColor: "#A8E6CF", // Mint green
+        icon: "🙏"
     },
     "cow-feeding-seva": {
         label: "Goshala - Cow Feeding Seva Sponsorships",
         img: "https://secure.kbmandir.org/neon/resource/ihf/images/WhatsApp%20Image%202025-01-25%20at%2018_32_50.jpeg",
         vpf: "https://secure.kbmandir.org/forms/cow-feeding-seva-vpf",
-        ihf: "https://secure.kbmandir.org/forms/cow-feeding-seva-ihf"
+        ihf: "https://secure.kbmandir.org/forms/cow-feeding-seva-ihf",
+        bgColor: "#98D8C8", // Sage green
+        icon: "🐄"
     },
     "gopuja": {
         label: "Gopuja - Seva Sponsorships",
         img: "https://www.kbgoshala.org/wp-content/uploads/2017/11/km.jpg",
         vpf: "https://secure.kbmandir.org/forms/gopuja-vpf",
-        ihf: "https://secure.kbmandir.org/forms/gopuja-ihf"
+        ihf: "https://secure.kbmandir.org/forms/gopuja-ihf",
+        bgColor: "#FFD700", // Gold
+        icon: "🐄"
     },
     "general-donation": {
         label: "General Donations",
         img: "https://secure.kbmandir.org/neon/resource/ihf/images/general_donations.jpeg",
         vpf: "https://secure.kbmandir.org/forms/general-donation-vpf",
-        ihf: "https://secure.kbmandir.org/forms/general-donation-ihf"
+        ihf: "https://secure.kbmandir.org/forms/general-donation-ihf",
+        bgColor: "#F4A460", // Sandy brown
+        icon: "💝"
     },
 };
 
-// Cookie helper functions
+// Cookie helper functions - Set cookies across all domains
 function setEmployerCookie(name) {
-    document.cookie = `ihf_employer_name=${encodeURIComponent(name)}; path=/; domain=.kbmandir.org; max-age=31536000`; // 1 year
+    const encodedName = encodeURIComponent(name);
+    const maxAge = 'max-age=31536000'; // 1 year
+    const path = 'path=/';
+    
+    // Set cookie for all our domains so employer name persists across sites
+    document.cookie = `ihf_employer_name=${encodedName}; ${path}; domain=.kbmandir.org; ${maxAge}`;
+    document.cookie = `ihf_employer_name=${encodedName}; ${path}; domain=.kbgoshala.org; ${maxAge}`;
+    document.cookie = `ihf_employer_name=${encodedName}; ${path}; ${maxAge}`; // Current domain
 }
 
 function getEmployerCookie() {
@@ -292,23 +325,73 @@ function renderTiles(urlType) {
         heroLink.href = firstForm[urlType] + queryString;
         heroLink.target = "_blank";
         heroLink.className = "hero";
-        heroLink.innerHTML = `
-      <img src="${firstForm.img}" alt="${firstForm.label}" />
-      <span>${firstForm.label}</span>
-    `;
+        
+        // Create placeholder div with background color and text for instant render
+        const placeholder = document.createElement("div");
+        placeholder.className = "image-placeholder hero-placeholder";
+        placeholder.style.backgroundColor = firstForm.bgColor || "#e0e0e0";
+        const icon = firstForm.icon || "🙏";
+        placeholder.innerHTML = `<div class="placeholder-content"><div class="placeholder-icon">${icon}</div><div class="placeholder-text">Click here to donate for<br><strong>${firstForm.label}</strong></div></div>`;
+        
+        // Create image with lazy loading
+        const img = document.createElement("img");
+        img.src = firstForm.img;
+        img.alt = firstForm.label;
+        img.loading = "lazy";
+        img.style.opacity = "0";
+        img.style.transition = "opacity 0.3s ease-in";
+        
+        // Show image when loaded, hide placeholder
+        img.onload = function() {
+            img.style.opacity = "1";
+            placeholder.style.opacity = "0";
+            setTimeout(() => placeholder.remove(), 300);
+        };
+        
+        const span = document.createElement("span");
+        span.textContent = firstForm.label;
+        
+        heroLink.appendChild(placeholder);
+        heroLink.appendChild(img);
+        heroLink.appendChild(span);
         heroContainer.appendChild(heroLink);
     }
 
-    // Render the remaining entries as grid tiles
+    // Render the remaining entries as grid tiles with placeholders
     entries.slice(heroContainer ? 1 : 0).forEach(([, form]) => {
         const tileLink = document.createElement("a");
         tileLink.href = form[urlType] + queryString;
         tileLink.target = "_blank";
         tileLink.className = "tile";
-        tileLink.innerHTML = `
-      <img src="${form.img}" alt="${form.label}" />
-      <span>${form.label}</span>
-    `;
+        
+        // Create placeholder div with background color and text
+        const placeholder = document.createElement("div");
+        placeholder.className = "image-placeholder";
+        placeholder.style.backgroundColor = form.bgColor || "#e0e0e0";
+        const icon = form.icon || "🙏";
+        placeholder.innerHTML = `<div class="placeholder-content"><div class="placeholder-icon">${icon}</div><div class="placeholder-text">Click to donate for<br><strong>${form.label}</strong></div></div>`;
+        
+        // Create image with lazy loading
+        const img = document.createElement("img");
+        img.src = form.img;
+        img.alt = form.label;
+        img.loading = "lazy";
+        img.style.opacity = "0";
+        img.style.transition = "opacity 0.3s ease-in";
+        
+        // Show image when loaded, hide placeholder
+        img.onload = function() {
+            img.style.opacity = "1";
+            placeholder.style.opacity = "0";
+            setTimeout(() => placeholder.remove(), 300);
+        };
+        
+        const span = document.createElement("span");
+        span.textContent = form.label;
+        
+        tileLink.appendChild(placeholder);
+        tileLink.appendChild(img);
+        tileLink.appendChild(span);
         if (container) container.appendChild(tileLink);
     });
 }
@@ -404,5 +487,12 @@ toggleInstructions(storedName);
 
 // Set focus to the employer input text box only if it's visible
 if (inputGroup && inputGroup.style.display !== 'none') {
-    employerInput.focus();
+    // Use setTimeout to ensure DOM is ready and bypass some mobile browser restrictions
+    setTimeout(function() {
+        employerInput.focus();
+        // For mobile devices, try to trigger the keyboard
+        if (/iPhone|iPad|iPod|Android/i.test(navigator.userAgent)) {
+            employerInput.click();
+        }
+    }, 100);
 }
