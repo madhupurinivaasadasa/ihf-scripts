@@ -8,12 +8,12 @@ const employerList = [
 ];
 
 const donationForms = {
-    "kbm-festival": {
-        label: "Sri Nityanada Trayodashi - Seva Sponsorships",
-        img: "https://secure.kbmandir.org/neon/resource/ihf/images/Nityananda_trayidasi_2026.jpg",
-        vpf: "https://secure.kbmandir.org/forms/kbm-festival-seva-vpf",
-        ihf: "https://secure.kbmandir.org/forms/kbm-festival-seva-ihf"
-    },
+    // "kbm-festival": {
+    //     label: "Sri Nityanada Trayodashi - Seva Sponsorships",
+    //     img: "https://secure.kbmandir.org/neon/resource/ihf/images/Nityananda_trayidasi_2026.jpg",
+    //     vpf: "https://secure.kbmandir.org/forms/kbm-festival-seva-vpf",
+    //     ihf: "https://secure.kbmandir.org/forms/kbm-festival-seva-ihf"
+    // },
     // "new-year": {
         // label: "New Year 2026 - Seva Sponsorships",
         // img: "https://secure.kbmandir.org/neon/resource/ihf/images/new_year_2026.jpg",
