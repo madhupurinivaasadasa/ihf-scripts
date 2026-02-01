@@ -88,6 +88,33 @@ h1 {
     padding-top: 5px !important;
 }
 
+/* Additional aggressive spacing removal for various WordPress themes */
+.entry-content,
+.post-content,
+article,
+main,
+.site-content,
+.page-content,
+.single-post .entry-content,
+.page .entry-content {
+    padding-top: 0 !important;
+    margin-top: 0 !important;
+}
+
+/* Remove spacing from first elements */
+.entry-content > *:first-child,
+.post-content > *:first-child {
+    margin-top: 0 !important;
+    padding-top: 0 !important;
+}
+
+/* Target link element if it's the first child */
+.entry-content > link:first-child + *,
+.post-content > link:first-child + * {
+    margin-top: 0 !important;
+    padding-top: 0 !important;
+}
+
 @media (max-width: 480px) {
     h1 {
         font-size: 1.5rem;
