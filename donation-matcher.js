@@ -8,14 +8,14 @@ const employerList = [
 ];
 
 const donationForms = {
-    // "kbm-festival": {
-    //     label: "Sri Nityanada Trayodashi - Seva Sponsorships",
-    //     img: "https://secure.kbmandir.org/neon/resource/ihf/images/Nityananda_trayidasi_2026.jpg",
-    //     vpf: "https://secure.kbmandir.org/forms/kbm-festival-seva-vpf",
-    //     ihf: "https://secure.kbmandir.org/forms/kbm-festival-seva-ihf",
-    //     bgColor: "#FFE5B4",
-    //     icon: "🕉️"
-    // },
+    "kbm-festival": {
+        label: "Sri Gaura Purnima - Seva Sponsorships",
+        img: "https://secure.kbmandir.org/neon/resource/ihf/images/Gaura_Purnima_2026.jpeg",
+        vpf: "https://secure.kbmandir.org/forms/kbm-festival-seva-vpf",
+        ihf: "https://secure.kbmandir.org/forms/kbm-festival-seva-ihf",
+        bgColor: "#FFE5B4",
+        icon: "🕉️"
+    },
     // "new-year": {
         // label: "New Year 2026 - Seva Sponsorships",
         // img: "https://secure.kbmandir.org/neon/resource/ihf/images/new_year_2026.jpg",
@@ -24,30 +24,22 @@ const donationForms = {
         // bgColor: "#FFD700",
         // icon: "🕉️"
     // },
-	    "goshala-project": {
-	        label: "Goshala Project - Square-Foot Seva Sponsorships",
-	        img: "https://www.kbgoshala.org/wp-content/uploads/2017/11/Screenshot-2024-06-17-at-8.04.18%E2%80%AFPM-2048x1324.png",
-	        vpf: "https://secure.kbmandir.org/forms/goshala-project-vpf",
-	        ihf: "https://secure.kbmandir.org/forms/goshala-project-ihf",
-	        bgColor: "#87CEEB", // Sky blue
-	        icon: "🐄"
-	    },		
-    "sastra-seva": {
-        label: "Gita Dana - Seva Sponsorships",
-        img: "https://secure.kbmandir.org/neon/resource/ihf/images/gita_jayanti_donate.jpg",
-        vpf: "https://secure.kbmandir.org/forms/book-distribution-vpf",
-        ihf: "https://secure.kbmandir.org/forms/book-distribution-ihf",
-        bgColor: "#FFB347", // Pastel orange
-        icon: "📖"
+    "goshala-project": {
+        label: "Goshala Project - Square-Foot Seva Sponsorships",
+        img: "https://www.kbgoshala.org/wp-content/uploads/2017/11/Screenshot-2024-06-17-at-8.04.18%E2%80%AFPM-2048x1324.png",
+        vpf: "https://secure.kbmandir.org/forms/goshala-project-vpf",
+        ihf: "https://secure.kbmandir.org/forms/goshala-project-ihf",
+        bgColor: "#87CEEB", // Sky blue
+        icon: "🐄"
     },
-    "new-temple-project": {
-        label: "New Temple Project - Seva Sponsorships",
-        img: "https://www.kbmandir.org/wp-content/uploads/2017/11/nvw-scaled.jpg",
-        vpf: "https://secure.kbmandir.org/forms/new-temple-project-donations-vpf",
-        ihf: "https://secure.kbmandir.org/forms/new-temple-project-donations-ihf",
-        bgColor: "#B19CD9", // Lavender
-        icon: "🛕"
-    },
+    // "new-temple-project": {
+    //     label: "New Temple Project - Seva Sponsorships",
+    //     img: "https://www.kbmandir.org/wp-content/uploads/2017/11/nvw-scaled.jpg",
+    //     vpf: "https://secure.kbmandir.org/forms/new-temple-project-donations-vpf",
+    //     ihf: "https://secure.kbmandir.org/forms/new-temple-project-donations-ihf",
+    //     bgColor: "#B19CD9", // Lavender
+    //     icon: "🛕"
+    // },
     "sunday-feast": {
         label: "Sunday Feast Sponsorship",
         img: "https://secure.kbmandir.org/neon/resource/ihf/images/sunday_feast.JPG",
@@ -103,6 +95,14 @@ const donationForms = {
         ihf: "https://secure.kbmandir.org/forms/gopuja-ihf",
         bgColor: "#FFD700", // Gold
         icon: "🐄"
+    },
+    "sastra-seva": {
+        label: "Gita Dana - Seva Sponsorships",
+        img: "https://secure.kbmandir.org/neon/resource/ihf/images/gita_jayanti_donate.jpg",
+        vpf: "https://secure.kbmandir.org/forms/book-distribution-vpf",
+        ihf: "https://secure.kbmandir.org/forms/book-distribution-ihf",
+        bgColor: "#FFB347", // Pastel orange
+        icon: "📖"
     },
     "general-donation": {
         label: "General Donations",
