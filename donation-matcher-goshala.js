@@ -32,6 +32,14 @@ const donationForms = {
         bgColor: "#FFD700", // Gold placeholder
         icon: "🐄"
     },
+    "housewarming": {
+        label: "Housewarming - Seva Sponsorships",
+        img: "https://secure.kbmandir.org/neon/resource/ihf/images/housewarming.jpeg",
+        vpf: "https://secure.kbmandir.org/forms/house-warming-ceremony-vpf",
+        ihf: "https://secure.kbmandir.org/forms/house-warming-ceremony-ihf",
+        bgColor: "#FFD700", // Gold placeholder
+        icon: "🐄"
+    },
     "general-donation": {
         label: "General Donations",
         img: "https://secure.kbmandir.org/neon/resource/ihf/images/general_donations.jpeg",
