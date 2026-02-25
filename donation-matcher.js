@@ -396,9 +396,6 @@ document.addEventListener("keydown", function(e) {
         });
     }
 
-    var pageWrap = document.querySelector(".page_content_wrap") || document.body;
-    pageWrap.classList.add("donation-page-loading");
-
     prefetchHeroImage();
 
     var storedName = getStoredEmployer();
@@ -433,8 +430,8 @@ document.addEventListener("keydown", function(e) {
         renderTiles("ihf");
     }
 
-    pageWrap.classList.remove("donation-page-loading");
-    pageWrap.classList.add("donation-page-ready");
+    var pageWrap = document.getElementById("donationPageWrap");
+    if (pageWrap) pageWrap.style.opacity = "1";
 
     if (window.requestIdleCallback) {
         requestIdleCallback(prefetchRemainingImages);

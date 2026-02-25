@@ -1,9 +1,5 @@
 *, *::before, *::after { box-sizing: border-box; }
 
-/* Hide content until JS decides whether to redirect or render */
-.donation-page-loading { opacity: 0; }
-.donation-page-ready { opacity: 1; transition: opacity 0.15s ease; }
-
 h1 {
     margin: 0 auto 5px auto !important;
     padding: 0 !important;
