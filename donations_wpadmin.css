@@ -1,29 +1,4 @@
-/* Standalone body fallback (harmless on WordPress -- theme overrides) */
-body {
-    background-color: #faf8f5;
-    margin: 0;
-    padding: 20px 10px;
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, sans-serif;
-    color: #333;
-}
-
 *, *::before, *::after { box-sizing: border-box; }
-
-/* WordPress admin overrides (harmless on standalone -- classes don't exist) */
-body.wp-admin { background-color: #f0f0f0; margin: 0; padding: 0; }
-.wp-admin h1:first-child, .wp-admin h1, body.wp-admin h1,
-#wpbody-content h1, .wrap h1 { margin-top: 0 !important; padding-top: 0 !important; }
-#wpbody-content, .wrap, #wpcontent, .wp-admin #wpcontent,
-.wp-admin .wrap { padding-top: 0 !important; margin-top: 0 !important; }
-
-.select-donation-wrapper {
-    font-family: Arial, sans-serif;
-    text-align: center;
-    background-color: #f0f0f0;
-    padding: 0 !important;
-    margin: 0 auto !important;
-    max-width: 1000px;
-}
 
 h1 {
     margin: 0 auto 5px auto !important;
@@ -35,16 +10,39 @@ h1 {
     text-overflow: ellipsis;
 }
 
+/* WordPress theme spacing removal */
+.page_content_wrap,
+.content_wrap .content,
+.post_content.entry-content,
+.post_item_single .post_content,
+.entry-content, .post-content,
+article, main, .site-content, .page-content,
+.single-post .entry-content,
+.page .entry-content,
+#wpbody-content, .wrap, #wpcontent {
+    padding-top: 0 !important;
+    margin-top: 0 !important;
+}
+
+.page_content_wrap { padding-bottom: 0 !important; }
+
+.entry-content > *:first-child,
+.post-content > *:first-child,
+.entry-content > link:first-child + *,
+.post-content > link:first-child + * {
+    margin-top: 0 !important;
+    padding-top: 0 !important;
+}
+
+.entry-content h1:first-child,
+.post_content.entry-content h1:first-child {
+    margin-top: 0 !important;
+    padding-top: 5px !important;
+}
+
+body.wp-admin { background-color: #f0f0f0; margin: 0; padding: 0; }
 .wp-admin .wp-header-end { display: none !important; }
 .wp-admin #wpbody { padding-top: 0 !important; margin-top: 0 !important; }
-.post_content.entry-content, .post_item_single .post_content,
-.content_wrap .content, .page_content_wrap { padding-top: 0 !important; margin-top: 0 !important; }
-.post_content.entry-content h1:first-child,
-.entry-content h1:first-child { margin-top: 0 !important; padding-top: 5px !important; }
-.entry-content, .post-content, article, main, .site-content, .page-content,
-.single-post .entry-content, .page .entry-content { padding-top: 0 !important; margin-top: 0 !important; }
-.entry-content > *:first-child, .post-content > *:first-child { margin-top: 0 !important; padding-top: 0 !important; }
-.entry-content > link:first-child + *, .post-content > link:first-child + * { margin-top: 0 !important; padding-top: 0 !important; }
 
 /* Employer banner */
 .employer-banner {
