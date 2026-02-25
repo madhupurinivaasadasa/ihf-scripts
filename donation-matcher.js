@@ -381,10 +381,13 @@ document.addEventListener("keydown", function(e) {
         input.addEventListener("input", function() {
             var datalist = document.getElementById("employerSuggestions");
             datalist.innerHTML = "";
-            var val = this.value.trim().toLowerCase();
+            var val = this.value.trim();
             if (val.length < 2) return;
+            var lower = val.toLowerCase();
+            var exactMatch = employerSuggestions.some(function(n) { return n.toLowerCase() === lower; });
+            if (exactMatch) return;
             employerSuggestions.forEach(function(name) {
-                if (name.toLowerCase().indexOf(val) !== -1) {
+                if (name.toLowerCase().indexOf(lower) !== -1) {
                     var opt = document.createElement("option");
                     opt.value = name;
                     datalist.appendChild(opt);
