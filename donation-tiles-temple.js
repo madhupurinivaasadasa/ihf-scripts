@@ -1,0 +1,145 @@
+window.donationForms = {
+    "kbm-festival": {
+        label: "Sri Gaura Purnima",
+        tagline: "Celebrate with devotion",
+        description: "Celebrate the appearance of Sri Chaitanya Mahaprabhu with grand abhishekam and a feast for all devotees.",
+        price: "",
+        img: "https://secure.kbmandir.org/neon/resource/ihf/images/Gaura_Purnima_2026.jpeg",
+        vpf: "https://secure.kbmandir.org/forms/kbm-festival-seva-vpf",
+        ihf: "https://secure.kbmandir.org/forms/kbm-festival-seva-ihf",
+        bgColor: "#FFE5B4",
+        icon: "🕉️"
+    },
+    // "new-year": {
+    //     label: "New Year 2026",
+    //     tagline: "Ring in the new year",
+    //     description: "Support New Year celebrations and special programs.",
+    //     price: "",
+    //     img: "https://secure.kbmandir.org/neon/resource/ihf/images/new_year_2026.jpg",
+    //     vpf: "https://secure.kbmandir.org/forms/new-year-vpf",
+    //     ihf: "https://secure.kbmandir.org/forms/new-year-ihf",
+    //     bgColor: "#FFD700",
+    //     icon: "🕉️"
+    // },
+    "goshala-project": {
+        label: "Goshala Project",
+        tagline: "Help build mother cow's home!",
+        description: "Once in a lifetime opportunity! Sponsor from just 1 sq ft. One-time, monthly, or yearly options available.",
+        price: "",
+        img: "https://www.kbgoshala.org/wp-content/uploads/2017/11/Screenshot-2024-06-17-at-8.04.18%E2%80%AFPM-2048x1324.png",
+        vpf: "https://secure.kbmandir.org/forms/goshala-project-vpf",
+        ihf: "https://secure.kbmandir.org/forms/goshala-project-ihf",
+        bgColor: "#87CEEB",
+        icon: "🐄"
+    },
+    // "new-temple-project": {
+    //     label: "New Temple Project",
+    //     tagline: "Build Krishna's eternal home",
+    //     description: "Support the construction of a magnificent new temple for Lord Krishna.",
+    //     price: "",
+    //     img: "https://www.kbmandir.org/wp-content/uploads/2017/11/nvw-scaled.jpg",
+    //     vpf: "https://secure.kbmandir.org/forms/new-temple-project-donations-vpf",
+    //     ihf: "https://secure.kbmandir.org/forms/new-temple-project-donations-ihf",
+    //     bgColor: "#B19CD9",
+    //     icon: "🛕"
+    // },
+    "sunday-feast": {
+        label: "Sunday Feast",
+        tagline: "Sponsor weekly prasadam",
+        description: "Sponsor Sunday feast prasadam for hundreds of devotees and community members.",
+        price: "",
+        img: "https://secure.kbmandir.org/neon/resource/ihf/images/sunday_feast.JPG",
+        vpf: "https://secure.kbmandir.org/forms/sunday-feast-sponsorship-vpf",
+        ihf: "https://secure.kbmandir.org/forms/sunday-feast-sponsorship-ihf",
+        bgColor: "#FFD1A4",
+        icon: "🍛"
+    },
+    "sri-lakshmi-narasimha-homa": {
+        label: "Sri Lakshmi Narasimha Homa",
+        tagline: "Sacred fire ceremony",
+        description: "Sponsor Sri Lakshmi Narasimha Homa for spiritual protection and divine blessings.",
+        price: "",
+        img: "https://secure.kbmandir.org/neon/resource/ihf/images/narsimha_homa.jpg",
+        vpf: "https://secure.kbmandir.org/forms/sri-lakshmi-narasimha-homa-vpf",
+        ihf: "https://secure.kbmandir.org/forms/sri-lakshmi-narasimha-homa-ihf",
+        bgColor: "#FF6B6B",
+        icon: "🔥"
+    },
+    "garland-seva": {
+        label: "Deity Garland Seva",
+        tagline: "Adorn the deities",
+        description: "Sponsor fresh flower garlands for the daily worship of Sri Krishna Balaram.",
+        price: "",
+        img: "https://secure.kbmandir.org/neon/resource/ihf/images/garland_seva.JPG",
+        vpf: "https://secure.kbmandir.org/forms/garland-sevas-vpf",
+        ihf: "https://secure.kbmandir.org/forms/garland-sevas-ihf",
+        bgColor: "#FFB6D9",
+        icon: "🌺"
+    },
+    "nitya-prasada-seva": {
+        label: "Nitya Prasada Seva",
+        tagline: "Daily food offerings",
+        description: "Sponsor daily naivedya food offerings prepared with devotion for the deities.",
+        price: "",
+        img: "https://secure.kbmandir.org/neon/resource/ihf/images/_J1A2922.JPG",
+        vpf: "https://secure.kbmandir.org/forms/nitya-prasada-seva-sponsorships-vpf",
+        ihf: "https://secure.kbmandir.org/forms/nitya-prasada-seva-sponsorships-ihf",
+        bgColor: "#F7DC6F",
+        icon: "🥘"
+    },
+    "deity-seva": {
+        label: "Daily Deity Seva",
+        tagline: "Serve the deities every day",
+        description: "Support daily archana, arati, and worship services for Sri Krishna Balaram.",
+        price: "",
+        img: "https://www.kbmandir.org/wp-content/uploads/2022/03/2022_14.jpg",
+        vpf: "https://secure.kbmandir.org/forms/deity-sevas-vpf",
+        ihf: "https://secure.kbmandir.org/forms/deity-sevas-ihf",
+        bgColor: "#A8E6CF",
+        icon: "🙏"
+    },
+    "cow-feeding-seva": {
+        label: "Cow Feeding Seva",
+        tagline: "Protect and serve mother cow",
+        description: "Sponsor daily feeding of cows at the goshala. Serving cows is one of the highest forms of devotion and brings immense spiritual merit.",
+        price: "",
+        img: "https://secure.kbmandir.org/neon/resource/ihf/images/WhatsApp%20Image%202025-01-25%20at%2018_32_50.jpeg",
+        vpf: "https://secure.kbmandir.org/forms/cow-feeding-seva-vpf",
+        ihf: "https://secure.kbmandir.org/forms/cow-feeding-seva-ihf",
+        bgColor: "#98D8C8",
+        icon: "🐄"
+    },
+    "gopuja": {
+        label: "Gopuja Seva",
+        tagline: "Worship and honor mother cow",
+        description: "Sponsor the sacred Gopuja ceremony to honor and worship the cows. A deeply spiritual act of gratitude and devotion.",
+        price: "",
+        img: "https://www.kbgoshala.org/wp-content/uploads/2017/11/km.jpg",
+        vpf: "https://secure.kbmandir.org/forms/gopuja-vpf",
+        ihf: "https://secure.kbmandir.org/forms/gopuja-ihf",
+        bgColor: "#FFD700",
+        icon: "🐄"
+    },
+    "sastra-seva": {
+        label: "Gita Dana Seva",
+        tagline: "Spread sacred knowledge",
+        description: "Sponsor the distribution of Bhagavad Gita and other sacred texts.",
+        price: "",
+        img: "https://secure.kbmandir.org/neon/resource/ihf/images/gita_jayanti_donate.jpg",
+        vpf: "https://secure.kbmandir.org/forms/book-distribution-vpf",
+        ihf: "https://secure.kbmandir.org/forms/book-distribution-ihf",
+        bgColor: "#FFB347",
+        icon: "📖"
+    },
+    "general-donation": {
+        label: "General Donation",
+        tagline: "Support where needed most",
+        description: "Your contribution supports all temple activities including worship and community programs.",
+        price: "",
+        img: "https://secure.kbmandir.org/neon/resource/ihf/images/general_donations.jpeg",
+        vpf: "https://secure.kbmandir.org/forms/general-donation-vpf",
+        ihf: "https://secure.kbmandir.org/forms/general-donation-ihf",
+        bgColor: "#F4A460",
+        icon: "💝"
+    }
+};

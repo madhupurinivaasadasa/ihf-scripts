@@ -1,46 +1,63 @@
 <!-- Preconnect to external domains for faster loading -->
-<link rel="preconnect" href="https://www.kbgoshala.org">
-<link rel="preconnect" href="https://secure.kbmandir.org">
-<link rel="preconnect" href="https://madhupurinivaasadasa.github.io">
+<link rel="preconnect" href="https://www.kbgoshala.org" crossorigin>
+<link rel="preconnect" href="https://secure.kbmandir.org" crossorigin>
+<link rel="preconnect" href="https://madhupurinivaasadasa.github.io" crossorigin>
 <link rel="dns-prefetch" href="https://www.kbgoshala.org">
 <link rel="dns-prefetch" href="https://secure.kbmandir.org">
 
+<!-- For local testing, uncomment the line below and comment out the CDN line -->
+<!-- <link rel="stylesheet" href="donations_wpadmin.css"/> -->
 <link rel="stylesheet" href="https://madhupurinivaasadasa.github.io/ihf-scripts/donations_wpadmin.min.css"/>
 
 <h1>Donation Opportunities</h1>
 
-<p class="goshala-description" style="text-align: center; margin: 20px 0; font-size: 16px; line-height: 1.6; color: #333;">
-    <strong>Sri Krishna Balaram Goshala</strong> is fully sustained through the generosity of donors, as it operates entirely on contributions from kind-hearted individuals and organizations. <strong>Become a Monthly Contributor</strong> to provide ongoing support, and <strong>double your gift with Corporate Matching</strong>.
+<p class="goshala-description" style="text-align: center; margin: 10px auto 6px auto; font-size: 16px; line-height: 1.6; color: #333; max-width: 700px;">
+    <strong>Sri Krishna Balaram Goshala</strong> is fully sustained through the generosity of donors.
+    <strong>Become a Monthly Contributor</strong> to provide ongoing support, and
+    <strong>double your gift with Corporate Matching</strong>.
 </p>
 
-<!-- Progress Steps -->
-<div class="steps-container">
-    <div class="step active" id="step1">
-        <span class="step-number">1</span>
-        <span class="step-text">Enter Employer</span>
-    </div>
-    <div class="step" id="step2">
-        <span class="step-number">2</span>
-        <span class="step-text">Select an Opportunity</span>
-    </div>
+<!-- Employer banner -->
+<div class="employer-banner" id="employerBanner">
+    Your Employer: <strong id="bannerEmployerName"></strong>
+    <span id="matchingBadge" class="matching-badge"></span>
+    <span class="edit-link" onclick="showEmployerModal()">Edit</span>
 </div>
 
-<p id="instructionsText" class="instructions">
-    Employer information will help double your donation with minimal steps from your side. Thank you!
-</p>
-
-<div class="employer-info">
-    Your Employer: <strong id="employerName">Please enter your Employer name. Enter NA if not applicable.</strong>
-    <span id="editLink" class="edit-link" onclick="toggleEditMode()" style="display: none;">Edit</span>
-</div>
-<div class="input-group" id="inputGroup">
-    <input type="text" id="employerInput" placeholder="Employer name (e.g., Apple)"/>
-    <button onclick="updateEmployer()">Apply</button>
+<div class="section-header">
+    <h2>Choose Your Seva</h2>
+    <p>Every offering is an act of devotion. Select a seva to view details and donate.</p>
 </div>
 
-<p id="formInstruction" class="form-instruction" style="display: none;">Click on a donation opportunity below to proceed</p>
-
+<!-- Donation tiles -->
 <div id="heroTile"></div>
 <div class="container" id="donationTiles"></div>
 
-<script src="https://madhupurinivaasadasa.github.io/ihf-scripts/donation-matcher-goshala.min.js"></script>
+<!-- Modal backdrop -->
+<div class="modal-backdrop" id="modalBackdrop" aria-hidden="true"></div>
+
+<!-- Employer modal -->
+<div class="employer-modal" id="employerModal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+    <button class="modal-close" onclick="hideEmployerModal()" aria-label="Close">&times;</button>
+    <div class="modal-icon">🤝</div>
+    <h2 class="modal-title" id="modalTitle">Double Your Donation!</h2>
+    <p class="modal-subtitle">
+        Many employers match charitable donations. Enter your employer name so we can check if your gift can be doubled.
+    </p>
+    <div class="modal-seva-context" id="modalSevaContext">
+        <span class="seva-icon" id="modalSevaIcon"></span>
+        <span id="modalSevaLabel"></span>
+    </div>
+    <div class="modal-input-group">
+        <input type="text" id="modalEmployerInput" placeholder="Employer name (e.g., Apple)" list="employerSuggestions" autocomplete="off" />
+        <button onclick="handleEmployerSubmit()">Apply</button>
+    </div>
+    <a class="modal-skip" onclick="handleEmployerSkip()">Not applicable</a>
+    <datalist id="employerSuggestions"></datalist>
+</div>
+
+<!-- For local testing, uncomment the two lines below and comment out the CDN lines -->
+<!-- <script src="donation-tiles-goshala.js"></script> -->
+<!-- <script src="donation-matcher.js"></script> -->
+<script src="https://madhupurinivaasadasa.github.io/ihf-scripts/donation-tiles-goshala.min.js"></script>
+<script src="https://madhupurinivaasadasa.github.io/ihf-scripts/donation-matcher.min.js"></script>

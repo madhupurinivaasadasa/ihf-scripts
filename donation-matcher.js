@@ -1,549 +1,409 @@
-const employerList = [
-    "Adobe", "AMD", "Applied Materials", "Broadcom", "ByteDance", "Cadence", "Cisco",
-    "Cloudera", "Coupa Software", "Dell", "Esurance", "Etsy", "HPI", "IBM", "Intel",
-    "Juniper", "Lam Research", "LexisNexis", "LinkedIn", "McAfee", "Microsoft",
-    "NetApp", "Oracle", "Palo Alto Networks", "PayPal", "Pfizer", "PlayStation Cares",
-    "Qualcomm", "Roblox", "Samsung", "SAP", "Splunk", "Symantec", "UHG", "Unum", "Veritas",
-    "VISA", "Wells Fargo", "Yahoo", "Genworth financial", "Morgan stanley", "Cloudera"
+var donationForms = window.donationForms || {};
+
+var vpfEmployerList = [
+    "Adobe", "AMD", "Applied Materials", "Broadcom", "ByteDance",
+    "Cadence", "Cadence Design Systems",
+    "Cisco", "Cisco Systems",
+    "Cloudera", "Coupa Software", "Dell", "DIRECTV", "DocuSign",
+    "Electronic Arts", "Esurance", "Etsy",
+    "Genworth", "Genworth Financial",
+    "Hewlett Packard Enterprise Foundation", "HPI",
+    "IBM", "Intel", "Intuitive Foundation",
+    "Juniper", "Lam Research", "LexisNexis", "LinkedIn",
+    "McAfee", "Microsoft", "Morgan Stanley",
+    "NetApp", "Oracle", "Palo Alto Networks", "PayPal", "Pfizer",
+    "PlayStation Cares", "Pure Storage",
+    "Qualcomm", "Roblox", "Samsung", "SAP", "Solidigm", "Splunk", "Symantec",
+    "UHG", "Unum", "Veeva", "Veritas", "VISA", "Wells Fargo", "Yahoo"
 ];
 
-const donationForms = {
-    "kbm-festival": {
-        label: "Sri Gaura Purnima - Seva Sponsorships",
-        img: "https://secure.kbmandir.org/neon/resource/ihf/images/Gaura_Purnima_2026.jpeg",
-        vpf: "https://secure.kbmandir.org/forms/kbm-festival-seva-vpf",
-        ihf: "https://secure.kbmandir.org/forms/kbm-festival-seva-ihf",
-        bgColor: "#FFE5B4",
-        icon: "🕉️"
-    },
-    // "new-year": {
-        // label: "New Year 2026 - Seva Sponsorships",
-        // img: "https://secure.kbmandir.org/neon/resource/ihf/images/new_year_2026.jpg",
-        // vpf: "https://secure.kbmandir.org/forms/new-year-vpf",
-        // ihf: "https://secure.kbmandir.org/forms/new-year-ihf",
-        // bgColor: "#FFD700",
-        // icon: "🕉️"
-    // },
-    "goshala-project": {
-        label: "Goshala Project - Square-Foot Seva Sponsorships",
-        img: "https://www.kbgoshala.org/wp-content/uploads/2017/11/Screenshot-2024-06-17-at-8.04.18%E2%80%AFPM-2048x1324.png",
-        vpf: "https://secure.kbmandir.org/forms/goshala-project-vpf",
-        ihf: "https://secure.kbmandir.org/forms/goshala-project-ihf",
-        bgColor: "#87CEEB", // Sky blue
-        icon: "🐄"
-    },
-    // "new-temple-project": {
-    //     label: "New Temple Project - Seva Sponsorships",
-    //     img: "https://www.kbmandir.org/wp-content/uploads/2017/11/nvw-scaled.jpg",
-    //     vpf: "https://secure.kbmandir.org/forms/new-temple-project-donations-vpf",
-    //     ihf: "https://secure.kbmandir.org/forms/new-temple-project-donations-ihf",
-    //     bgColor: "#B19CD9", // Lavender
-    //     icon: "🛕"
-    // },
-    "sunday-feast": {
-        label: "Sunday Feast Sponsorship",
-        img: "https://secure.kbmandir.org/neon/resource/ihf/images/sunday_feast.JPG",
-        vpf: "https://secure.kbmandir.org/forms/sunday-feast-sponsorship-vpf",
-        ihf: "https://secure.kbmandir.org/forms/sunday-feast-sponsorship-ihf",
-        bgColor: "#FFD1A4", // Peach
-        icon: "🍛"
-    },
-    "sri-lakshmi-narasimha-homa": {
-        label: "Sri Lakshmi Narasimha Homa Sponsorship",
-        img: "https://secure.kbmandir.org/neon/resource/ihf/images/narsimha_homa.jpg",
-        vpf: "https://secure.kbmandir.org/forms/sri-lakshmi-narasimha-homa-vpf",
-        ihf: "https://secure.kbmandir.org/forms/sri-lakshmi-narasimha-homa-ihf",
-        bgColor: "#FF6B6B", // Coral red
-        icon: "🔥"
-    },
-    "garland-seva": {
-        label: "Deity Garlands - Seva Sponsorships",
-        img: "https://secure.kbmandir.org/neon/resource/ihf/images/garland_seva.JPG",
-        vpf: "https://secure.kbmandir.org/forms/garland-sevas-vpf",
-        ihf: "https://secure.kbmandir.org/forms/garland-sevas-ihf",
-        bgColor: "#FFB6D9", // Pink
-        icon: "🌺"
-    },
-    "nitya-prasada-seva": {
-        label: "Nitya Prasada Seva Sponsorships",
-        img: "https://secure.kbmandir.org/neon/resource/ihf/images/_J1A2922.JPG",
-        vpf: "https://secure.kbmandir.org/forms/nitya-prasada-seva-sponsorships-vpf",
-        ihf: "https://secure.kbmandir.org/forms/nitya-prasada-seva-sponsorships-ihf",
-        bgColor: "#F7DC6F", // Light yellow
-        icon: "🥘"
-    },
-    "deity-seva": {
-        label: "Daily Deity Seva Sponsorships",
-        img: "https://www.kbmandir.org/wp-content/uploads/2022/03/2022_14.jpg",
-        vpf: "https://secure.kbmandir.org/forms/deity-sevas-vpf",
-        ihf: "https://secure.kbmandir.org/forms/deity-sevas-ihf",
-        bgColor: "#A8E6CF", // Mint green
-        icon: "🙏"
-    },
-    "cow-feeding-seva": {
-        label: "Goshala - Cow Feeding Seva Sponsorships",
-        img: "https://secure.kbmandir.org/neon/resource/ihf/images/WhatsApp%20Image%202025-01-25%20at%2018_32_50.jpeg",
-        vpf: "https://secure.kbmandir.org/forms/cow-feeding-seva-vpf",
-        ihf: "https://secure.kbmandir.org/forms/cow-feeding-seva-ihf",
-        bgColor: "#98D8C8", // Sage green
-        icon: "🐄"
-    },
-    "gopuja": {
-        label: "Gopuja - Seva Sponsorships",
-        img: "https://www.kbgoshala.org/wp-content/uploads/2017/11/km.jpg",
-        vpf: "https://secure.kbmandir.org/forms/gopuja-vpf",
-        ihf: "https://secure.kbmandir.org/forms/gopuja-ihf",
-        bgColor: "#FFD700", // Gold
-        icon: "🐄"
-    },
-    "sastra-seva": {
-        label: "Gita Dana - Seva Sponsorships",
-        img: "https://secure.kbmandir.org/neon/resource/ihf/images/gita_jayanti_donate.jpg",
-        vpf: "https://secure.kbmandir.org/forms/book-distribution-vpf",
-        ihf: "https://secure.kbmandir.org/forms/book-distribution-ihf",
-        bgColor: "#FFB347", // Pastel orange
-        icon: "📖"
-    },
-    "general-donation": {
-        label: "General Donations",
-        img: "https://secure.kbmandir.org/neon/resource/ihf/images/general_donations.jpeg",
-        vpf: "https://secure.kbmandir.org/forms/general-donation-vpf",
-        ihf: "https://secure.kbmandir.org/forms/general-donation-ihf",
-        bgColor: "#F4A460", // Sandy brown
-        icon: "💝"
-    },
-};
+var matchingSupportedList = [
+    "Apple", "Autodesk", "BlackRock", "Ciena", "Delta Dental",
+    "Dropbox", "eBay", "Equinix", "F5", "FalconX",
+    "Gilead", "Google", "Indeed", "Intuit", "Kaiser",
+    "Keysight", "KLA", "McKesson", "Medtronic", "Netflix",
+    "NVIDIA", "Okta", "Salesforce", "ServiceNow",
+    "Synopsys", "T-Mobile", "TE Connectivity",
+    "The Illumina Foundation", "Illumina", "Workday"
+];
 
-// Cookie helper functions - Set cookies across all domains
+var currentUrlType = "ihf";
+var pendingForm = null;
+var pendingQueryString = "";
+
 function setEmployerCookie(name) {
-    const encodedName = encodeURIComponent(name);
-    const maxAge = 'max-age=31536000'; // 1 year
-    const path = 'path=/';
-    
-    // Set cookie for all our domains so employer name persists across sites
-    document.cookie = `ihf_employer_name=${encodedName}; ${path}; domain=.kbmandir.org; ${maxAge}`;
-    document.cookie = `ihf_employer_name=${encodedName}; ${path}; domain=.kbgoshala.org; ${maxAge}`;
-    document.cookie = `ihf_employer_name=${encodedName}; ${path}; ${maxAge}`; // Current domain
+    var encodedName = encodeURIComponent(name);
+    var maxAge = 'max-age=31536000';
+    var path = 'path=/';
+    document.cookie = "ihf_employer_name=" + encodedName + "; " + path + "; domain=.kbmandir.org; " + maxAge;
+    document.cookie = "ihf_employer_name=" + encodedName + "; " + path + "; domain=.kbgoshala.org; " + maxAge;
+    document.cookie = "ihf_employer_name=" + encodedName + "; " + path + "; " + maxAge;
 }
 
 function getEmployerCookie() {
-    const match = document.cookie.match(/(?:^|; )ihf_employer_name=([^;]*)/);
+    var match = document.cookie.match(/(?:^|; )ihf_employer_name=([^;]*)/);
     return match ? decodeURIComponent(match[1]) : null;
 }
 
-function toggleInstructions(employerName) {
-    const instructionsElement = document.getElementById("instructionsText");
-    if (instructionsElement) {
-        // Hide instructions if employer name is present
-        if (employerName && employerName.trim()) {
-            instructionsElement.style.display = "none";
-        } else {
-            instructionsElement.style.display = "block";
-        }
-    }
+function getStoredEmployer() {
+    return getEmployerCookie() || localStorage.getItem("ihf_employer_name") || "";
 }
 
-function disableFormClicks() {
-    const heroContainer = document.getElementById("heroTile");
-    const container = document.getElementById("donationTiles");
-
-    if (heroContainer) {
-        heroContainer.style.pointerEvents = "none";
-        heroContainer.style.opacity = "0.5";
-    }
-    if (container) {
-        container.style.pointerEvents = "none";
-        container.style.opacity = "0.5";
-    }
+function isVpfMatch(name) {
+    if (!name) return false;
+    var lower = name.toLowerCase();
+    return vpfEmployerList.some(function(e) { return lower.includes(e.toLowerCase()); });
 }
 
-function enableFormClicks() {
-    const heroContainer = document.getElementById("heroTile");
-    const container = document.getElementById("donationTiles");
-
-    if (heroContainer) {
-        heroContainer.style.pointerEvents = "auto";
-        heroContainer.style.opacity = "1";
-    }
-    if (container) {
-        container.style.pointerEvents = "auto";
-        container.style.opacity = "1";
-    }
+function isMatchingSupported(name) {
+    if (!name) return false;
+    var lower = name.toLowerCase();
+    return matchingSupportedList.some(function(e) { return lower.includes(e.toLowerCase()); });
 }
 
-function updateEmployerDisplay(text, isInfoText = false) {
-    const employerInfo = document.querySelector(".employer-info");
-    const employerName = document.getElementById("employerName");
+function getMatchTier(name) {
+    if (!name || !name.trim()) return "none";
+    if (isVpfMatch(name)) return "vpf";
+    if (isMatchingSupported(name)) return "matching";
+    return "none";
+}
 
-    // When showing info text, style the NA part
-    const styledText = text.replace(/\bNA\b/, '<span style="color: #007BFF; font-weight: bold;">NA</span>');
+function getUrlTypeForEmployer(name) {
+    return getMatchTier(name) === "vpf" ? "vpf" : "ihf";
+}
 
-    if (isInfoText) {
-        // Hide "Your Employer:" prefix when showing info text
-        employerInfo.innerHTML = `<strong id="employerName">${styledText}</strong>
-            <span id="editLink" class="edit-link" onclick="toggleEditMode()" style="display: none;">Edit</span>`;
+function showBanner(name) {
+    var banner = document.getElementById("employerBanner");
+    var nameEl = document.getElementById("bannerEmployerName");
+    var badge = document.getElementById("matchingBadge");
+    nameEl.textContent = name;
+    var tier = getMatchTier(name);
+    if (tier === "vpf") {
+        badge.textContent = "Matching eligible";
+        badge.className = "matching-badge vpf";
+    } else if (tier === "matching") {
+        badge.textContent = "Employer supports matching";
+        badge.className = "matching-badge matching-supported";
     } else {
-        // Show "Your Employer:" prefix when showing actual employer name
-        employerInfo.innerHTML = `Your Employer: <strong id="employerName">${text}</strong>
-            <span id="editLink" class="edit-link" onclick="toggleEditMode()" style="display: none;">Edit</span>`;
+        badge.textContent = "";
+        badge.className = "matching-badge no-match";
+    }
+    banner.classList.add("visible");
+}
+
+function hideBanner() {
+    document.getElementById("employerBanner").classList.remove("visible");
+}
+
+var focusTrapHandler = null;
+
+function showEmployerModal(form, queryString) {
+    pendingForm = form || null;
+    pendingQueryString = queryString || "";
+
+    var sevaCtx = document.getElementById("modalSevaContext");
+    if (form && form.label) {
+        document.getElementById("modalSevaIcon").textContent = form.icon || "🙏";
+        document.getElementById("modalSevaLabel").textContent = "Donating to: " + form.label;
+        sevaCtx.classList.add("visible");
+    } else {
+        sevaCtx.classList.remove("visible");
+    }
+
+    document.getElementById("modalBackdrop").classList.add("visible");
+    document.getElementById("employerModal").classList.add("visible");
+    var input = document.getElementById("modalEmployerInput");
+    input.value = getStoredEmployer();
+    setTimeout(function() { input.focus(); }, 100);
+
+    enableFocusTrap();
+}
+
+function hideEmployerModal() {
+    document.getElementById("modalBackdrop").classList.remove("visible");
+    document.getElementById("employerModal").classList.remove("visible");
+    document.getElementById("modalSevaContext").classList.remove("visible");
+    pendingForm = null;
+    pendingQueryString = "";
+    disableFocusTrap();
+}
+
+function enableFocusTrap() {
+    var modal = document.getElementById("employerModal");
+    var focusable = modal.querySelectorAll('input, button, a[onclick], [tabindex]:not([tabindex="-1"])');
+    if (focusable.length === 0) return;
+    var first = focusable[0];
+    var last = focusable[focusable.length - 1];
+
+    focusTrapHandler = function(e) {
+        if (e.key !== "Tab") return;
+        if (e.shiftKey) {
+            if (document.activeElement === first) { e.preventDefault(); last.focus(); }
+        } else {
+            if (document.activeElement === last) { e.preventDefault(); first.focus(); }
+        }
+    };
+    modal.addEventListener("keydown", focusTrapHandler);
+}
+
+function disableFocusTrap() {
+    if (focusTrapHandler) {
+        document.getElementById("employerModal").removeEventListener("keydown", focusTrapHandler);
+        focusTrapHandler = null;
     }
 }
 
-function updateProgressSteps(currentStep) {
-    const steps = document.querySelectorAll('.step');
-    steps.forEach((step, index) => {
-        if (index < currentStep) {
-            step.classList.add('completed');
-            step.classList.remove('active');
-        } else if (index === currentStep) {
-            step.classList.add('active');
-            step.classList.remove('completed');
-        } else {
-            step.classList.remove('active', 'completed');
+function handleEmployerSubmit() {
+    var input = document.getElementById("modalEmployerInput");
+    var name = input.value.trim();
+    if (!name) { input.focus(); return; }
+    setEmployerCookie(name);
+    localStorage.setItem("ihf_employer_name", name);
+    currentUrlType = getUrlTypeForEmployer(name);
+
+    if (pendingForm) {
+        window.location.href = pendingForm[currentUrlType] + pendingQueryString;
+    } else {
+        showBanner(name);
+        hideEmployerModal();
+        renderTiles(currentUrlType);
+    }
+}
+
+function handleEmployerSkip() {
+    setEmployerCookie("NA");
+    localStorage.setItem("ihf_employer_name", "NA");
+    currentUrlType = "ihf";
+
+    if (pendingForm) {
+        window.location.href = pendingForm["ihf"] + pendingQueryString;
+    } else {
+        showBanner("NA");
+        hideEmployerModal();
+        renderTiles("ihf");
+    }
+}
+
+document.getElementById("modalBackdrop").addEventListener("click", function() {
+    if (pendingForm) {
+        handleEmployerSkip();
+    } else {
+        hideEmployerModal();
+    }
+});
+
+function buildCard(form, urlType, queryString, isHero) {
+    var card = document.createElement("a");
+    card.href = form[urlType] + queryString;
+    card.className = "tile";
+    card.addEventListener("click", function(e) {
+        var employer = getStoredEmployer();
+        if (employer && employer.trim()) {
+            card.href = form[currentUrlType] + queryString;
+            return;
         }
+        e.preventDefault();
+        showEmployerModal(form, queryString);
     });
-}
 
-function toggleEditMode() {
-    const inputGroup = document.getElementById('inputGroup');
-    const editLink = document.getElementById('editLink');
-    const stepsContainer = document.querySelector('.steps-container');
-    const formInstruction = document.getElementById('formInstruction');
+    var imageWrap = document.createElement("div");
+    imageWrap.className = "tile-image-wrap";
 
-    // Show input group and hide edit link and form instruction
-    inputGroup.style.display = 'flex';
-    editLink.style.display = 'none';
-    if (formInstruction) formInstruction.style.display = 'none';
+    var placeholder = document.createElement("div");
+    placeholder.className = "image-placeholder";
+    placeholder.style.backgroundColor = form.bgColor || "#e0e0e0";
+    placeholder.innerHTML = '<div class="placeholder-content"><div class="placeholder-icon">' +
+        (form.icon || "🙏") + '</div><div class="placeholder-text">' + form.label + '</div></div>';
 
-    // Show progress steps again
-    if (stepsContainer) {
-        stepsContainer.style.display = 'flex';
+    var img = document.createElement("img");
+    img.src = form.img;
+    img.alt = form.label;
+    img.loading = isHero ? "eager" : "lazy";
+    img.decoding = "async";
+    img.sizes = isHero ? "(max-width: 720px) 100vw, 720px" : "(max-width: 560px) 100vw, (max-width: 900px) 50vw, 33vw";
+    if (isHero) img.fetchPriority = "high";
+    img.style.opacity = "0";
+    (function(theImg, thePlaceholder) {
+        theImg.onload = function() {
+            theImg.style.opacity = "1";
+            thePlaceholder.style.opacity = "0";
+            setTimeout(function() { thePlaceholder.remove(); }, 300);
+        };
+        theImg.onerror = function() {
+            thePlaceholder.classList.add("error");
+        };
+    })(img, placeholder);
+
+    var gradient = document.createElement("div");
+    gradient.className = "gradient-overlay";
+
+    var titleOverlay = document.createElement("div");
+    titleOverlay.className = "tile-title-overlay";
+    titleOverlay.innerHTML = '<span class="tile-title-icon">' + (form.icon || "🙏") +
+        '</span><span class="tile-title-text">' + form.label + '</span>';
+
+    if (form.price) {
+        var priceBadge = document.createElement("span");
+        priceBadge.className = "tile-price-badge";
+        priceBadge.textContent = form.price;
+        imageWrap.appendChild(priceBadge);
     }
 
-    // Focus on input
-    document.getElementById('employerInput').focus();
-}
+    imageWrap.appendChild(placeholder);
+    imageWrap.appendChild(img);
+    imageWrap.appendChild(gradient);
+    imageWrap.appendChild(titleOverlay);
 
+    var body = document.createElement("div");
+    body.className = "tile-body";
 
-function updateEmployer() {
-    const input = document.getElementById("employerInput");
-    const name = input.value.trim();
+    var tagline = document.createElement("p");
+    tagline.className = "tile-tagline";
+    tagline.textContent = form.tagline || "";
 
-    if (name) {
-        setEmployerCookie(name);
-        localStorage.setItem("ihf_employer_name", name);
+    var desc = document.createElement("p");
+    desc.className = "tile-description";
+    desc.textContent = form.description || "";
 
-        updateEmployerDisplay(name, false);
+    var cta = document.createElement("span");
+    cta.className = "tile-cta";
+    cta.textContent = "Donate now";
 
-        // Hide progress steps and input group, show edit link and form instruction
-        const stepsContainer = document.querySelector('.steps-container');
-        const inputGroup = document.getElementById('inputGroup');
-        const editLink = document.getElementById('editLink');
-        const formInstruction = document.getElementById('formInstruction');
+    body.appendChild(tagline);
+    body.appendChild(desc);
+    body.appendChild(cta);
 
-        if (stepsContainer) stepsContainer.style.display = 'none';
-        if (inputGroup) inputGroup.style.display = 'none';
-        if (editLink) editLink.style.display = 'inline';
-        if (formInstruction) formInstruction.style.display = 'block';
+    card.appendChild(imageWrap);
+    card.appendChild(body);
 
-        const isMatch = employerList.some(employer =>
-            name.toLowerCase().includes(employer.toLowerCase())
-        );
-        const urlType = isMatch ? "vpf" : "ihf";
-        renderTiles(urlType);
-        enableFormClicks();
-    } else {
-        // Clear stored employer data when empty
-        setEmployerCookie("");
-        localStorage.removeItem("ihf_employer_name");
-
-        updateEmployerDisplay("Please enter your Employer name. Enter NA if not applicable.", true);
-
-        // Show progress steps and input group, hide edit link and form instruction
-        const stepsContainer = document.querySelector('.steps-container');
-        const inputGroup = document.getElementById('inputGroup');
-        const editLink = document.getElementById('editLink');
-        const formInstruction = document.getElementById('formInstruction');
-
-        if (stepsContainer) stepsContainer.style.display = 'flex';
-        if (inputGroup) inputGroup.style.display = 'flex';
-        if (editLink) editLink.style.display = 'none';
-        if (formInstruction) formInstruction.style.display = 'none';
-
-        updateProgressSteps(0); // Back to step 1 (Enter Employer)
-        disableFormClicks();
-
-        // Clear the donation tiles when no employer is set
-        const heroContainer = document.getElementById("heroTile");
-        const container = document.getElementById("donationTiles");
-        if (heroContainer) heroContainer.innerHTML = "";
-        if (container) container.innerHTML = "";
-    }
-
-    toggleInstructions(name);
+    return card;
 }
 
 function renderTiles(urlType) {
-    // Containers for the hero tile and the grid of tiles.  The hero tile
-    // container may not exist on pages that don't include the hero layout.
-    const heroContainer = document.getElementById("heroTile");
-    const container = document.getElementById("donationTiles");
+    var heroContainer = document.getElementById("heroTile");
+    var container = document.getElementById("donationTiles");
     if (heroContainer) heroContainer.innerHTML = "";
     if (container) container.innerHTML = "";
 
-    // Check if a specific donation opportunity key has been passed via the
-    // "form" or "opportunity" query parameter. When provided, this key will
-    // determine which tile should be rendered first (as the hero tile).
-    const urlParams = new URLSearchParams(window.location.search);
-    const priorityKey = urlParams.get("opportunity") || urlParams.get("form");
-
-    // Remove the "form" and "opportunity" parameters from the URL to avoid appending them to every link
-    // when rendering the tiles to pass the utm parameters for tracking.
+    var urlParams = new URLSearchParams(window.location.search);
+    var priorityKey = urlParams.get("opportunity") || urlParams.get("form");
     urlParams.delete('form');
     urlParams.delete('opportunity');
-    const queryString = urlParams.toString() ? `?${urlParams.toString()}` : '';
+    var queryString = urlParams.toString() ? ("?" + urlParams.toString()) : "";
 
-    // Convert the donationForms object into an array of [key, form] pairs
-    const entries = Object.entries(donationForms);
-
+    var entries = Object.entries(donationForms);
     if (priorityKey) {
-        // Preserve the original order of entries for all other items
-        const originalOrder = entries.slice();
-        entries.sort((a, b) => {
+        var originalOrder = entries.slice();
+        entries.sort(function(a, b) {
             if (a[0] === priorityKey) return -1;
             if (b[0] === priorityKey) return 1;
-            const indexA = originalOrder.findIndex(([k]) => k === a[0]);
-            const indexB = originalOrder.findIndex(([k]) => k === b[0]);
-            return indexA - indexB;
+            return originalOrder.findIndex(function(x) { return x[0] === a[0]; })
+                 - originalOrder.findIndex(function(x) { return x[0] === b[0]; });
         });
     }
 
-    // Render the first entry as the hero tile if a hero container is present
     if (entries.length > 0 && heroContainer) {
-        const [, firstForm] = entries[0];
-        const heroLink = document.createElement("a");
-        heroLink.href = firstForm[urlType] + queryString;
-        heroLink.target = "_blank";
-        heroLink.className = "hero";
-        
-        // Create placeholder div with background color and text for instant render
-        const placeholder = document.createElement("div");
-        placeholder.className = "image-placeholder hero-placeholder";
-        placeholder.style.backgroundColor = firstForm.bgColor || "#e0e0e0";
-        const icon = firstForm.icon || "🙏";
-        placeholder.innerHTML = `<div class="placeholder-content"><div class="placeholder-icon">${icon}</div><div class="placeholder-text">Click here to donate for<br><strong>${firstForm.label}</strong></div></div>`;
-        
-        // Create image with lazy loading
-        const img = document.createElement("img");
-        img.src = firstForm.img;
-        img.alt = firstForm.label;
-        img.loading = "lazy";
-        img.style.opacity = "0";
-        img.style.transition = "opacity 0.3s ease-in";
-        
-        // Show image when loaded, hide placeholder
-        img.onload = function() {
-            img.style.opacity = "1";
-            placeholder.style.opacity = "0";
-            setTimeout(() => placeholder.remove(), 300);
-        };
-        
-        const span = document.createElement("span");
-        span.textContent = firstForm.label;
-        
-        heroLink.appendChild(placeholder);
-        heroLink.appendChild(img);
-        heroLink.appendChild(span);
-        heroContainer.appendChild(heroLink);
+        heroContainer.appendChild(buildCard(entries[0][1], urlType, queryString, true));
     }
 
-    // Render the remaining entries as grid tiles with placeholders
-    entries.slice(heroContainer ? 1 : 0).forEach(([, form]) => {
-        const tileLink = document.createElement("a");
-        tileLink.href = form[urlType] + queryString;
-        tileLink.target = "_blank";
-        tileLink.className = "tile";
-        
-        // Create placeholder div with background color and text
-        const placeholder = document.createElement("div");
-        placeholder.className = "image-placeholder";
-        placeholder.style.backgroundColor = form.bgColor || "#e0e0e0";
-        const icon = form.icon || "🙏";
-        placeholder.innerHTML = `<div class="placeholder-content"><div class="placeholder-icon">${icon}</div><div class="placeholder-text">Click to donate for<br><strong>${form.label}</strong></div></div>`;
-        
-        // Create image with lazy loading
-        const img = document.createElement("img");
-        img.src = form.img;
-        img.alt = form.label;
-        img.loading = "lazy";
-        img.style.opacity = "0";
-        img.style.transition = "opacity 0.3s ease-in";
-        
-        // Show image when loaded, hide placeholder
-        img.onload = function() {
-            img.style.opacity = "1";
-            placeholder.style.opacity = "0";
-            setTimeout(() => placeholder.remove(), 300);
-        };
-        
-        const span = document.createElement("span");
-        span.textContent = form.label;
-        
-        tileLink.appendChild(placeholder);
-        tileLink.appendChild(img);
-        tileLink.appendChild(span);
-        if (container) container.appendChild(tileLink);
-    });
+    var startIdx = heroContainer ? 1 : 0;
+    for (var i = startIdx; i < entries.length; i++) {
+        container.appendChild(buildCard(entries[i][1], urlType, queryString, false));
+    }
 }
 
-document.getElementById("employerInput").addEventListener("keydown", function (e) {
-    if (e.key === "Enter") {
-        updateEmployer();
+var prefetchedImages = {};
+
+function prefetchHeroImage() {
+    var entries = Object.entries(donationForms);
+    if (entries.length === 0) return;
+    var heroForm = entries[0][1];
+    if (!prefetchedImages[heroForm.img]) {
+        var img = new Image();
+        img.src = heroForm.img;
+        img.fetchPriority = "high";
+        prefetchedImages[heroForm.img] = true;
+    }
+}
+
+function prefetchRemainingImages() {
+    var entries = Object.entries(donationForms);
+    for (var i = 1; i < entries.length; i++) {
+        var form = entries[i][1];
+        if (!prefetchedImages[form.img]) {
+            var img = new Image();
+            img.src = form.img;
+            prefetchedImages[form.img] = true;
+        }
+    }
+}
+
+function prefetchFormUrls() {
+    var entries = Object.entries(donationForms);
+    for (var i = 0; i < entries.length; i++) {
+        var form = entries[i][1];
+        ["vpf", "ihf"].forEach(function(type) {
+            var link = document.createElement("link");
+            link.rel = "prefetch";
+            link.href = form[type];
+            document.head.appendChild(link);
+        });
+    }
+}
+
+document.getElementById("modalEmployerInput").addEventListener("keydown", function(e) {
+    if (e.key === "Enter") handleEmployerSubmit();
+    if (e.key === "Escape") hideEmployerModal();
+});
+document.addEventListener("keydown", function(e) {
+    if (e.key === "Escape" && document.getElementById("employerModal").classList.contains("visible")) {
+        hideEmployerModal();
     }
 });
 
-// Prefetch all donation images and hero form URLs immediately on page load
-let prefetchedImages = new Set();
-let prefetchedUrls = new Set();
-
-function prefetchAllDonationImages() {
-    const formsArray = Object.entries(donationForms);
-    
-    // Prefetch ALL donation images immediately (both VPF and IHF use same images)
-    Object.values(donationForms).forEach(form => {
-        // Prefetch image
-        if (!prefetchedImages.has(form.img)) {
-            // Method 1: Use Image object (works in all browsers)
-            const img = new Image();
-            img.src = form.img;
-            
-            // Method 2: Add link prefetch tag (additional optimization)
-            const linkImg = document.createElement('link');
-            linkImg.rel = 'prefetch';
-            linkImg.as = 'image';
-            linkImg.href = form.img;
-            document.head.appendChild(linkImg);
-            
-            prefetchedImages.add(form.img);
-        }
+(function init() {
+    var allEmployers = vpfEmployerList.concat(matchingSupportedList);
+    var unique = allEmployers.filter(function(v, i, a) { return a.indexOf(v) === i; });
+    var employerSuggestions = unique.filter(function(name) {
+        var lower = name.toLowerCase();
+        return !unique.some(function(other) {
+            var otherLower = other.toLowerCase();
+            return otherLower !== lower && otherLower.length < lower.length && lower.indexOf(otherLower) !== -1;
+        });
     });
-    
-    // Prefetch ONLY hero donation form URLs (first donation form - most likely to be clicked)
-    if (formsArray.length > 0) {
-        const [, heroForm] = formsArray[0];
-        ['vpf', 'ihf'].forEach(urlType => {
-            const formUrl = heroForm[urlType];
-            if (formUrl && !prefetchedUrls.has(formUrl)) {
-                const linkUrl = document.createElement('link');
-                linkUrl.rel = 'prefetch';
-                linkUrl.href = formUrl;
-                document.head.appendChild(linkUrl);
-                
-                prefetchedUrls.add(formUrl);
+    employerSuggestions.sort(function(a, b) { return a.localeCompare(b); });
+
+    document.getElementById("modalEmployerInput").addEventListener("input", function() {
+        var datalist = document.getElementById("employerSuggestions");
+        datalist.innerHTML = "";
+        var val = this.value.trim().toLowerCase();
+        if (val.length < 2) return;
+        employerSuggestions.forEach(function(name) {
+            if (name.toLowerCase().indexOf(val) !== -1) {
+                var opt = document.createElement("option");
+                opt.value = name;
+                datalist.appendChild(opt);
             }
         });
-    }
-}
+    });
 
-// Start prefetching immediately when script loads (parallel to user interaction)
-if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', prefetchAllDonationImages);
-} else {
-    // DOM already loaded
-    prefetchAllDonationImages();
-}
+    prefetchHeroImage();
 
-// Add real-time input validation (but don't enable forms until Apply is clicked)
-document.getElementById("employerInput").addEventListener("input", function (e) {
-    const name = e.target.value.trim();
-    if (name) {
-        updateEmployerDisplay(name, false);
+    var storedName = getStoredEmployer();
+    if (storedName && storedName.trim()) {
+        currentUrlType = getUrlTypeForEmployer(storedName);
+        showBanner(storedName);
+        renderTiles(currentUrlType);
     } else {
-        // Immediately disable forms and clear tiles when text field is emptied
-        updateEmployerDisplay("Please enter your Employer name. Enter NA if not applicable.", true);
-
-        // Show progress steps and input group, hide edit link and form instruction
-        const stepsContainer = document.querySelector('.steps-container');
-        const inputGroup = document.getElementById('inputGroup');
-        const editLink = document.getElementById('editLink');
-        const formInstruction = document.getElementById('formInstruction');
-
-        if (stepsContainer) stepsContainer.style.display = 'flex';
-        if (inputGroup) inputGroup.style.display = 'flex';
-        if (editLink) editLink.style.display = 'none';
-        if (formInstruction) formInstruction.style.display = 'none';
-
-        updateProgressSteps(0); // Back to step 1 (Enter Employer)
-        disableFormClicks();
-
-        // Clear stored employer data
-        setEmployerCookie("");
-        localStorage.removeItem("ihf_employer_name");
-
-        // Clear the donation tiles when no employer is set
-        const heroContainer = document.getElementById("heroTile");
-        const container = document.getElementById("donationTiles");
-        if (heroContainer) heroContainer.innerHTML = "";
-        if (container) container.innerHTML = "";
+        currentUrlType = "ihf";
+        renderTiles("ihf");
     }
-    toggleInstructions(name);
-});
 
-// Initial Load – Prefer cookie first, then localStorage
-let storedName = getEmployerCookie() || localStorage.getItem("ihf_employer_name") || "";
-const employerInput = document.getElementById("employerInput");
-const employerNameElement = document.getElementById("employerName");
-
-if (storedName && storedName.trim()) {
-    updateEmployerDisplay(storedName, false);
-    employerInput.value = storedName;
-
-    // Hide progress steps and input group, show edit link and form instruction for stored employer
-    const stepsContainer = document.querySelector('.steps-container');
-    const inputGroup = document.getElementById('inputGroup');
-    const editLink = document.getElementById('editLink');
-    const formInstruction = document.getElementById('formInstruction');
-
-    if (stepsContainer) stepsContainer.style.display = 'none';
-    if (inputGroup) inputGroup.style.display = 'none';
-    if (editLink) editLink.style.display = 'inline';
-    if (formInstruction) formInstruction.style.display = 'block';
-
-    const isMatchInit = employerList.some(employer =>
-        storedName.toLowerCase().includes(employer.toLowerCase())
-    );
-    const urlTypeInit = isMatchInit ? "vpf" : "ihf";
-    renderTiles(urlTypeInit);
-    enableFormClicks(); // Only enable if there's a stored employer name from previous session
-} else {
-    updateEmployerDisplay("Please enter your Employer name. Enter NA if not applicable.", true);
-    employerInput.value = "";
-
-    // Show progress steps and input group, hide edit link and form instruction for no employer
-    const stepsContainer = document.querySelector('.steps-container');
-    const inputGroup = document.getElementById('inputGroup');
-    const editLink = document.getElementById('editLink');
-    const formInstruction = document.getElementById('formInstruction');
-
-    if (stepsContainer) stepsContainer.style.display = 'flex';
-    if (inputGroup) inputGroup.style.display = 'flex';
-    if (editLink) editLink.style.display = 'none';
-    if (formInstruction) formInstruction.style.display = 'none';
-
-    updateProgressSteps(0); // Start at step 1 (Enter Employer)
-    disableFormClicks(); // Forms disabled by default
-}
-
-toggleInstructions(storedName);
-
-// Set focus to the employer input text box only if it's visible
-if (inputGroup && inputGroup.style.display !== 'none') {
-    // Use setTimeout to ensure DOM is ready and bypass some mobile browser restrictions
-    setTimeout(function() {
-        employerInput.focus();
-        // For mobile devices, try to trigger the keyboard
-        if (/iPhone|iPad|iPod|Android/i.test(navigator.userAgent)) {
-            employerInput.click();
-        }
-    }, 100);
-}
+    if (window.requestIdleCallback) {
+        requestIdleCallback(prefetchRemainingImages);
+        requestIdleCallback(prefetchFormUrls);
+    } else {
+        setTimeout(prefetchRemainingImages, 200);
+        setTimeout(prefetchFormUrls, 400);
+    }
+})();
