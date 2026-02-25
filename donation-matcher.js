@@ -373,19 +373,25 @@ document.addEventListener("keydown", function(e) {
     });
     employerSuggestions.sort(function(a, b) { return a.localeCompare(b); });
 
-    document.getElementById("modalEmployerInput").addEventListener("input", function() {
-        var datalist = document.getElementById("employerSuggestions");
-        datalist.innerHTML = "";
-        var val = this.value.trim().toLowerCase();
-        if (val.length < 2) return;
-        employerSuggestions.forEach(function(name) {
-            if (name.toLowerCase().indexOf(val) !== -1) {
-                var opt = document.createElement("option");
-                opt.value = name;
-                datalist.appendChild(opt);
-            }
+    var isMobile = window.matchMedia("(max-width: 768px)").matches;
+    var input = document.getElementById("modalEmployerInput");
+    if (isMobile) {
+        input.removeAttribute("list");
+    } else {
+        input.addEventListener("input", function() {
+            var datalist = document.getElementById("employerSuggestions");
+            datalist.innerHTML = "";
+            var val = this.value.trim().toLowerCase();
+            if (val.length < 2) return;
+            employerSuggestions.forEach(function(name) {
+                if (name.toLowerCase().indexOf(val) !== -1) {
+                    var opt = document.createElement("option");
+                    opt.value = name;
+                    datalist.appendChild(opt);
+                }
+            });
         });
-    });
+    }
 
     prefetchHeroImage();
 
