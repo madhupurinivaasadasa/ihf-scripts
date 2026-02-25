@@ -1,4 +1,4 @@
-var donationForms = window.donationForms || {};
+function getDonationForms() { return window.donationForms || {}; }
 
 var vpfEmployerList = [
     "Adobe", "AMD", "Applied Materials", "Broadcom", "ByteDance",
@@ -291,7 +291,7 @@ function renderTiles(urlType) {
     urlParams.delete('opportunity');
     var queryString = urlParams.toString() ? ("?" + urlParams.toString()) : "";
 
-    var entries = Object.entries(donationForms);
+    var entries = Object.entries(getDonationForms());
     if (priorityKey) {
         var originalOrder = entries.slice();
         entries.sort(function(a, b) {
@@ -315,7 +315,7 @@ function renderTiles(urlType) {
 var prefetchedImages = {};
 
 function prefetchHeroImage() {
-    var entries = Object.entries(donationForms);
+    var entries = Object.entries(getDonationForms());
     if (entries.length === 0) return;
     var heroForm = entries[0][1];
     if (!prefetchedImages[heroForm.img]) {
@@ -327,7 +327,7 @@ function prefetchHeroImage() {
 }
 
 function prefetchRemainingImages() {
-    var entries = Object.entries(donationForms);
+    var entries = Object.entries(getDonationForms());
     for (var i = 1; i < entries.length; i++) {
         var form = entries[i][1];
         if (!prefetchedImages[form.img]) {
@@ -339,7 +339,7 @@ function prefetchRemainingImages() {
 }
 
 function prefetchFormUrls() {
-    var entries = Object.entries(donationForms);
+    var entries = Object.entries(getDonationForms());
     for (var i = 0; i < entries.length; i++) {
         var form = entries[i][1];
         ["vpf", "ihf"].forEach(function(type) {
@@ -406,4 +406,16 @@ document.addEventListener("keydown", function(e) {
         setTimeout(prefetchRemainingImages, 200);
         setTimeout(prefetchFormUrls, 400);
     }
+
+    window.addEventListener("pageshow", function(e) {
+        if (e.persisted) {
+            hideEmployerModal();
+            var name = getStoredEmployer();
+            if (name && name.trim()) {
+                currentUrlType = getUrlTypeForEmployer(name);
+                showBanner(name);
+                renderTiles(currentUrlType);
+            }
+        }
+    });
 })();
