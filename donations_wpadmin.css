@@ -12,19 +12,27 @@ h1 {
 
 /* WordPress theme spacing removal */
 .page_content_wrap,
+.page_content_wrap .content_wrap,
+.content_wrap,
 .content_wrap .content,
 .post_content.entry-content,
 .post_item_single .post_content,
+.post_item_single,
 .entry-content, .post-content,
 article, main, .site-content, .page-content,
 .single-post .entry-content,
 .page .entry-content,
-#wpbody-content, .wrap, #wpcontent {
+#wpbody-content, .wrap, #wpcontent,
+.page_title_wrap,
+.page_title_wrap .content_wrap,
+.sc_layouts_row,
+.elementor-section-wrap > .elementor-section:first-child {
     padding-top: 0 !important;
     margin-top: 0 !important;
 }
 
 .page_content_wrap { padding-bottom: 0 !important; }
+.page_title_wrap { padding: 0 !important; min-height: 0 !important; }
 
 .entry-content > *:first-child,
 .post-content > *:first-child,
