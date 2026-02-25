@@ -239,8 +239,7 @@ function buildCard(form, urlType, queryString, isHero) {
 
     var titleOverlay = document.createElement("div");
     titleOverlay.className = "tile-title-overlay";
-    titleOverlay.innerHTML = '<span class="tile-title-icon">' + (form.icon || "🙏") +
-        '</span><span class="tile-title-text">' + form.label + '</span>';
+    titleOverlay.innerHTML = '<span class="tile-title-text">' + form.label + '</span>';
 
     if (form.price) {
         var priceBadge = document.createElement("span");
