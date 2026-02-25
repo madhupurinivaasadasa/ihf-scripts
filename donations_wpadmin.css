@@ -37,6 +37,7 @@ article, main, .site-content, .page-content,
 .page_content_wrap > .content_wrap { margin-top: 0 !important; }
 .body_wrap .page_content_wrap .content_wrap { margin-top: 0 !important; }
 .top_panel { margin-bottom: 0 !important; }
+.footer_wrap { margin-top: 0 !important; }
 
 .entry-content > *:first-child,
 .post-content > *:first-child,
