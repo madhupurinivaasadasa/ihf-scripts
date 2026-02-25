@@ -401,6 +401,28 @@ document.addEventListener("keydown", function(e) {
     var storedName = getStoredEmployer();
     if (storedName && storedName.trim()) {
         currentUrlType = getUrlTypeForEmployer(storedName);
+
+        var params = new URLSearchParams(window.location.search);
+        var targetKey = params.get("seva") || params.get("opportunity") || params.get("form");
+        var forms = getDonationForms();
+        var targetForm = targetKey ? forms[targetKey] || null : null;
+        var autoRedirect = params.get("auto") === "true" || !!targetForm;
+        if (autoRedirect) {
+            if (!targetForm) {
+                var entries = Object.entries(forms);
+                if (entries.length > 0) targetForm = entries[0][1];
+            }
+            if (targetForm) {
+                params.delete("auto");
+                params.delete("seva");
+                params.delete("form");
+                params.delete("opportunity");
+                var qs = params.toString() ? ("?" + params.toString()) : "";
+                (window.top || window).location.href = targetForm[currentUrlType] + qs;
+                return;
+            }
+        }
+
         showBanner(storedName);
         renderTiles(currentUrlType);
     } else {
