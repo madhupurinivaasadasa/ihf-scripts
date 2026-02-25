@@ -396,6 +396,9 @@ document.addEventListener("keydown", function(e) {
         });
     }
 
+    var pageWrap = document.querySelector(".page_content_wrap") || document.body;
+    pageWrap.classList.add("donation-page-loading");
+
     prefetchHeroImage();
 
     var storedName = getStoredEmployer();
@@ -429,6 +432,9 @@ document.addEventListener("keydown", function(e) {
         currentUrlType = "ihf";
         renderTiles("ihf");
     }
+
+    pageWrap.classList.remove("donation-page-loading");
+    pageWrap.classList.add("donation-page-ready");
 
     if (window.requestIdleCallback) {
         requestIdleCallback(prefetchRemainingImages);
