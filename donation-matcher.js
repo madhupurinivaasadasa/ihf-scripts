@@ -396,42 +396,53 @@ document.addEventListener("keydown", function(e) {
         });
     }
 
-    prefetchHeroImage();
+    function revealPage() {
+        var wrap = document.getElementById("donationPageWrap");
+        if (wrap) wrap.style.opacity = "1";
+    }
 
-    var storedName = getStoredEmployer();
-    if (storedName && storedName.trim()) {
-        currentUrlType = getUrlTypeForEmployer(storedName);
+    try {
+        prefetchHeroImage();
 
-        var params = new URLSearchParams(window.location.search);
-        var targetKey = params.get("seva") || params.get("opportunity") || params.get("form");
-        var forms = getDonationForms();
-        var targetForm = targetKey ? forms[targetKey] || null : null;
-        var autoRedirect = params.get("auto") === "true" || !!targetForm;
-        if (autoRedirect) {
-            if (!targetForm) {
-                var entries = Object.entries(forms);
-                if (entries.length > 0) targetForm = entries[0][1];
+        var storedName = getStoredEmployer();
+        if (storedName && storedName.trim()) {
+            currentUrlType = getUrlTypeForEmployer(storedName);
+
+            var params = new URLSearchParams(window.location.search);
+            var targetKey = params.get("seva") || params.get("opportunity") || params.get("form");
+            var forms = getDonationForms();
+            var targetForm = targetKey ? forms[targetKey] || null : null;
+            var autoRedirect = params.get("auto") === "true" || !!targetForm;
+            if (autoRedirect) {
+                if (!targetForm) {
+                    var entries = Object.entries(forms);
+                    if (entries.length > 0) targetForm = entries[0][1];
+                }
+                if (!targetForm) { autoRedirect = false; }
             }
-            if (targetForm) {
+            if (autoRedirect && targetForm) {
                 params.delete("auto");
                 params.delete("seva");
                 params.delete("form");
                 params.delete("opportunity");
                 var qs = params.toString() ? ("?" + params.toString()) : "";
-                (window.top || window).location.href = targetForm[currentUrlType] + qs;
+                try {
+                    (window.top || window).location.href = targetForm[currentUrlType] + qs;
+                } catch (navErr) {
+                    window.location.href = targetForm[currentUrlType] + qs;
+                }
                 return;
             }
+
+            showBanner(storedName);
+            renderTiles(currentUrlType);
+        } else {
+            currentUrlType = "ihf";
+            renderTiles("ihf");
         }
+    } catch (e) { /* ensure page is visible even if something fails */ }
 
-        showBanner(storedName);
-        renderTiles(currentUrlType);
-    } else {
-        currentUrlType = "ihf";
-        renderTiles("ihf");
-    }
-
-    var pageWrap = document.getElementById("donationPageWrap");
-    if (pageWrap) pageWrap.style.opacity = "1";
+    revealPage();
 
     if (window.requestIdleCallback) {
         requestIdleCallback(prefetchRemainingImages);
@@ -444,6 +455,7 @@ document.addEventListener("keydown", function(e) {
     window.addEventListener("pageshow", function(e) {
         if (e.persisted) {
             hideEmployerModal();
+            revealPage();
             var name = getStoredEmployer();
             if (name && name.trim()) {
                 currentUrlType = getUrlTypeForEmployer(name);
