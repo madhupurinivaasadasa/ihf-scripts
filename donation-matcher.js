@@ -162,7 +162,7 @@ function handleEmployerSubmit() {
     currentUrlType = getUrlTypeForEmployer(name);
 
     if (pendingForm) {
-        window.location.href = pendingForm[currentUrlType] + pendingQueryString;
+        (window.top || window).location.href = pendingForm[currentUrlType] + pendingQueryString;
     } else {
         showBanner(name);
         hideEmployerModal();
@@ -176,7 +176,7 @@ function handleEmployerSkip() {
     currentUrlType = "ihf";
 
     if (pendingForm) {
-        window.location.href = pendingForm["ihf"] + pendingQueryString;
+        (window.top || window).location.href = pendingForm["ihf"] + pendingQueryString;
     } else {
         showBanner("NA");
         hideEmployerModal();
@@ -195,6 +195,7 @@ document.getElementById("modalBackdrop").addEventListener("click", function() {
 function buildCard(form, urlType, queryString, isHero) {
     var card = document.createElement("a");
     card.href = form[urlType] + queryString;
+    card.target = "_top";
     card.className = "tile";
     card.addEventListener("click", function(e) {
         var employer = getStoredEmployer();
