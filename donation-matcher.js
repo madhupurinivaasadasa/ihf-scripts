@@ -289,6 +289,9 @@ function renderTiles(urlType) {
     var priorityKey = urlParams.get("opportunity") || urlParams.get("form");
     urlParams.delete('form');
     urlParams.delete('opportunity');
+    urlParams.delete('seva');
+    urlParams.delete('auto');
+    urlParams.delete('c');
     var queryString = urlParams.toString() ? ("?" + urlParams.toString()) : "";
 
     var entries = Object.entries(getDonationForms());
