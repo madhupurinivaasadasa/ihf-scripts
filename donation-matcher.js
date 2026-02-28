@@ -404,11 +404,21 @@ document.addEventListener("keydown", function(e) {
     try {
         prefetchHeroImage();
 
+        var params = new URLSearchParams(window.location.search);
+
+        var companyParam = params.get("c");
+        if (companyParam && companyParam.trim()) {
+            var existing = getStoredEmployer();
+            if (!existing || !existing.trim()) {
+                setEmployerCookie(companyParam.trim());
+                localStorage.setItem("ihf_employer_name", companyParam.trim());
+            }
+        }
+
         var storedName = getStoredEmployer();
         if (storedName && storedName.trim()) {
             currentUrlType = getUrlTypeForEmployer(storedName);
 
-            var params = new URLSearchParams(window.location.search);
             var targetKey = params.get("seva") || params.get("opportunity") || params.get("form");
             var forms = getDonationForms();
             var targetForm = targetKey ? forms[targetKey] || null : null;
@@ -422,6 +432,7 @@ document.addEventListener("keydown", function(e) {
             }
             if (autoRedirect && targetForm) {
                 params.delete("auto");
+                params.delete("c");
                 params.delete("seva");
                 params.delete("form");
                 params.delete("opportunity");
