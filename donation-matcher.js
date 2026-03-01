@@ -1,7 +1,7 @@
 function getDonationForms() { return window.donationForms || {}; }
 
 var vpfEmployerList = [
-    "Adobe", "AMD", "Applied Materials", "Broadcom", "ByteDance",
+    "Adobe", "AMD", "Applied Materials", "Atlassian", "Broadcom", "ByteDance",
     "Cadence", "Cadence Design Systems",
     "Cisco", "Cisco Systems",
     "Cloudera", "Coupa Software", "Dell", "DIRECTV", "DocuSign",
@@ -28,8 +28,6 @@ var matchingSupportedList = [
 ];
 
 var currentUrlType = "ihf";
-var pendingForm = null;
-var pendingQueryString = "";
 
 function setEmployerCookie(name) {
     var encodedName = encodeURIComponent(name);
@@ -95,114 +93,101 @@ function hideBanner() {
     document.getElementById("employerBanner").classList.remove("visible");
 }
 
-var focusTrapHandler = null;
+function showEmployerModal() {
+    var banner = document.getElementById("employerBanner");
+    var editRow = document.getElementById("bannerEditRow");
+    if (editRow) { editRow.remove(); }
 
-function showEmployerModal(form, queryString) {
-    pendingForm = form || null;
-    pendingQueryString = queryString || "";
+    editRow = document.createElement("div");
+    editRow.id = "bannerEditRow";
+    editRow.className = "banner-edit-row";
+    editRow.innerHTML =
+        '<input type="text" placeholder="Employer name" value="' + (getStoredEmployer() || '') + '" />' +
+        '<button type="button">Apply</button>';
 
-    var sevaCtx = document.getElementById("modalSevaContext");
-    if (form && form.label) {
-        document.getElementById("modalSevaIcon").textContent = form.icon || "🙏";
-        document.getElementById("modalSevaLabel").textContent = "Donating to: " + form.label;
-        sevaCtx.classList.add("visible");
-    } else {
-        sevaCtx.classList.remove("visible");
-    }
+    var input = editRow.querySelector("input");
+    var btn = editRow.querySelector("button");
 
-    document.getElementById("modalBackdrop").classList.add("visible");
-    var modal = document.getElementById("employerModal");
-    modal.classList.add("visible");
-
-    if (window !== window.top) {
-        modal.style.position = "absolute";
-        modal.style.top = "10px";
-        document.getElementById("modalBackdrop").style.position = "absolute";
-        document.getElementById("modalBackdrop").style.height = document.body.scrollHeight + "px";
-    }
-
-    var input = document.getElementById("modalEmployerInput");
-    input.value = getStoredEmployer();
-    setTimeout(function() {
-        modal.scrollIntoView({ behavior: "smooth", block: "start" });
-        input.focus();
-    }, 100);
-
-    enableFocusTrap();
-}
-
-function hideEmployerModal() {
-    document.getElementById("modalBackdrop").classList.remove("visible");
-    document.getElementById("employerModal").classList.remove("visible");
-    document.getElementById("modalSevaContext").classList.remove("visible");
-    pendingForm = null;
-    pendingQueryString = "";
-    disableFocusTrap();
-}
-
-function enableFocusTrap() {
-    var modal = document.getElementById("employerModal");
-    var focusable = modal.querySelectorAll('input, button, a[onclick], [tabindex]:not([tabindex="-1"])');
-    if (focusable.length === 0) return;
-    var first = focusable[0];
-    var last = focusable[focusable.length - 1];
-
-    focusTrapHandler = function(e) {
-        if (e.key !== "Tab") return;
-        if (e.shiftKey) {
-            if (document.activeElement === first) { e.preventDefault(); last.focus(); }
-        } else {
-            if (document.activeElement === last) { e.preventDefault(); first.focus(); }
-        }
-    };
-    modal.addEventListener("keydown", focusTrapHandler);
-}
-
-function disableFocusTrap() {
-    if (focusTrapHandler) {
-        document.getElementById("employerModal").removeEventListener("keydown", focusTrapHandler);
-        focusTrapHandler = null;
-    }
-}
-
-function handleEmployerSubmit() {
-    var input = document.getElementById("modalEmployerInput");
-    var name = input.value.trim();
-    if (!name) { input.focus(); return; }
-    setEmployerCookie(name);
-    localStorage.setItem("ihf_employer_name", name);
-    currentUrlType = getUrlTypeForEmployer(name);
-
-    if (pendingForm) {
-        (window.top || window).location.href = pendingForm[currentUrlType] + pendingQueryString;
-    } else {
+    btn.addEventListener("click", function() {
+        var name = input.value.trim();
+        if (!name) { input.focus(); return; }
+        setEmployerCookie(name);
+        localStorage.setItem("ihf_employer_name", name);
+        currentUrlType = getUrlTypeForEmployer(name);
         showBanner(name);
-        hideEmployerModal();
+        editRow.remove();
         renderTiles(currentUrlType);
-    }
+    });
+    input.addEventListener("keydown", function(e) {
+        if (e.key === "Enter") { btn.click(); }
+    });
+
+    banner.appendChild(editRow);
+    attachAutocomplete(input);
+    setTimeout(function() { input.focus(); }, 100);
 }
 
-function handleEmployerSkip() {
-    setEmployerCookie("NA");
-    localStorage.setItem("ihf_employer_name", "NA");
-    currentUrlType = "ihf";
+var activeInlineInput = null;
+var navigating = false;
 
-    if (pendingForm) {
-        (window.top || window).location.href = pendingForm["ihf"] + pendingQueryString;
-    } else {
-        showBanner("NA");
-        hideEmployerModal();
-        renderTiles("ihf");
+function showLoading(el) {
+    if (navigating) return false;
+    navigating = true;
+    if (el) {
+        el.style.opacity = "0.6";
+        el.style.pointerEvents = "none";
     }
+    var cta = el && el.querySelector(".tile-cta");
+    if (cta) cta.textContent = "Loading...";
+    return true;
 }
 
-document.getElementById("modalBackdrop").addEventListener("click", function() {
-    if (pendingForm) {
-        handleEmployerSkip();
-    } else {
-        hideEmployerModal();
+function showInlineEmployerInput(card, form, queryString) {
+    if (activeInlineInput) activeInlineInput.remove();
+
+    var wrapper = document.createElement("div");
+    wrapper.className = "tile-inline-employer";
+    wrapper.innerHTML =
+        '<p class="tile-inline-title">Double your donation!</p>' +
+        '<p class="tile-inline-subtitle">Enter your employer name to check if your gift can be matched.</p>' +
+        '<div class="tile-inline-input-row">' +
+        '<input type="text" placeholder="Employer name" />' +
+        '<button type="button">Apply</button>' +
+        '<button type="button" class="tile-inline-skip-btn">Not applicable</button>' +
+        '</div>';
+
+    var input = wrapper.querySelector("input");
+    var btn = wrapper.querySelector("button");
+    var skip = wrapper.querySelector(".tile-inline-skip-btn");
+
+    function submitEmployer() {
+        var name = input.value.trim();
+        if (!name) { input.focus(); return; }
+        if (!showLoading(card)) return;
+        setEmployerCookie(name);
+        localStorage.setItem("ihf_employer_name", name);
+        currentUrlType = getUrlTypeForEmployer(name);
+        (window.top || window).location.href = form[currentUrlType] + queryString;
     }
-});
+
+    function skipEmployer() {
+        if (!showLoading(card)) return;
+        setEmployerCookie("NA");
+        localStorage.setItem("ihf_employer_name", "NA");
+        (window.top || window).location.href = form["ihf"] + queryString;
+    }
+
+    btn.addEventListener("click", function(e) { e.preventDefault(); e.stopPropagation(); submitEmployer(); });
+    skip.addEventListener("click", function(e) { e.preventDefault(); e.stopPropagation(); skipEmployer(); });
+    input.addEventListener("keydown", function(e) { if (e.key === "Enter") { e.preventDefault(); submitEmployer(); } });
+    input.addEventListener("click", function(e) { e.stopPropagation(); });
+    wrapper.addEventListener("click", function(e) { e.stopPropagation(); });
+
+    card.appendChild(wrapper);
+    activeInlineInput = wrapper;
+    attachAutocomplete(input);
+    setTimeout(function() { input.focus(); }, 100);
+}
 
 function buildCard(form, urlType, queryString, isHero) {
     var card = document.createElement("a");
@@ -212,11 +197,12 @@ function buildCard(form, urlType, queryString, isHero) {
     card.addEventListener("click", function(e) {
         var employer = getStoredEmployer();
         if (employer && employer.trim()) {
+            if (!showLoading(card)) { e.preventDefault(); return; }
             card.href = form[currentUrlType] + queryString;
             return;
         }
         e.preventDefault();
-        showEmployerModal(form, queryString);
+        showInlineEmployerInput(card, form, queryString);
     });
 
     var imageWrap = document.createElement("div");
@@ -366,50 +352,48 @@ function prefetchFormUrls() {
     }
 }
 
-document.getElementById("modalEmployerInput").addEventListener("keydown", function(e) {
-    if (e.key === "Enter") handleEmployerSubmit();
-    if (e.key === "Escape") hideEmployerModal();
-});
-document.addEventListener("keydown", function(e) {
-    if (e.key === "Escape" && document.getElementById("employerModal").classList.contains("visible")) {
-        hideEmployerModal();
-    }
-});
 
-(function init() {
-    var allEmployers = vpfEmployerList.concat(matchingSupportedList);
-    var unique = allEmployers.filter(function(v, i, a) { return a.indexOf(v) === i; });
-    var employerSuggestions = unique.filter(function(name) {
+var employerSuggestions = (function() {
+    var all = vpfEmployerList.concat(matchingSupportedList);
+    var unique = all.filter(function(v, i, a) { return a.indexOf(v) === i; });
+    var filtered = unique.filter(function(name) {
         var lower = name.toLowerCase();
         return !unique.some(function(other) {
             var otherLower = other.toLowerCase();
             return otherLower !== lower && otherLower.length < lower.length && lower.indexOf(otherLower) !== -1;
         });
     });
-    employerSuggestions.sort(function(a, b) { return a.localeCompare(b); });
+    filtered.sort(function(a, b) { return a.localeCompare(b); });
+    return filtered;
+})();
 
-    var isMobile = window.matchMedia("(max-width: 768px)").matches;
-    var input = document.getElementById("modalEmployerInput");
-    if (isMobile) {
-        input.removeAttribute("list");
-    } else {
-        input.addEventListener("input", function() {
-            var datalist = document.getElementById("employerSuggestions");
-            datalist.innerHTML = "";
-            var val = this.value.trim();
-            if (val.length < 2) return;
-            var lower = val.toLowerCase();
-            var exactMatch = employerSuggestions.some(function(n) { return n.toLowerCase() === lower; });
-            if (exactMatch) return;
-            employerSuggestions.forEach(function(name) {
-                if (name.toLowerCase().indexOf(lower) !== -1) {
-                    var opt = document.createElement("option");
-                    opt.value = name;
-                    datalist.appendChild(opt);
-                }
-            });
+var isMobile = window.matchMedia("(max-width: 768px)").matches;
+
+function attachAutocomplete(input) {
+    if (isMobile) return;
+    var dlId = "dl_" + Math.random().toString(36).substr(2, 6);
+    var dl = document.createElement("datalist");
+    dl.id = dlId;
+    input.setAttribute("list", dlId);
+    input.setAttribute("autocomplete", "off");
+    input.parentNode.appendChild(dl);
+    input.addEventListener("input", function() {
+        dl.innerHTML = "";
+        var val = input.value.trim();
+        if (val.length < 2) return;
+        var lower = val.toLowerCase();
+        if (employerSuggestions.some(function(n) { return n.toLowerCase() === lower; })) return;
+        employerSuggestions.forEach(function(name) {
+            if (name.toLowerCase().indexOf(lower) !== -1) {
+                var opt = document.createElement("option");
+                opt.value = name;
+                dl.appendChild(opt);
+            }
         });
-    }
+    });
+}
+
+(function init() {
 
     function revealPage() {
         var wrap = document.getElementById("donationPageWrap");
@@ -480,7 +464,7 @@ document.addEventListener("keydown", function(e) {
 
     window.addEventListener("pageshow", function(e) {
         if (e.persisted) {
-            hideEmployerModal();
+            navigating = false;
             revealPage();
             var name = getStoredEmployer();
             if (name && name.trim()) {
