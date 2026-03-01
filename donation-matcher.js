@@ -177,16 +177,19 @@ function showInlineEmployerInput(card, form, queryString) {
         (window.top || window).location.href = form["ihf"] + queryString;
     }
 
-    btn.addEventListener("click", function(e) { e.preventDefault(); e.stopPropagation(); submitEmployer(); });
-    skip.addEventListener("click", function(e) { e.preventDefault(); e.stopPropagation(); skipEmployer(); });
+    function stopAll(e) { e.preventDefault(); e.stopPropagation(); }
+    btn.addEventListener("click", function(e) { stopAll(e); submitEmployer(); });
+    skip.addEventListener("click", function(e) { stopAll(e); skipEmployer(); });
     input.addEventListener("keydown", function(e) { 
-        if (e.key === "Enter") { e.preventDefault(); submitEmployer(); } 
         e.stopPropagation();
+        if (e.key === "Enter") { e.preventDefault(); submitEmployer(); } 
     });
-    input.addEventListener("click", function(e) { e.stopPropagation(); });
-    input.addEventListener("focus", function(e) { e.stopPropagation(); });
+    input.addEventListener("click", stopAll);
+    input.addEventListener("mousedown", stopAll);
     input.addEventListener("touchstart", function(e) { e.stopPropagation(); });
-    wrapper.addEventListener("click", function(e) { e.stopPropagation(); });
+    input.addEventListener("touchend", function(e) { e.stopPropagation(); e.preventDefault(); input.focus(); });
+    wrapper.addEventListener("click", stopAll);
+    wrapper.addEventListener("mousedown", stopAll);
     wrapper.addEventListener("touchstart", function(e) { e.stopPropagation(); });
 
     var tileBody = card.querySelector(".tile-body");
