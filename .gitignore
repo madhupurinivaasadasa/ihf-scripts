@@ -3,5 +3,6 @@ node_modules/
 package.json
 package-lock.json
 donations_wpadmin_test*.html
+test-iframe.html
 test_*.js
 *_screenshots/

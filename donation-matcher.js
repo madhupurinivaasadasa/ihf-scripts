@@ -111,10 +111,19 @@ function showEmployerModal(form, queryString) {
     }
 
     document.getElementById("modalBackdrop").classList.add("visible");
-    document.getElementById("employerModal").classList.add("visible");
+    var modal = document.getElementById("employerModal");
+    modal.classList.add("visible");
+
+    if (window !== window.top) {
+        modal.style.position = "absolute";
+        modal.style.top = window.scrollY + (window.innerHeight / 2) + "px";
+        document.getElementById("modalBackdrop").style.position = "absolute";
+        document.getElementById("modalBackdrop").style.height = document.body.scrollHeight + "px";
+    }
+
     var input = document.getElementById("modalEmployerInput");
     input.value = getStoredEmployer();
-    setTimeout(function() { input.focus(); }, 100);
+    setTimeout(function() { input.focus(); modal.scrollIntoView({ behavior: "smooth", block: "center" }); }, 100);
 
     enableFocusTrap();
 }
@@ -478,4 +487,13 @@ document.addEventListener("keydown", function(e) {
             }
         }
     });
+
+    if (window !== window.top) {
+        function sendHeight() {
+            try { window.parent.postMessage({ type: "donationPageHeight", height: document.body.scrollHeight }, "*"); } catch(e) {}
+        }
+        sendHeight();
+        setTimeout(sendHeight, 500);
+        setTimeout(sendHeight, 2000);
+    }
 })();
