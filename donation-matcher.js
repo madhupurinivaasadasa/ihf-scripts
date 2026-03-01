@@ -179,14 +179,23 @@ function showInlineEmployerInput(card, form, queryString) {
 
     btn.addEventListener("click", function(e) { e.preventDefault(); e.stopPropagation(); submitEmployer(); });
     skip.addEventListener("click", function(e) { e.preventDefault(); e.stopPropagation(); skipEmployer(); });
-    input.addEventListener("keydown", function(e) { if (e.key === "Enter") { e.preventDefault(); submitEmployer(); } });
+    input.addEventListener("keydown", function(e) { 
+        if (e.key === "Enter") { e.preventDefault(); submitEmployer(); } 
+        e.stopPropagation();
+    });
     input.addEventListener("click", function(e) { e.stopPropagation(); });
+    input.addEventListener("focus", function(e) { e.stopPropagation(); });
+    input.addEventListener("touchstart", function(e) { e.stopPropagation(); });
     wrapper.addEventListener("click", function(e) { e.stopPropagation(); });
+    wrapper.addEventListener("touchstart", function(e) { e.stopPropagation(); });
 
     card.appendChild(wrapper);
     activeInlineInput = wrapper;
     attachAutocomplete(input);
-    setTimeout(function() { input.focus(); }, 100);
+    setTimeout(function() { 
+        wrapper.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        setTimeout(function() { input.focus(); }, 300);
+    }, 50);
 }
 
 function buildCard(form, urlType, queryString, isHero) {
@@ -195,6 +204,10 @@ function buildCard(form, urlType, queryString, isHero) {
     card.target = "_top";
     card.className = "tile";
     card.addEventListener("click", function(e) {
+        if (activeInlineInput && card.contains(activeInlineInput)) {
+            e.preventDefault();
+            return;
+        }
         var employer = getStoredEmployer();
         if (employer && employer.trim()) {
             if (!showLoading(card)) { e.preventDefault(); return; }
