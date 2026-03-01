@@ -189,7 +189,12 @@ function showInlineEmployerInput(card, form, queryString) {
     wrapper.addEventListener("click", function(e) { e.stopPropagation(); });
     wrapper.addEventListener("touchstart", function(e) { e.stopPropagation(); });
 
-    card.appendChild(wrapper);
+    var tileBody = card.querySelector(".tile-body");
+    if (tileBody) {
+        card.insertBefore(wrapper, tileBody);
+    } else {
+        card.appendChild(wrapper);
+    }
     activeInlineInput = wrapper;
     attachAutocomplete(input);
     setTimeout(function() { 
