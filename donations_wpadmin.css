@@ -442,7 +442,7 @@ body.wp-admin { background-color: #f0f0f0; margin: 0; padding: 0; }
 /* Mobile responsive */
 @media (max-width: 480px) {
     h1 { font-size: 1.5rem; }
-    .employer-modal { padding: 24px 18px 20px; }
+    .employer-modal { padding: 24px 18px 20px; top: 20px; transform: translateX(-50%); }
     .modal-input-group input[type="text"] { width: 100%; max-width: 280px; font-size: 16px; }
     .modal-input-group button { padding: 10px 20px; font-size: 16px; }
     .employer-banner { font-size: 13px; }
