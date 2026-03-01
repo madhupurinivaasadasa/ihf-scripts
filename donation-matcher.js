@@ -116,14 +116,17 @@ function showEmployerModal(form, queryString) {
 
     if (window !== window.top) {
         modal.style.position = "absolute";
-        modal.style.top = window.scrollY + "px";
+        modal.style.top = "10px";
         document.getElementById("modalBackdrop").style.position = "absolute";
         document.getElementById("modalBackdrop").style.height = document.body.scrollHeight + "px";
     }
 
     var input = document.getElementById("modalEmployerInput");
     input.value = getStoredEmployer();
-    setTimeout(function() { input.focus(); window.scrollTo({ top: 0, behavior: "smooth" }); }, 100);
+    setTimeout(function() {
+        modal.scrollIntoView({ behavior: "smooth", block: "start" });
+        input.focus();
+    }, 100);
 
     enableFocusTrap();
 }
