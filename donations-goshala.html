@@ -31,27 +31,6 @@
 <div id="heroTile"></div>
 <div class="container" id="donationTiles"></div>
 
-<div class="modal-backdrop" id="modalBackdrop" aria-hidden="true"></div>
-
-<div class="employer-modal" id="employerModal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
-    <button class="modal-close" onclick="hideEmployerModal()" aria-label="Close">&times;</button>
-    <div class="modal-icon">🤝</div>
-    <h2 class="modal-title" id="modalTitle">Double Your Donation!</h2>
-    <p class="modal-subtitle">
-        Many employers match charitable donations. Enter your employer name so we can check if your gift can be doubled.
-    </p>
-    <div class="modal-seva-context" id="modalSevaContext">
-        <span class="seva-icon" id="modalSevaIcon"></span>
-        <span id="modalSevaLabel"></span>
-    </div>
-    <div class="modal-input-group">
-        <input type="text" id="modalEmployerInput" placeholder="Employer name (e.g., Apple)" list="employerSuggestions" autocomplete="off" />
-        <button onclick="handleEmployerSubmit()">Apply</button>
-    </div>
-    <a class="modal-skip" onclick="handleEmployerSkip()">Not applicable</a>
-    <datalist id="employerSuggestions"></datalist>
-</div>
-
 <script src="donation-tiles-goshala.js"></script>
 <script src="donation-matcher.js"></script>
 
