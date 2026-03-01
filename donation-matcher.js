@@ -116,7 +116,7 @@ function showEmployerModal(form, queryString) {
 
     if (window !== window.top) {
         modal.style.position = "absolute";
-        modal.style.top = (window.scrollY + 20) + "px";
+        modal.style.top = window.scrollY + "px";
         document.getElementById("modalBackdrop").style.position = "absolute";
         document.getElementById("modalBackdrop").style.height = document.body.scrollHeight + "px";
     }
