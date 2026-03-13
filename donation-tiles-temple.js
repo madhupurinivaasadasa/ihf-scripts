@@ -4,7 +4,7 @@ window.donationForms = {
         tagline: "Celebrate with devotion",
         description: "Celebrate the divine birth of Lord Rama with Sita Rama Kalyana and special festival programs",
         price: "",
-        img: "https://secure.kbmandir.org/neon/resource/ihf/images/sri_rama_navami.jpeg",
+        img: "https://secure.kbmandir.org/neon/resource/ihf/images/sri+rama+navami.jpg",
         vpf: "https://secure.kbmandir.org/forms/kbm-festival-seva-vpf",
         ihf: "https://secure.kbmandir.org/forms/kbm-festival-seva-ihf",
         bgColor: "#FFE5B4",
