@@ -1,15 +1,15 @@
 window.donationForms = {
-    // "kbm-festival": {
-    //     label: "Sri Gaura Purnima",
-    //     tagline: "Celebrate with devotion",
-    //     description: "Celebrate the appearance of Sri Chaitanya Mahaprabhu with grand abhishekam and a feast for all devotees.",
-    //     price: "",
-    //     img: "https://secure.kbmandir.org/neon/resource/ihf/images/Gaura_Purnima_2026.jpeg",
-    //     vpf: "https://secure.kbmandir.org/forms/kbm-festival-seva-vpf",
-    //     ihf: "https://secure.kbmandir.org/forms/kbm-festival-seva-ihf",
-    //     bgColor: "#FFE5B4",
-    //     icon: "🕉️"
-    // },
+    "kbm-festival": {
+        label: "Sri Rama Navami",
+        tagline: "Celebrate with devotion",
+        description: "Celebrate the divine birth of Lord Rama with Sita Rama Kalyana and special festival programs",
+        price: "",
+        img: "https://secure.kbmandir.org/neon/resource/ihf/images/sri_rama_navami.jpeg",
+        vpf: "https://secure.kbmandir.org/forms/kbm-festival-seva-vpf",
+        ihf: "https://secure.kbmandir.org/forms/kbm-festival-seva-ihf",
+        bgColor: "#FFE5B4",
+        icon: "🕉️"
+    },
     // "new-year": {
     //     label: "New Year 2026",
     //     tagline: "Ring in the new year",
