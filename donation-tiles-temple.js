@@ -1,15 +1,4 @@
 window.donationForms = {
-    // "kbm-festival": {
-    //     label: "Sri Rama Navami",
-    //     tagline: "Celebrate with devotion",
-    //     description: "Celebrate the divine birth of Lord Rama with Sita Rama Kalyana and special festival programs",
-    //     price: "",
-    //     img: "https://secure.kbmandir.org/neon/resource/ihf/images/sri+rama+navami.jpg",
-    //     vpf: "https://secure.kbmandir.org/forms/kbm-festival-seva-vpf",
-    //     ihf: "https://secure.kbmandir.org/forms/kbm-festival-seva-ihf",
-    //     bgColor: "#FFE5B4",
-    //     icon: "🕉️"
-    // },
     "ugadi": {
         label: "Ugadi 2026",
         tagline: "Welcome the New Year with devotion",
@@ -19,6 +8,17 @@ window.donationForms = {
         vpf: "https://secure.kbmandir.org/forms/ugadi-vpf",
         ihf: "https://secure.kbmandir.org/forms/ugadi-ihf",
         bgColor: "#FFD700",
+        icon: "🕉️"
+    },
+    "kbm-festival": {
+        label: "Sri Rama Navami",
+        tagline: "Celebrate with devotion",
+        description: "Celebrate the divine birth of Lord Rama with Sita Rama Kalyana and special festival programs",
+        price: "",
+        img: "https://secure.kbmandir.org/neon/resource/ihf/images/sri_rama_navami_2026.jpeg",
+        vpf: "https://secure.kbmandir.org/forms/kbm-festival-seva-vpf",
+        ihf: "https://secure.kbmandir.org/forms/kbm-festival-seva-ihf",
+        bgColor: "#FFE5B4",
         icon: "🕉️"
     },
     "goshala-project": {
