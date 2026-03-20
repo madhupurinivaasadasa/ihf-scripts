@@ -1,15 +1,15 @@
 window.donationForms = {
-    "ugadi": {
-        label: "Ugadi 2026",
-        tagline: "Welcome the New Year with devotion",
-        description: "Celebrate Ugadi with Harinama Yajna, special archana, Annadana seva. May Sri Krishna Balaram bless you and your family with fortune and happiness.",
-        price: "",
-        img: "https://secure.kbmandir.org/neon/resource/ihf/images/Ugadi_2026.jpg",
-        vpf: "https://secure.kbmandir.org/forms/ugadi-vpf",
-        ihf: "https://secure.kbmandir.org/forms/ugadi-ihf",
-        bgColor: "#FFD700",
-        icon: "🕉️"
-    },
+    // "ugadi": {
+    //     label: "Ugadi 2026",
+    //     tagline: "Welcome the New Year with devotion",
+    //     description: "Celebrate Ugadi with Harinama Yajna, special archana, Annadana seva. May Sri Krishna Balaram bless you and your family with fortune and happiness.",
+    //     price: "",
+    //     img: "https://secure.kbmandir.org/neon/resource/ihf/images/Ugadi_2026.jpg",
+    //     vpf: "https://secure.kbmandir.org/forms/ugadi-vpf",
+    //     ihf: "https://secure.kbmandir.org/forms/ugadi-ihf",
+    //     bgColor: "#FFD700",
+    //     icon: "🕉️"
+    // },
     "kbm-festival": {
         label: "Sri Rama Navami",
         tagline: "Celebrate with devotion",
