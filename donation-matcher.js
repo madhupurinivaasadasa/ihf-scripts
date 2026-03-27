@@ -130,6 +130,17 @@ function showEmployerModal() {
 var activeInlineInput = null;
 var navigating = false;
 
+function resetNavigating() {
+    navigating = false;
+    var tiles = document.querySelectorAll(".tile");
+    for (var i = 0; i < tiles.length; i++) {
+        tiles[i].style.opacity = "";
+        tiles[i].style.pointerEvents = "";
+        var cta = tiles[i].querySelector(".tile-cta");
+        if (cta && cta.textContent === "Loading...") cta.textContent = "Donate now";
+    }
+}
+
 function showLoading(el) {
     if (navigating) return false;
     navigating = true;
@@ -139,7 +150,18 @@ function showLoading(el) {
     }
     var cta = el && el.querySelector(".tile-cta");
     if (cta) cta.textContent = "Loading...";
+    setTimeout(function() {
+        if (navigating) resetNavigating();
+    }, 3000);
     return true;
+}
+
+function notifyIframeHeight() {
+    try {
+        if (window !== window.top) {
+            window.parent.postMessage({ type: "donationPageHeight", height: document.body.scrollHeight }, "*");
+        }
+    } catch(e) {}
 }
 
 function showInlineEmployerInput(card, form, queryString) {
@@ -148,6 +170,7 @@ function showInlineEmployerInput(card, form, queryString) {
     var wrapper = document.createElement("div");
     wrapper.className = "tile-inline-employer";
     wrapper.innerHTML =
+        '<span class="tile-inline-close" role="button" aria-label="Close">&times;</span>' +
         '<p class="tile-inline-title">Double your donation!</p>' +
         '<p class="tile-inline-subtitle">Enter your employer name to check if your gift can be matched.</p>' +
         '<div class="tile-inline-input-row">' +
@@ -159,6 +182,20 @@ function showInlineEmployerInput(card, form, queryString) {
     var input = wrapper.querySelector("input");
     var btn = wrapper.querySelector("button");
     var skip = wrapper.querySelector(".tile-inline-skip-btn");
+    var closeBtn = wrapper.querySelector(".tile-inline-close");
+
+    function stopAll(e) { e.preventDefault(); e.stopPropagation(); }
+
+    function dismissInline() {
+        wrapper.remove();
+        if (activeInlineInput === wrapper) activeInlineInput = null;
+        notifyIframeHeight();
+    }
+
+    function navigateTo(url) {
+        try { (window.top || window).location.href = url; }
+        catch (e) { window.location.href = url; }
+    }
 
     function submitEmployer() {
         var name = input.value.trim();
@@ -167,22 +204,23 @@ function showInlineEmployerInput(card, form, queryString) {
         setEmployerCookie(name);
         localStorage.setItem("ihf_employer_name", name);
         currentUrlType = getUrlTypeForEmployer(name);
-        (window.top || window).location.href = form[currentUrlType] + queryString;
+        navigateTo(form[currentUrlType] + queryString);
     }
 
     function skipEmployer() {
         if (!showLoading(card)) return;
         setEmployerCookie("NA");
         localStorage.setItem("ihf_employer_name", "NA");
-        (window.top || window).location.href = form["ihf"] + queryString;
+        navigateTo(form["ihf"] + queryString);
     }
 
-    function stopAll(e) { e.preventDefault(); e.stopPropagation(); }
+    closeBtn.addEventListener("click", function(e) { stopAll(e); dismissInline(); });
     btn.addEventListener("click", function(e) { stopAll(e); submitEmployer(); });
     skip.addEventListener("click", function(e) { stopAll(e); skipEmployer(); });
     input.addEventListener("keydown", function(e) { 
         e.stopPropagation();
-        if (e.key === "Enter") { e.preventDefault(); submitEmployer(); } 
+        if (e.key === "Enter") { e.preventDefault(); submitEmployer(); }
+        if (e.key === "Escape") { dismissInline(); }
     });
     input.addEventListener("click", stopAll);
     input.addEventListener("mousedown", stopAll);
@@ -200,6 +238,7 @@ function showInlineEmployerInput(card, form, queryString) {
     }
     activeInlineInput = wrapper;
     attachAutocomplete(input);
+    notifyIframeHeight();
     setTimeout(function() { 
         wrapper.scrollIntoView({ behavior: 'smooth', block: 'center' });
         setTimeout(function() { input.focus(); }, 300);
@@ -485,7 +524,7 @@ function attachAutocomplete(input) {
 
     window.addEventListener("pageshow", function(e) {
         if (e.persisted) {
-            navigating = false;
+            resetNavigating();
             revealPage();
             var name = getStoredEmployer();
             if (name && name.trim()) {
@@ -496,12 +535,17 @@ function attachAutocomplete(input) {
         }
     });
 
-    if (window !== window.top) {
-        function sendHeight() {
-            try { window.parent.postMessage({ type: "donationPageHeight", height: document.body.scrollHeight }, "*"); } catch(e) {}
+    document.addEventListener("visibilitychange", function() {
+        if (!document.hidden && navigating) {
+            resetNavigating();
         }
-        sendHeight();
-        setTimeout(sendHeight, 500);
-        setTimeout(sendHeight, 2000);
-    }
+    });
+
+    try {
+        if (window !== window.top) {
+            notifyIframeHeight();
+            setTimeout(notifyIframeHeight, 500);
+            setTimeout(notifyIframeHeight, 2000);
+        }
+    } catch(e) {}
 })();
