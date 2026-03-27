@@ -349,6 +349,8 @@ function buildCard(form, urlType, queryString, isHero) {
 }
 
 function renderTiles(urlType) {
+    document.body.setAttribute("data-theme", urlType);
+
     var heroContainer = document.getElementById("heroTile");
     var container = document.getElementById("donationTiles");
     if (heroContainer) heroContainer.innerHTML = "";
