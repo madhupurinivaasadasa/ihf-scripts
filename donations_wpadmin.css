@@ -326,7 +326,11 @@ body.wp-admin { background-color: #f0f0f0; margin: 0; padding: 0; }
     50% { transform: scale(1.1); opacity: 1; }
 }
 
-/* Hero tile */
+/* Hero tile
+   Uses position:static + object-fit:contain so the full image is always visible
+   without cropping, regardless of aspect ratio. Grid tiles use cover (cropping ok
+   at small size), but the hero needs to show all content — posters have text/pricing
+   that gets cut off with cover. Image sets its own natural height. */
 #heroTile {
     width: 100%;
     max-width: 720px;
@@ -334,17 +338,19 @@ body.wp-admin { background-color: #f0f0f0; margin: 0; padding: 0; }
     padding: 0 10px;
 }
 #heroTile .tile { height: auto; max-width: 100%; }
-#heroTile .tile-image-wrap { height: 405px; }
+#heroTile .tile-image-wrap { height: auto; }
+#heroTile .tile-image-wrap img {
+    position: static;
+    width: 100%;
+    height: auto;
+    object-fit: contain;
+}
 #heroTile .tile-title-text { font-size: 20px; }
 #heroTile .tile-title-icon { font-size: 26px; }
 #heroTile .tile-price-badge { font-size: 14px; padding: 5px 14px; }
 #heroTile .tile-tagline { font-size: 16px; }
 #heroTile .tile-description { font-size: 14px; }
 #heroTile .tile-cta { font-size: 14px; }
-
-@media (max-width: 720px) {
-    #heroTile .tile-image-wrap { height: calc((100vw - 20px) * 0.5625); }
-}
 @media (max-width: 560px) {
     #heroTile .tile-title-text { font-size: 17px; }
 }
@@ -357,7 +363,8 @@ body.wp-admin { background-color: #f0f0f0; margin: 0; padding: 0; }
     .tile-body { padding: 12px 14px 14px; }
 }
 
-/* Inline employer input inside tile */
+/* Inline employer input inside tile — shown on first click when no employer stored.
+   Close button (X) and Escape key dismiss it. :has() highlights the active tile. */
 .tile-inline-employer {
     position: relative;
     padding: 10px 12px;

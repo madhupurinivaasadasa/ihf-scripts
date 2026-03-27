@@ -130,6 +130,10 @@ function showEmployerModal() {
 var activeInlineInput = null;
 var navigating = false;
 
+// Resets navigating lock AND restores visual state on all tiles.
+// Called by: visibilitychange (tab switch back), pageshow (bfcache), 3s safety timeout.
+// Fixes: right-click/Cmd+click "Open in New Tab" left navigating=true permanently,
+// making all tiles unclickable until page refresh.
 function resetNavigating() {
     navigating = false;
     var tiles = document.querySelectorAll(".tile");
@@ -150,12 +154,17 @@ function showLoading(el) {
     }
     var cta = el && el.querySelector(".tile-cta");
     if (cta) cta.textContent = "Loading...";
+    // Safety net: if navigation doesn't happen within 3s (popup blocked, network error,
+    // Cmd+click opened new tab), reset so tiles aren't stuck forever.
     setTimeout(function() {
         if (navigating) resetNavigating();
     }, 3000);
     return true;
 }
 
+// Tells parent frame to resize iframe after content height changes
+// (e.g., inline employer input shown/dismissed). Wrapped in try/catch
+// because window.top access throws SecurityError in cross-origin iframes.
 function notifyIframeHeight() {
     try {
         if (window !== window.top) {
@@ -186,12 +195,14 @@ function showInlineEmployerInput(card, form, queryString) {
 
     function stopAll(e) { e.preventDefault(); e.stopPropagation(); }
 
+    // Close/dismiss the inline employer input (X button or Escape key)
     function dismissInline() {
         wrapper.remove();
         if (activeInlineInput === wrapper) activeInlineInput = null;
         notifyIframeHeight();
     }
 
+    // Cross-origin safe navigation: window.top throws in cross-origin iframes
     function navigateTo(url) {
         try { (window.top || window).location.href = url; }
         catch (e) { window.location.href = url; }
@@ -535,6 +546,8 @@ function attachAutocomplete(input) {
         }
     });
 
+    // When user returns to this tab after opening a tile in a new tab,
+    // reset the navigating lock so tiles are clickable again.
     document.addEventListener("visibilitychange", function() {
         if (!document.hidden && navigating) {
             resetNavigating();
