@@ -288,21 +288,23 @@ function buildCard(form, urlType, queryString, isHero) {
     var img = document.createElement("img");
     img.src = form.img;
     img.alt = form.label;
+    img.width = isHero ? 720 : 340;
+    img.height = isHero ? 405 : 180;
     img.loading = isHero ? "eager" : "lazy";
-    img.decoding = "async";
+    img.decoding = isHero ? "sync" : "async";
     img.sizes = isHero ? "(max-width: 720px) 100vw, 720px" : "(max-width: 560px) 100vw, (max-width: 900px) 50vw, 33vw";
     if (isHero) img.fetchPriority = "high";
-    img.style.opacity = "0";
-    (function(theImg, thePlaceholder) {
+    if (!isHero) img.style.opacity = "0";
+    (function(theImg, thePlaceholder, hero) {
         theImg.onload = function() {
-            theImg.style.opacity = "1";
+            if (!hero) theImg.style.opacity = "1";
             thePlaceholder.style.opacity = "0";
             setTimeout(function() { thePlaceholder.remove(); }, 300);
         };
         theImg.onerror = function() {
             thePlaceholder.classList.add("error");
         };
-    })(img, placeholder);
+    })(img, placeholder, isHero);
 
     var gradient = document.createElement("div");
     gradient.className = "gradient-overlay";
@@ -539,18 +541,11 @@ function attachAutocomplete(input) {
                     });
                 }
                 if (allEntries.length > 0) {
-                    // Skip entrance animation so hero + placeholder are visible immediately
-                    heroCard.style.animation = "none";
-                    heroCard.style.opacity = "1";
                     var urlParams2 = new URLSearchParams(window.location.search);
                     urlParams2.delete('form'); urlParams2.delete('opportunity');
                     urlParams2.delete('seva'); urlParams2.delete('auto'); urlParams2.delete('c');
                     var qs = urlParams2.toString() ? ("?" + urlParams2.toString()) : "";
-                    var heroForm = allEntries[0][1];
-                    // Brief delay so the tile with placeholder paints first
-                    setTimeout(function() {
-                        showInlineEmployerInput(heroCard, heroForm, qs);
-                    }, 100);
+                    showInlineEmployerInput(heroCard, allEntries[0][1], qs);
                 }
             }
         }

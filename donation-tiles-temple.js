@@ -26,7 +26,7 @@ window.donationForms = {
         tagline: "Help build mother cow's home!",
         description: "Once in a lifetime opportunity! Sponsor from just 1 sq ft. One-time, monthly, or yearly options available.",
         price: "",
-        img: "https://www.kbgoshala.org/wp-content/uploads/2017/11/Screenshot-2024-06-17-at-8.04.18%E2%80%AFPM-2048x1324.png",
+        img: "https://d2r0txsugik6oi.cloudfront.net/neon/resource/ihf/images/goshala_project.jpg",
         vpf: "https://secure.kbmandir.org/forms/goshala-project-vpf",
         ihf: "https://secure.kbmandir.org/forms/goshala-project-ihf",
         bgColor: "#87CEEB",
