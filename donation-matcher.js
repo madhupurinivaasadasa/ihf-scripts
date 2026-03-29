@@ -412,13 +412,13 @@ function prefetchRemainingImages() {
     }
 }
 
-function prefetchFormUrls() {
+function preconnectFormUrls() {
     var entries = Object.entries(getDonationForms());
     for (var i = 0; i < entries.length; i++) {
         var form = entries[i][1];
         ["vpf", "ihf"].forEach(function(type) {
             var link = document.createElement("link");
-            link.rel = "prefetch";
+            link.rel = "preconnect";
             link.href = form[type];
             document.head.appendChild(link);
         });
@@ -522,6 +522,37 @@ function attachAutocomplete(input) {
         } else {
             currentUrlType = "ihf";
             renderTiles("ihf");
+
+            // First-time visitor (no employer stored): auto-open the employer
+            // input on the hero tile after the image loads, so the tile is
+            // fully visible before the input appears.
+            var heroCard = document.querySelector("#heroTile .tile");
+            if (heroCard) {
+                var priorityKey = params.get("seva") || params.get("opportunity") || params.get("form");
+                var allEntries = Object.entries(getDonationForms());
+                if (priorityKey) {
+                    var orig = allEntries.slice();
+                    allEntries.sort(function(a, b) {
+                        if (a[0] === priorityKey) return -1;
+                        if (b[0] === priorityKey) return 1;
+                        return orig.indexOf(a) - orig.indexOf(b);
+                    });
+                }
+                if (allEntries.length > 0) {
+                    // Skip entrance animation so hero + placeholder are visible immediately
+                    heroCard.style.animation = "none";
+                    heroCard.style.opacity = "1";
+                    var urlParams2 = new URLSearchParams(window.location.search);
+                    urlParams2.delete('form'); urlParams2.delete('opportunity');
+                    urlParams2.delete('seva'); urlParams2.delete('auto'); urlParams2.delete('c');
+                    var qs = urlParams2.toString() ? ("?" + urlParams2.toString()) : "";
+                    var heroForm = allEntries[0][1];
+                    // Brief delay so the tile with placeholder paints first
+                    setTimeout(function() {
+                        showInlineEmployerInput(heroCard, heroForm, qs);
+                    }, 100);
+                }
+            }
         }
     } catch (e) { /* ensure page is visible even if something fails */ }
 
@@ -529,10 +560,10 @@ function attachAutocomplete(input) {
 
     if (window.requestIdleCallback) {
         requestIdleCallback(prefetchRemainingImages);
-        requestIdleCallback(prefetchFormUrls);
+        requestIdleCallback(preconnectFormUrls);
     } else {
         setTimeout(prefetchRemainingImages, 200);
-        setTimeout(prefetchFormUrls, 400);
+        setTimeout(preconnectFormUrls, 400);
     }
 
     window.addEventListener("pageshow", function(e) {
