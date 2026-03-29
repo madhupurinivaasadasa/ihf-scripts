@@ -256,6 +256,11 @@ function showInlineEmployerInput(card, form, queryString) {
     }, 50);
 }
 
+// DO NOT TOUCH image attributes — tuned for Lighthouse LCP/CLS:
+//   Hero:  width=720 height=405, loading="eager", decoding="sync", fetchPriority="high"
+//   Grid:  width=340 height=180, loading="lazy",  decoding="async", opacity:0 until onload
+// DO NOT add opacity:0 to hero image — breaks LCP detection.
+// DO NOT remove width/height — they prevent CLS by reserving aspect-ratio space.
 function buildCard(form, urlType, queryString, isHero) {
     var card = document.createElement("a");
     card.href = form[urlType] + queryString;
@@ -414,15 +419,25 @@ function prefetchRemainingImages() {
     }
 }
 
+// Uses dns-prefetch (NOT preconnect) to avoid Lighthouse "too many preconnect" warning.
+// HTML already has <=4 preconnects for critical origins (fonts, CDN, image host).
+// Deduplicates by origin so each domain gets only one dns-prefetch link.
 function preconnectFormUrls() {
+    var seen = {};
     var entries = Object.entries(getDonationForms());
     for (var i = 0; i < entries.length; i++) {
         var form = entries[i][1];
         ["vpf", "ihf"].forEach(function(type) {
-            var link = document.createElement("link");
-            link.rel = "preconnect";
-            link.href = form[type];
-            document.head.appendChild(link);
+            try {
+                var origin = new URL(form[type]).origin;
+                if (!seen[origin]) {
+                    seen[origin] = true;
+                    var link = document.createElement("link");
+                    link.rel = "dns-prefetch";
+                    link.href = origin;
+                    document.head.appendChild(link);
+                }
+            } catch(e) {}
         });
     }
 }
@@ -526,8 +541,9 @@ function attachAutocomplete(input) {
             renderTiles("ihf");
 
             // First-time visitor (no employer stored): auto-open the employer
-            // input on the hero tile after the image loads, so the tile is
-            // fully visible before the input appears.
+            // input on the hero tile so they don't need an extra click.
+            // DO NOT TOUCH — this causes some CLS but is a deliberate UX choice.
+            // Lighthouse flags it; the tradeoff is accepted for better first-visit UX.
             var heroCard = document.querySelector("#heroTile .tile");
             if (heroCard) {
                 var priorityKey = params.get("seva") || params.get("opportunity") || params.get("form");

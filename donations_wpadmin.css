@@ -1,6 +1,35 @@
 /* Google Fonts loaded via <link> in HTML (all pages including WP embeds).
    @import was removed — it's render-blocking and redundant with the <link> tags. */
 
+/* ============================================================================
+   LIGHTHOUSE / PERFORMANCE NOTES (March 2026)
+   ============================================================================
+   Scores on live WP site (kbgoshala.org/donate):
+     FCP 1.7s | LCP 4.1s | TBT 100ms | CLS 0.647 | SI 6.2s
+
+   CANNOT be improved from front-end CSS/JS (server or hosting issues):
+     - LCP 4.1s: bounded by CDN image delivery + WP server TTFB (~1,260ms)
+     - CLS 0.647: mostly WP theme reflows + JS-rendered tiles (no SSR)
+     - Font display 310ms: WP theme's own fonts lack display:swap; ours has it
+     - Document latency 1,160ms: WordPress server response time
+     - Image delivery 797 KiB: needs WebP/AVIF conversion on CDN server
+     - Cache lifetimes 1,014 KiB: external CDN Cache-Control headers
+     - Legacy JS 51 KiB: WordPress theme scripts
+     - Render-blocking CSS: making it non-blocking causes FOUC, worse UX
+
+   ALREADY optimized in front-end (DO NOT revert — these are at their limits):
+     - Google Fonts: non-blocking via media="print" onload, has display=swap
+     - Hero image: fetchPriority="high", loading="eager", decoding="sync"
+     - Preconnects: max 4 in HTML, form URLs use dns-prefetch (not preconnect)
+     - Grid images: loading="lazy", decoding="async", width/height attrs set
+     - Hero image format: converted from 2MB PNG to JPG
+
+   DO NOT TOUCH (UX-critical, intentionally chosen over better Lighthouse scores):
+     - Hero tile height:auto + object-fit:contain — shows full image uncropped
+     - Auto-open employer input on hero — saves first-time visitors a click
+     - donationPageWrap opacity:0 in WP embeds — prevents FOUC in WordPress
+   ============================================================================ */
+
 /* Design tokens — consolidates palette, enables future temple vs goshala theming */
 :root {
     --color-brand: #8B4513;
@@ -377,11 +406,12 @@ body.wp-admin { background-color: #f0f0f0; margin: 0; padding: 0; }
     50% { transform: scale(1.1); opacity: 1; }
 }
 
-/* Hero tile
+/* Hero tile — DO NOT add aspect-ratio or min-height here.
    Uses position:static + object-fit:contain so the full image is always visible
    without cropping, regardless of aspect ratio. Grid tiles use cover (cropping ok
    at small size), but the hero needs to show all content — posters have text/pricing
-   that gets cut off with cover. Image sets its own natural height. */
+   that gets cut off with cover. Image sets its own natural height.
+   Lighthouse flags this as CLS, but constraining it crops poster images on mobile. */
 #heroTile {
     width: 100%;
     max-width: 720px;

@@ -1,3 +1,6 @@
+// CAN improve LCP: convert remaining images to WebP/AVIF on CDN server.
+// Hero image (first entry) was converted from 2MB PNG to JPG — do not revert.
+// CAN improve cache: set Cache-Control headers on CDN (currently external, not ours).
 window.donationForms = {
     "goshala-project": {
         label: "Goshala Project",
