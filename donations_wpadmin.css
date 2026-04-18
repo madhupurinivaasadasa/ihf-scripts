@@ -236,7 +236,8 @@ body.wp-admin { background-color: #f0f0f0; margin: 0; padding: 0; }
 }
 @media (max-width: 560px) {
     .container { grid-template-columns: 1fr; max-width: 400px; gap: 20px; }
-    .tile-image-wrap { height: 220px; }
+    .tile-image-wrap { height: auto; }
+    .tile-image-wrap img { position: static; width: 100%; height: auto; object-fit: contain; }
 }
 
 /* Rich card tile */
