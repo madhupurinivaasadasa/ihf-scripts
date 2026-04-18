@@ -2,17 +2,17 @@
 // Hero image (first active entry) was converted from 2MB PNG to JPG — do not revert.
 // CAN improve cache: set Cache-Control headers on CDN (currently external, not ours).
 window.donationForms = {
-    // "ugadi": {
-    //     label: "Ugadi 2026",
-    //     tagline: "Welcome the New Year with devotion",
-    //     description: "Celebrate Ugadi with Harinama Yajna, special archana, Annadana seva. May Sri Krishna Balaram bless you and your family with fortune and happiness.",
-    //     price: "",
-    //     img: "https://secure.kbmandir.org/neon/resource/ihf/images/Ugadi_2026.jpg",
-    //     vpf: "https://secure.kbmandir.org/forms/ugadi-vpf",
-    //     ihf: "https://secure.kbmandir.org/forms/ugadi-ihf",
-    //     bgColor: "#FFD700",
-    //     icon: "🕉️"
-    // },
+    "akshaya-tritiya": {
+        label: "Akshaya Tritiya",
+        tagline: "Welcome the Akshaya Tritiya with devotion",
+        description: "Celebrate Akshaya Tritiya with Kunkuma Archana to Lakshmi Devi. May Sri Krishna Balaram bless you and your family with fortune and happiness.",
+        price: "",
+        img: "https://secure.kbmandir.org/neon/resource/ihf/images/akshaya_tritiya_2026jpeg.jpeg",
+        vpf: "https://secure.kbmandir.org/forms/akshaya-tritiya-vpf",
+        ihf: "https://secure.kbmandir.org/forms/akshaya-tritiya-ihf",
+        bgColor: "#FFD700",
+        icon: "🕉️"
+    },
     "kbm-festival": {
         label: "Narasimha Chathurdashi",
         tagline: "Celebrate with devotion",
