@@ -236,6 +236,7 @@ body.wp-admin { background-color: #f0f0f0; margin: 0; padding: 0; }
 }
 @media (max-width: 560px) {
     .container { grid-template-columns: 1fr; max-width: 400px; gap: 20px; }
+    .tile-image-wrap { height: 220px; }
 }
 
 /* Rich card tile */
@@ -426,8 +427,6 @@ body.wp-admin { background-color: #f0f0f0; margin: 0; padding: 0; }
     height: auto;
     object-fit: contain;
 }
-#heroTile .gradient-overlay,
-#heroTile .tile-title-overlay { display: none; }
 #heroTile .tile-title-text { font-size: 20px; }
 #heroTile .tile-title-icon { font-size: 26px; }
 #heroTile .tile-price-badge { font-size: 14px; padding: 5px 14px; }

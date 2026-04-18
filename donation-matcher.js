@@ -311,13 +311,6 @@ function buildCard(form, urlType, queryString, isHero) {
         };
     })(img, placeholder, isHero);
 
-    var gradient = document.createElement("div");
-    gradient.className = "gradient-overlay";
-
-    var titleOverlay = document.createElement("div");
-    titleOverlay.className = "tile-title-overlay";
-    titleOverlay.innerHTML = '<span class="tile-title-text">' + form.label + '</span>';
-
     if (form.price) {
         var priceBadge = document.createElement("span");
         priceBadge.className = "tile-price-badge";
@@ -327,8 +320,16 @@ function buildCard(form, urlType, queryString, isHero) {
 
     imageWrap.appendChild(placeholder);
     imageWrap.appendChild(img);
-    imageWrap.appendChild(gradient);
-    imageWrap.appendChild(titleOverlay);
+
+    if (form.label) {
+        var gradient = document.createElement("div");
+        gradient.className = "gradient-overlay";
+        var titleOverlay = document.createElement("div");
+        titleOverlay.className = "tile-title-overlay";
+        titleOverlay.innerHTML = '<span class="tile-title-text">' + form.label + '</span>';
+        imageWrap.appendChild(gradient);
+        imageWrap.appendChild(titleOverlay);
+    }
 
     var body = document.createElement("div");
     body.className = "tile-body";
