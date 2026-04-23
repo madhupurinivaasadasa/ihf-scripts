@@ -14,9 +14,9 @@ window.donationForms = {
     //     icon: "🕉️"
     // },
     "kbm-festival": {
-        label: "Narasimha Chathurdashi",
-        tagline: "Celebrate Narasimha Chathurdashi with devotion",
-        description: "Celebrate Narasimha Chathurdashi with Chandana Yatra and the grand Lakshmi Narasimha Homa, filled with devotion and spiritual festivities",
+        label: "",
+        tagline: "Celebrate Narasimha Chathurdasi with devotion",
+        description: "Celebrate Narasimha Chathurdasi with Chandana Yatra and the grand Lakshmi Narasimha Homa, filled with devotion and spiritual festivities",
         price: "",
         img: "https://secure.kbmandir.org/neon/resource/ihf/images/narasimha_jayanti_landscape.jpg",
         vpf: "https://secure.kbmandir.org/forms/kbm-festival-seva-vpf",
