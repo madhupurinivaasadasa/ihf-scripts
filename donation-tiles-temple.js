@@ -13,17 +13,17 @@ window.donationForms = {
     //     bgColor: "#FFD700",
     //     icon: "🕉️"
     // },
-    "kbm-festival": {
-        label: "",
-        tagline: "Celebrate Narasimha Chaturdasi with devotion",
-        description: "Celebrate Narasimha Chaturdasi with Chandana Yatra and the grand Lakshmi Narasimha Homa, filled with devotion and spiritual festivities",
-        price: "",
-        img: "https://secure.kbmandir.org/neon/resource/ihf/images/narasimha_jayanti_landscape.jpg",
-        vpf: "https://secure.kbmandir.org/forms/kbm-festival-seva-vpf",
-        ihf: "https://secure.kbmandir.org/forms/kbm-festival-seva-ihf",
-        bgColor: "#FFE5B4",
-        icon: "🕉️"
-    },
+    // "kbm-festival": {
+    //     label: "",
+    //     tagline: "Celebrate Narasimha Chaturdasi with devotion",
+    //     description: "Celebrate Narasimha Chaturdasi with Chandana Yatra and the grand Lakshmi Narasimha Homa, filled with devotion and spiritual festivities",
+    //     price: "",
+    //     img: "https://secure.kbmandir.org/neon/resource/ihf/images/narasimha_jayanti_landscape.jpg",
+    //     vpf: "https://secure.kbmandir.org/forms/kbm-festival-seva-vpf",
+    //     ihf: "https://secure.kbmandir.org/forms/kbm-festival-seva-ihf",
+    //     bgColor: "#FFE5B4",
+    //     icon: "🕉️"
+    // },
     "goshala-project": {
         label: "Goshala Project",
         tagline: "Help build mother cow's home!",
