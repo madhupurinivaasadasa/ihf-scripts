@@ -6,6 +6,7 @@
 <link rel="preconnect" href="https://secure.kbmandir.org" crossorigin>
 <link rel="preconnect" href="https://madhupurinivaasadasa.github.io" crossorigin>
 <link rel="dns-prefetch" href="https://www.kbgoshala.org">
+<link rel="dns-prefetch" href="https://ihf.app.neoncrm.com">
 
 <!-- Non-blocking font load: media="print" defers download, onload swaps to "all".
      Already has display=swap in the Google Fonts URL. DO NOT change to blocking <link>. -->
@@ -19,6 +20,24 @@
      The 1500ms fallback ensures content shows even if JS fails. -->
 <div id="donationPageWrap" style="opacity:0">
 <script>setTimeout(function(){document.getElementById("donationPageWrap").style.opacity="1";},1500);</script>
+
+<!-- OAuth donor login bar. Styles in donations_wpadmin.css, behavior in
+     donor-login-bar.js. Redirect/logout target point to kbgoshala.org.
+     localStorage is per-origin — login here does NOT carry to kbmandir.org. -->
+<div id="kbmLoginBar"
+     data-redirect="https://www.kbgoshala.org/donate"
+     data-logout-target="https://www.kbgoshala.org/donate">
+  <div class="kbm-left">
+    <a id="kbmPortalBtn" class="kbm-signed-in" href="https://secure.kbmandir.org/" target="_blank" rel="noopener">View Donor Portal ↗</a>
+  </div>
+  <div class="kbm-right">
+    <span id="kbmLoginHint" class="kbm-signed-out">Returning donor? Sign in to autofill your details</span>
+    <a id="kbmLoginBtn" class="kbm-signed-out" href="#">Donor Login →</a>
+    <span id="kbmLoggedIn" class="kbm-signed-in">
+      <span class="kbm-check" aria-hidden="true">✓</span>Signed in<span class="kbm-sep" aria-hidden="true">·</span><a id="kbmLogoutBtn" href="#">Sign out</a>
+    </span>
+  </div>
+</div>
 
 <h1>Donation Opportunities</h1>
 
@@ -40,8 +59,10 @@
 
 </div>
 
-<!-- For local testing, uncomment the two lines below and comment out the CDN lines -->
+<!-- For local testing, uncomment the three lines below and comment out the CDN lines -->
 <!-- <script src="donation-tiles-goshala.js"></script> -->
 <!-- <script src="donation-matcher.js"></script> -->
+<!-- <script src="donor-login-bar.js"></script> -->
 <script src="https://madhupurinivaasadasa.github.io/ihf-scripts/donation-tiles-goshala.min.js"></script>
 <script src="https://madhupurinivaasadasa.github.io/ihf-scripts/donation-matcher.min.js"></script>
+<script src="https://madhupurinivaasadasa.github.io/ihf-scripts/donor-login-bar.min.js"></script>

@@ -1,0 +1,400 @@
+<link rel="preconnect" href="https://secure.kbmandir.org" crossorigin>
+<link rel="dns-prefetch" href="https://secure.kbmandir.org">
+<link rel="preconnect" href="https://d2r0txsugik6oi.cloudfront.net" crossorigin>
+<link rel="preconnect" href="https://madhupurinivaasadasa.github.io" crossorigin>
+<link rel="dns-prefetch" href="https://ihf.app.neoncrm.com">
+<link rel="preload" as="image" href="https://d2r0txsugik6oi.cloudfront.net/neon/resource/ihf/images/IMG_5496.JPG" fetchpriority="high">
+
+<!-- Shared donor-login-bar styles (#kbmLoginBar, .kbm-* classes including
+     the .kbm-theme-photo variant used by this embed). Same stylesheet that
+     powers ihf-scripts/donations_wpadmin.html and donations_wpadmin-goshala.html. -->
+<!-- For local testing, uncomment the line below and comment out the CDN line -->
+<!-- <link rel="stylesheet" href="donations_wpadmin.css"/> -->
+<link rel="stylesheet" href="https://madhupurinivaasadasa.github.io/ihf-scripts/donations_wpadmin.min.css"/>
+
+<style>
+  .elementor-widget-html,
+  .elementor-widget-wrap,
+  .elementor-column,
+  .elementor-column-wrap,
+  .elementor-section {
+    width: 100% !important;
+    max-width: 100% !important;
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+  }
+
+  /* Aggressive WordPress / Elementor / theme top-spacing reset
+     (modeled on ihf-scripts/donations_wpadmin.css). Removes the gap
+     between the site header and our hero background. */
+  .page_content_wrap,
+  .page_content_wrap .content_wrap,
+  .page_content_wrap > .content_wrap,
+  .content_wrap,
+  .content_wrap .content,
+  .post_content.entry-content,
+  .post_item_single .post_content,
+  .post_item_single,
+  .entry-content, .post-content,
+  article, main, .site-content, .page-content,
+  .single-post .entry-content,
+  .page .entry-content,
+  .page_title_wrap,
+  .page_title_wrap .content_wrap,
+  .sc_layouts_row,
+  .elementor,
+  .elementor-section-wrap,
+  .elementor-section-wrap > .elementor-section:first-child,
+  .elementor-section:first-of-type,
+  .elementor-section:first-of-type > .elementor-container,
+  .elementor-top-section:first-child,
+  .elementor-element:first-child {
+    padding-top: 0 !important;
+    margin-top: 0 !important;
+  }
+
+  .page_content_wrap { padding-bottom: 0 !important; }
+  .page_title_wrap { padding: 0 !important; min-height: 0 !important; display: none !important; }
+  .top_panel { margin-bottom: 0 !important; }
+
+  .entry-content > *:first-child,
+  .post-content > *:first-child,
+  .entry-content > link:first-child + *,
+  .post-content > link:first-child + *,
+  .elementor-widget-html > .elementor-widget-container > *:first-child {
+    margin-top: 0 !important;
+    padding-top: 0 !important;
+  }
+
+  #neonPageWrap {
+    background-color: #1b3a6b;
+    background-image: url('https://d2r0txsugik6oi.cloudfront.net/neon/resource/ihf/images/IMG_5496.JPG');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    width: 100vw;
+    position: relative;
+    left: 50%;
+    margin: 0 0 0 -50vw !important;
+    padding: 15px 20px 40px;
+    box-sizing: border-box;
+    overflow-x: hidden;
+  }
+
+  /* Donor login bar styles come from the shared CDN stylesheet
+     (donations_wpadmin.min.css). The .kbm-theme-photo class on #kbmLoginBar
+     activates the photo-overlay theme variant for the hero background. */
+
+  #neonInner {
+    display: flex;
+    flex-direction: row;
+    gap: 30px;
+    max-width: 1200px;
+    margin: 0 auto;
+    align-items: flex-start;
+  }
+
+  #neonInfo {
+    flex: 1;
+    background: rgba(255,255,255,0.96);
+    backdrop-filter: blur(8px);
+    border-radius: 10px;
+    padding: 30px;
+    box-sizing: border-box;
+    color: #1a1a1a;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+  }
+
+  #neonInfo h2 {
+    font-family: 'DM Serif Display', serif;
+    font-size: 1.6rem;
+    color: #1b3a6b;
+    margin: 0 0 20px 0;
+    line-height: 1.3;
+  }
+
+  #neonInfo p {
+    font-size: 0.95rem;
+    line-height: 1.7;
+    margin: 0 0 12px 0;
+    color: #111111;
+  }
+
+  #neonInfo a {
+    color: #0066cc;
+    word-break: break-word;
+    font-weight: 600;
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+
+  #neonInfo a:hover {
+    color: #e65c00;
+  }
+
+  #neonInfo strong {
+    color: #1b3a6b;
+  }
+
+  #neonInfo .signature {
+    margin-top: 20px;
+    padding-top: 15px;
+    border-top: 1px solid #ccc;
+    font-size: 0.9rem;
+    color: #222;
+    line-height: 1.8;
+  }
+
+  #neonFormWrap {
+    flex: 1.2;
+    min-height: 600px;
+    background: #fff;
+    border-radius: 10px;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    box-sizing: border-box;
+    overflow: hidden;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+    position: relative;
+  }
+
+  #neonFormLoader {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 18px;
+    background: #fff;
+    color: #1b3a6b;
+    font-family: 'Lora', Georgia, serif;
+    font-size: 0.95rem;
+    text-align: center;
+    padding: 20px;
+    z-index: 10;
+    transition: opacity 0.4s ease;
+  }
+
+  #neonFormLoader.is-hidden {
+    opacity: 0;
+    pointer-events: none;
+  }
+
+  #neonFormLoader .neon-spinner {
+    width: 44px;
+    height: 44px;
+    border: 4px solid #e3e8f1;
+    border-top-color: #1b3a6b;
+    border-radius: 50%;
+    animation: neonSpin 0.9s linear infinite;
+  }
+
+  #neonFormLoader .neon-loader-text {
+    font-weight: 600;
+  }
+
+  #neonFormLoader .neon-loader-subtext {
+    font-size: 0.82rem;
+    color: #555;
+    max-width: 260px;
+    line-height: 1.5;
+  }
+
+  @keyframes neonSpin {
+    to { transform: rotate(360deg); }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    #neonFormLoader .neon-spinner {
+      animation: none;
+      border-top-color: #e3e8f1;
+    }
+  }
+
+  /* Hide Neon's built-in loading spinner — we show our own instead. */
+  #neonFormWrap .embed-neon-loading {
+    display: none !important;
+  }
+
+  @media (max-width: 768px) {
+    #neonInner {
+      flex-direction: column;
+    }
+    #neonInfo, #neonFormWrap {
+      width: 100%;
+      border-radius: 8px;
+    }
+    #neonPageWrap {
+      padding: 15px 12px 30px;
+    }
+    #neonInfo h2 {
+      font-size: 1.1rem;
+    }
+    /* Login bar mobile styles come from the shared CDN stylesheet. */
+  }
+</style>
+
+<div id="neonPageWrap">
+
+  <!-- LOGIN BAR. Markup matches the shared ihf-scripts/donations_wpadmin.css
+       (#kbmLoginBar / .kbm-* classes). The .kbm-theme-photo class triggers
+       the photo-overlay variant (pills + backdrop blur) so the bar stays
+       legible over the cow pasture hero image. -->
+  <div id="kbmLoginBar"
+       class="kbm-theme-photo"
+       data-redirect="https://www.kbmandir.org/donate-now"
+       data-logout-target="https://www.kbmandir.org/donate-now">
+    <div class="kbm-left">
+      <a id="kbmPortalBtn" class="kbm-signed-in" href="https://secure.kbmandir.org/" target="_blank" rel="noopener">View Donor Portal ↗</a>
+    </div>
+    <div class="kbm-right">
+      <span id="kbmLoginHint" class="kbm-signed-out">Returning donor? Sign in to autofill your details</span>
+      <a id="kbmLoginBtn" class="kbm-signed-out" href="#">Donor Login →</a>
+      <span id="kbmLoggedIn" class="kbm-signed-in">
+        <span class="kbm-check" aria-hidden="true">✓</span>Signed in<span class="kbm-sep" aria-hidden="true">·</span><a id="kbmLogoutBtn" href="#">Sign out</a>
+      </span>
+    </div>
+  </div>
+
+  <!-- MAIN CONTENT -->
+  <div id="neonInner">
+
+    <!-- LEFT: Project Info -->
+    <div id="neonInfo">
+      <h2>🐄 Sri Krishna Balaram Goshala</h2>
+
+      <p><strong>Project Details:</strong><br>
+        <a href="https://kbgoshala.org/goshala-project/" target="_blank">kbgoshala.org/goshala-project/</a>
+      </p>
+
+      <p><strong>Project Video:</strong><br>
+        <a href="https://www.youtube.com/watch?v=R4dAfywnqRU" target="_blank">youtube.com/watch?v=R4dAfywnqRU</a>
+      </p>
+
+      <p><strong>Project Latest Photos:</strong><br>
+        <a href="https://photos.app.goo.gl/Pv2aEqRybo5AJtYXA" target="_blank">photos.app.goo.gl/Pv2aEqRybo5AJtYXA</a>
+      </p>
+
+      <p><strong>Sri Krishna Balaram Goshala</strong> is fully sustained through the generosity of donors, as it operates entirely on contributions from kind-hearted individuals and organizations.</p>
+
+      <p><strong>A once-in-a-lifetime opportunity</strong> to build a home for our <strong>Gomatas!</strong></p>
+
+      <p>1. Donate through company portal for Corporate Matching and volunteer hours:</p>
+
+      <p>How you can find us — Search <strong>Sri Krishna Balaram Goshala</strong> project by <strong>India Heritage Foundation</strong> (EIN 20-1722833) or <strong>Values Plus Foundation</strong> (EIN 46-4706605) on your company portal to donate.</p>
+
+      <div class="signature">
+        Regards<br>
+        Ramanama Dasa<br>
+        <a href="tel:+19495467252">+1 (949) 546 7252</a><br>
+        Sri Krishna Balaram Goshala<br>
+        India Heritage Foundation<br>
+        <a href="mailto:info@kbgoshala.org">info@kbgoshala.org</a>
+      </div>
+    </div>
+
+    <!-- RIGHT: Donation Form -->
+    <div id="neonFormWrap">
+      <div id="neonFormLoader" role="status" aria-live="polite">
+        <div class="neon-spinner" aria-hidden="true"></div>
+        <div class="neon-loader-text">Loading donation form…</div>
+        <div class="neon-loader-subtext">Securely connecting to Neon CRM. This can take a few seconds on slower connections.</div>
+      </div>
+      <!-- Pre-created so Neon's share script's querySelector() finds it even
+           if their document.write() is suppressed (happens when the script
+           runs after DOMContentLoaded, e.g. in Elementor popups / lazy-loaded
+           sections). -->
+      <span id="neon-form-embed-82-container"></span>
+    </div>
+
+  </div>
+</div>
+
+<!-- Donor login bar OAuth state lives in the shared CDN script
+     (donor-login-bar.min.js), loaded at the bottom of this file. -->
+
+<script>
+(function() {
+  var LOADER_HIDE_FALLBACK_MS = 20000; // hide loader even if iframe.load never fires
+  var wrap = document.getElementById('neonFormWrap');
+  var loader = document.getElementById('neonFormLoader');
+  if (!wrap) return;
+
+  // Show the wrap (and spinner inside it) immediately so users see progress.
+  wrap.style.opacity = '1';
+
+  var loaderHidden = false;
+  function hideLoader() {
+    if (loaderHidden || !loader) return;
+    loaderHidden = true;
+    loader.classList.add('is-hidden');
+    setTimeout(function() {
+      if (loader && loader.parentNode) loader.parentNode.removeChild(loader);
+    }, 500);
+  }
+
+  var attached = false;
+  function tryAttach() {
+    if (attached) return true;
+    var iframe = document.querySelector('iframe[id^="neon-form-embed"]');
+    if (!iframe) return false;
+    var neonContainer = document.querySelector('#neon-form-embed-82-container')
+                     || iframe.closest('span[id$="-container"]')
+                     || iframe;
+    if (neonContainer.parentNode !== wrap) {
+      wrap.appendChild(neonContainer);
+    }
+    if (!iframe.getAttribute('allow') || iframe.getAttribute('allow').indexOf('payment') === -1) {
+      iframe.setAttribute('allow', 'payment');
+    }
+    iframe.style.width = '100%';
+    iframe.style.minHeight = '600px';
+    iframe.style.display = iframe.style.display || 'block';
+    iframe.style.position = 'relative';
+    iframe.style.zIndex = '2';
+    // Hide our spinner only once the iframe has actually loaded (form is ready).
+    iframe.addEventListener('load', hideLoader, { once: true });
+    attached = true;
+    return true;
+  }
+
+  if (!tryAttach()) {
+    var observer = new MutationObserver(function() {
+      if (tryAttach()) observer.disconnect();
+    });
+    observer.observe(document.documentElement, { childList: true, subtree: true });
+  }
+
+  setTimeout(hideLoader, LOADER_HIDE_FALLBACK_MS);
+})();
+</script>
+
+<script>
+// PaymentRequest fix: MUST run immediately before the Neon share script.
+// Patches document.createElement so every iframe (including Neon's) gets
+// allow="payment" set BEFORE its src is assigned. This is the only reliable
+// way to enable Apple Pay / Google Pay (PaymentRequest API) inside the Neon
+// checkout iframe — setting allow="payment" via MutationObserver after the
+// fact is too late: the inner frame's PaymentRequest constructor throws
+// SecurityError because the browser checks the attribute at iframe creation.
+(function() {
+  if (window.__neonAllowPaymentPatched) return;
+  window.__neonAllowPaymentPatched = true;
+  var nativeCreate = document.createElement.bind(document);
+  document.createElement = function(tag, options) {
+    var el = options ? nativeCreate(tag, options) : nativeCreate(tag);
+    if (typeof tag === 'string' && tag.toLowerCase() === 'iframe') {
+      try { el.setAttribute('allow', 'payment'); } catch (_) {}
+    }
+    return el;
+  };
+})();
+</script>
+<script src='https://secure.kbmandir.org/forms/share/Rk9STS1FTUJFRFNIQVJJTkctQ09ERTgy'></script>
+
+<!-- Shared OAuth donor-login state management. Reads data-redirect /
+     data-logout-target from #kbmLoginBar and wires login/logout links. -->
+<!-- For local testing, uncomment the line below and comment out the CDN line -->
+<!-- <script src="donor-login-bar.js"></script> -->
+<script src="https://madhupurinivaasadasa.github.io/ihf-scripts/donor-login-bar.min.js"></script>

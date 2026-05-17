@@ -534,10 +534,216 @@ body.wp-admin { background-color: #f0f0f0; margin: 0; padding: 0; }
 .image-placeholder.error::after { animation: none; display: none; }
 .image-placeholder.error .placeholder-icon { animation: none; opacity: 0.6; }
 
+/* ============================================================================
+   OAuth donor login bar (#kbmLoginBar)
+   ============================================================================
+   Used by donations_wpadmin.html (temple) and donations_wpadmin-goshala.html
+   (goshala). The bar has two states toggled by .is-authed (set in JS by
+   donor-login-bar.js):
+     - Signed out: hint + "Donor Login →"
+     - Signed in:  "View Donor Portal ↗" + "✓ Signed in · Sign out"
+   Theme variant .kbm-theme-photo (for embed.html over a hero photo) inverts
+   the palette to white pills with backdrop-filter blur for legibility.
+   donations.html does not use this bar — rules are inert there.
+   ============================================================================ */
+#kbmLoginBar {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 6px 16px;
+    width: 100%;
+    max-width: 720px;
+    margin: 0 auto 10px auto;
+    padding: 10px 10px 0 10px;
+    box-sizing: border-box;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+    font-size: 1.05rem;
+}
+#kbmLoginBar .kbm-left,
+#kbmLoginBar .kbm-right {
+    display: flex;
+    align-items: baseline;
+    gap: 10px;
+}
+#kbmLoginBar .kbm-left  { flex: 1 1 auto; min-width: 0; }
+#kbmLoginBar .kbm-right { flex: 0 0 auto; }
+
+/* Visibility — toggled by .is-authed on #kbmLoginBar via JS. */
+#kbmLoginBar .kbm-signed-in  { display: none; }
+#kbmLoginBar .kbm-signed-out { display: inline-block; }
+#kbmLoginBar.is-authed .kbm-signed-in  { display: inline-block; }
+#kbmLoginBar.is-authed .kbm-signed-out { display: none; }
+
+#kbmLoginHint {
+    color: var(--color-text-muted, #666);
+    font-size: 0.95rem;
+}
+
+#kbmLoginBtn,
+#kbmPortalBtn {
+    color: var(--color-brand, #8B4513);
+    text-decoration: none;
+    font-weight: 600;
+    font-family: inherit;
+    padding: 4px 2px;
+    border-bottom: 1px solid transparent;
+    transition: border-color 0.15s ease, color 0.15s ease;
+}
+#kbmLoginBtn:hover,
+#kbmPortalBtn:hover {
+    color: var(--color-brand-dark, #6d350f);
+    border-bottom-color: currentColor;
+}
+
+#kbmLoggedIn {
+    color: var(--color-text-muted, #666);
+    font-family: inherit;
+    font-size: 0.95rem;
+}
+#kbmLoggedIn .kbm-check { color: #2e7d32; margin-right: 4px; }
+#kbmLoggedIn .kbm-sep   { margin: 0 8px; color: #ccc; }
+#kbmLoggedIn a {
+    color: var(--color-brand, #8B4513);
+    text-decoration: none;
+    font-weight: 600;
+    border-bottom: 1px solid transparent;
+    transition: border-color 0.15s ease, color 0.15s ease;
+}
+#kbmLoggedIn a:hover {
+    color: var(--color-brand-dark, #6d350f);
+    border-bottom-color: currentColor;
+}
+
+/* Theme variant for embed.html (donate-now) — bar sits over a hero photo
+   background, so links/text need higher contrast (pills, text shadows). */
+#kbmLoginBar.kbm-theme-photo  { max-width: 1200px; }
+.kbm-theme-photo #kbmLoginHint {
+    color: #ffffff;
+    font-weight: 500;
+    text-shadow: 0 1px 3px rgba(0,0,0,0.6);
+    background: rgba(0,0,0,0.35);
+    padding: 6px 12px;
+    border-radius: 4px;
+    backdrop-filter: blur(4px);
+}
+.kbm-theme-photo #kbmLoginBtn,
+.kbm-theme-photo #kbmPortalBtn {
+    background: rgba(27, 58, 107, 0.92);
+    color: #ffffff;
+    padding: 10px 22px;
+    border-radius: 6px;
+    border-bottom: 0;
+    backdrop-filter: blur(4px);
+    transition: background 0.15s ease;
+}
+.kbm-theme-photo #kbmLoginBtn:hover,
+.kbm-theme-photo #kbmPortalBtn:hover {
+    background: #2a52a0;
+    border-bottom: 0;
+}
+.kbm-theme-photo #kbmPortalBtn {
+    background: rgba(255, 255, 255, 0.92);
+    color: #1b3a6b;
+}
+.kbm-theme-photo #kbmPortalBtn:hover {
+    background: #ffffff;
+    color: #2a52a0;
+}
+.kbm-theme-photo #kbmLoggedIn {
+    color: #ffffff;
+    font-weight: 600;
+    font-size: 0.95rem;
+    background: rgba(0,0,0,0.45);
+    padding: 8px 14px;
+    border-radius: 6px;
+    backdrop-filter: blur(4px);
+}
+.kbm-theme-photo #kbmLoggedIn .kbm-check { color: #66d97f; }
+.kbm-theme-photo #kbmLoggedIn .kbm-sep   { opacity: 0.4; color: #ffffff; }
+.kbm-theme-photo #kbmLoggedIn a {
+    color: #ffffff;
+    text-decoration: underline;
+    text-underline-offset: 3px;
+    border-bottom: 0;
+}
+.kbm-theme-photo #kbmLoggedIn a:hover {
+    color: #ffd;
+    border-bottom: 0;
+}
+
+/* Mobile: stack and center. Promote login link to a tappable button. */
+@media (max-width: 600px) {
+    #kbmLoginBar {
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+        padding: 10px 12px 0 12px;
+    }
+    #kbmLoginBar .kbm-left,
+    #kbmLoginBar .kbm-right {
+        flex-direction: column;
+        align-items: center;
+        gap: 6px;
+        text-align: center;
+    }
+    #kbmLoginBar #kbmLoginHint { font-size: 0.875rem; }
+    #kbmLoginBar:not(.kbm-theme-photo) #kbmLoginBtn {
+        background: var(--color-brand, #8B4513);
+        color: #ffffff;
+        padding: 9px 18px;
+        border-radius: 6px;
+        border-bottom: 0;
+    }
+    #kbmLoginBar:not(.kbm-theme-photo) #kbmLoginBtn:hover {
+        background: var(--color-brand-dark, #6d350f);
+        color: #ffffff;
+        border-bottom: 0;
+    }
+}
+
+/* ============================================================================
+   Inline-employer loading state (.tile-inline-loading)
+   ============================================================================
+   Shown when the donor clicks Apply/Not applicable inside the inline
+   employer-name input. Without this, the .tile-cta text swap to "Loading..."
+   is hidden behind the inline overlay and the user sees nothing happen on
+   slow mobile networks — fixed in donation-matcher.js showLoading().
+   ============================================================================ */
+.tile-inline-employer.is-loading {
+    text-align: center;
+}
+.tile-inline-loading {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    padding: 20px 10px;
+    color: var(--color-text-muted, #666);
+    font-size: 0.95rem;
+}
+.tile-inline-spinner {
+    width: 32px;
+    height: 32px;
+    border: 3px solid #e0d4c4;
+    border-top-color: var(--color-brand, #8B4513);
+    border-radius: 50%;
+    animation: kbmTileSpin 0.8s linear infinite;
+}
+@keyframes kbmTileSpin {
+    to { transform: rotate(360deg); }
+}
+
 /* Reduced motion — disable all animations and transitions */
 @media (prefers-reduced-motion: reduce) {
     .image-placeholder::after { animation: none; display: none; }
     .placeholder-icon { animation: none; }
     .tile { transition: none; }
     .tile:hover .tile-cta::after { transition: none; }
+    .tile-inline-spinner {
+        animation: none;
+        border-top-color: #e0d4c4;
+    }
 }

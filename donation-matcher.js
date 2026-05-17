@@ -154,6 +154,14 @@ function showLoading(el) {
     }
     var cta = el && el.querySelector(".tile-cta");
     if (cta) cta.textContent = "Loading...";
+    // If the inline employer input is open, swap its UI to a loading state.
+    // Without this, the .tile-cta text change is hidden behind the inline
+    // overlay and the user sees nothing happen for 1-3s on slow networks.
+    var inline = el && el.querySelector(".tile-inline-employer");
+    if (inline) {
+        inline.classList.add("is-loading");
+        inline.innerHTML = '<div class="tile-inline-loading"><div class="tile-inline-spinner" aria-hidden="true"></div><p>Loading donation form…</p></div>';
+    }
     // Safety net: if navigation doesn't happen within 3s (popup blocked, network error,
     // Cmd+click opened new tab), reset so tiles aren't stuck forever.
     setTimeout(function() {
