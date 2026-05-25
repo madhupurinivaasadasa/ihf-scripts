@@ -6,3 +6,4 @@ donations_wpadmin_test*.html
 test-iframe.html
 test_*.js
 *_screenshots/
+.DS_Store

@@ -2,7 +2,7 @@
 /**
  * Plugin Name: KBM Neon Donor OAuth Complete
  * Description: Server-side Neon constituent OAuth code exchange + API v2 employer lookup for donate pages (ihf-scripts donor-login-bar.js).
- * Version: 1.0.0
+ * Version: 1.1.0
  *
  * Install: copy this file to wp-content/mu-plugins/kbm-neon-oauth.php
  * Secrets: add to wp-config.php (never commit real values):
@@ -14,6 +14,7 @@
  *
  * Public URL (matches donor-login-bar.js default from data-redirect):
  *   POST https://www.kbgoshala.org/api/neon/oauth/complete
+ *   POST https://www.kbgoshala.org/api/neon/account/company
  *
  * Fallback REST URL (if permalinks/rewrite fail):
  *   POST https://www.kbgoshala.org/wp-json/kbm/v1/neon/oauth/complete
@@ -141,10 +142,7 @@ function kbm_neon_exchange_code_for_account_id($code, $redirect_uri) {
     return $account_id;
 }
 
-/**
- * API v2: GET /accounts/{id} → individualAccount.company.name
- */
-function kbm_neon_fetch_employer_for_account($account_id) {
+function kbm_neon_api_headers() {
     $authorization = kbm_neon_get_config('NEON_API_AUTHORIZATION', '');
     if ($authorization === '') {
         return null;
@@ -154,19 +152,77 @@ function kbm_neon_fetch_employer_for_account($account_id) {
         $authorization = 'Basic ' . $authorization;
     }
 
-    $api_version = kbm_neon_get_config('NEON_API_VERSION', '2.11');
-    $url = 'https://api.neoncrm.com/v2/accounts/' . rawurlencode($account_id);
+    return array(
+        'Accept'           => '*/*',
+        'Content-Type'     => 'application/json',
+        'Authorization'    => $authorization,
+        'NEON-API-VERSION' => kbm_neon_get_config('NEON_API_VERSION', '2.11'),
+    );
+}
 
+/** Align with crm_python create_new_account_payload — skip empty / NA company writes. */
+function kbm_neon_is_employer_writable($employer) {
+    $normalized = strtolower(trim((string) $employer));
+    return $normalized !== '' && ! in_array($normalized, array('none', 'n/a', 'na'), true);
+}
+
+function kbm_neon_parse_account_profile($body) {
+    $profile = array(
+        'employer'     => null,
+        'firstName'    => null,
+        'lastName'     => null,
+        'displayName'  => null,
+    );
+
+    if (! is_array($body) || empty($body['individualAccount'])) {
+        return $profile;
+    }
+
+    $individual = $body['individualAccount'];
+    $contact = isset($individual['primaryContact']) && is_array($individual['primaryContact'])
+        ? $individual['primaryContact']
+        : array();
+
+    $first = isset($contact['firstName']) ? trim((string) $contact['firstName']) : '';
+    $last = isset($contact['lastName']) ? trim((string) $contact['lastName']) : '';
+    $preferred = isset($contact['preferredName']) ? trim((string) $contact['preferredName']) : '';
+    $display = $preferred !== '' ? $preferred : $first;
+
+    if ($first !== '') {
+        $profile['firstName'] = $first;
+    }
+    if ($last !== '') {
+        $profile['lastName'] = $last;
+    }
+    if ($display !== '') {
+        $profile['displayName'] = $display;
+    }
+
+    if (! empty($individual['company']['name'])) {
+        $company = trim((string) $individual['company']['name']);
+        if ($company !== '') {
+            $profile['employer'] = $company;
+        }
+    }
+
+    return $profile;
+}
+
+/**
+ * API v2: GET /accounts/{id} → company + primary contact name.
+ */
+function kbm_neon_fetch_account_profile($account_id) {
+    $headers = kbm_neon_api_headers();
+    if ($headers === null) {
+        return kbm_neon_parse_account_profile(array());
+    }
+
+    $url = 'https://api.neoncrm.com/v2/accounts/' . rawurlencode($account_id);
     $response = wp_remote_get(
         $url,
         array(
             'timeout' => 20,
-            'headers' => array(
-                'Accept'           => '*/*',
-                'Content-Type'     => 'application/json',
-                'Authorization'    => $authorization,
-                'NEON-API-VERSION' => $api_version,
-            ),
+            'headers' => $headers,
         )
     );
 
@@ -174,7 +230,7 @@ function kbm_neon_fetch_employer_for_account($account_id) {
         if (defined('WP_DEBUG') && WP_DEBUG) {
             error_log('[kbm-neon-oauth] account lookup failed: ' . $response->get_error_message());
         }
-        return null;
+        return kbm_neon_parse_account_profile(array());
     }
 
     $status = wp_remote_retrieve_response_code($response);
@@ -184,15 +240,54 @@ function kbm_neon_fetch_employer_for_account($account_id) {
         if (defined('WP_DEBUG') && WP_DEBUG) {
             error_log('[kbm-neon-oauth] account lookup HTTP ' . $status);
         }
+        return kbm_neon_parse_account_profile(array());
+    }
+
+    return kbm_neon_parse_account_profile(is_array($body) ? $body : array());
+}
+
+/** PATCH individualAccount.company.name — returns employer string or null on failure. */
+function kbm_neon_patch_account_company($account_id, $company_name) {
+    $headers = kbm_neon_api_headers();
+    if ($headers === null || ! kbm_neon_is_employer_writable($company_name)) {
         return null;
     }
 
-    if (!is_array($body) || empty($body['individualAccount']['company']['name'])) {
+    $url = 'https://api.neoncrm.com/v2/accounts/' . rawurlencode($account_id);
+    $payload = array(
+        'individualAccount' => array(
+            'company' => array(
+                'name' => trim((string) $company_name),
+            ),
+        ),
+    );
+
+    $response = wp_remote_request(
+        $url,
+        array(
+            'method'  => 'PATCH',
+            'timeout' => 20,
+            'headers' => $headers,
+            'body'    => wp_json_encode($payload),
+        )
+    );
+
+    if (is_wp_error($response)) {
+        if (defined('WP_DEBUG') && WP_DEBUG) {
+            error_log('[kbm-neon-oauth] company patch failed: ' . $response->get_error_message());
+        }
         return null;
     }
 
-    $name = trim((string) $body['individualAccount']['company']['name']);
-    return $name !== '' ? $name : null;
+    $status = wp_remote_retrieve_response_code($response);
+    if ($status < 200 || $status >= 300) {
+        if (defined('WP_DEBUG') && WP_DEBUG) {
+            error_log('[kbm-neon-oauth] company patch HTTP ' . $status);
+        }
+        return null;
+    }
+
+    return trim((string) $company_name);
 }
 
 function kbm_neon_handle_oauth_complete() {
@@ -237,25 +332,67 @@ function kbm_neon_handle_oauth_complete() {
         exit;
     }
 
-    $employer = kbm_neon_fetch_employer_for_account($account_result);
+    $profile = kbm_neon_fetch_account_profile($account_result);
 
     kbm_neon_json_response(
         array(
-            'accountId' => $account_result,
-            'employer'  => $employer,
+            'accountId'   => $account_result,
+            'employer'    => $profile['employer'],
+            'firstName'   => $profile['firstName'],
+            'lastName'    => $profile['lastName'],
+            'displayName' => $profile['displayName'],
         ),
         200
     );
     exit;
 }
 
+function kbm_neon_handle_account_company() {
+    if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
+        kbm_neon_send_cors_headers();
+        status_header(204);
+        exit;
+    }
+
+    if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+        kbm_neon_json_response(array('error' => 'method_not_allowed'), 405);
+        exit;
+    }
+
+    $raw = file_get_contents('php://input');
+    $payload = json_decode($raw, true);
+    if (! is_array($payload)) {
+        kbm_neon_json_response(array('error' => 'invalid_json'), 400);
+        exit;
+    }
+
+    $account_id = isset($payload['accountId']) ? trim((string) $payload['accountId']) : '';
+    $company_name = isset($payload['companyName']) ? trim((string) $payload['companyName']) : '';
+
+    if ($account_id === '' || $company_name === '') {
+        kbm_neon_json_response(array('error' => 'missing_account_or_company'), 400);
+        exit;
+    }
+
+    if (! kbm_neon_is_employer_writable($company_name)) {
+        kbm_neon_json_response(array('employer' => null), 200);
+        exit;
+    }
+
+    $employer = kbm_neon_patch_account_company($account_id, $company_name);
+    kbm_neon_json_response(array('employer' => $employer), 200);
+    exit;
+}
+
 /** Pretty URL: /api/neon/oauth/complete (used by ihf-scripts donor-login-bar.js). */
 function kbm_neon_register_rewrites() {
     add_rewrite_rule('^api/neon/oauth/complete/?$', 'index.php?kbm_neon_oauth_complete=1', 'top');
+    add_rewrite_rule('^api/neon/account/company/?$', 'index.php?kbm_neon_account_company=1', 'top');
 }
 
 function kbm_neon_query_vars($vars) {
     $vars[] = 'kbm_neon_oauth_complete';
+    $vars[] = 'kbm_neon_account_company';
     return $vars;
 }
 
@@ -263,12 +400,15 @@ function kbm_neon_template_redirect() {
     if ((int) get_query_var('kbm_neon_oauth_complete') === 1) {
         kbm_neon_handle_oauth_complete();
     }
+    if ((int) get_query_var('kbm_neon_account_company') === 1) {
+        kbm_neon_handle_account_company();
+    }
 }
 
 function kbm_neon_maybe_flush_rewrites() {
-    if (get_option('kbm_neon_oauth_rewrite_version') !== '1') {
+    if (get_option('kbm_neon_oauth_rewrite_version') !== '2') {
         flush_rewrite_rules(false);
-        update_option('kbm_neon_oauth_rewrite_version', '1');
+        update_option('kbm_neon_oauth_rewrite_version', '2');
     }
 }
 
@@ -324,12 +464,15 @@ function kbm_neon_rest_oauth_complete(WP_REST_Request $request) {
         );
     }
 
-    $employer = kbm_neon_fetch_employer_for_account($account_result);
+    $profile = kbm_neon_fetch_account_profile($account_result);
 
     $response = new WP_REST_Response(
         array(
-            'accountId' => $account_result,
-            'employer'  => $employer,
+            'accountId'   => $account_result,
+            'employer'    => $profile['employer'],
+            'firstName'   => $profile['firstName'],
+            'lastName'    => $profile['lastName'],
+            'displayName' => $profile['displayName'],
         ),
         200
     );
@@ -346,4 +489,57 @@ add_action('init', 'kbm_neon_register_rewrites');
 add_filter('query_vars', 'kbm_neon_query_vars');
 add_action('template_redirect', 'kbm_neon_template_redirect');
 add_action('init', 'kbm_neon_maybe_flush_rewrites', 20);
+function kbm_neon_register_rest_company_route() {
+    register_rest_route(
+        'kbm/v1',
+        '/neon/account/company',
+        array(
+            'methods'             => array('POST', 'OPTIONS'),
+            'callback'            => 'kbm_neon_rest_account_company',
+            'permission_callback' => '__return_true',
+        )
+    );
+}
+
+function kbm_neon_rest_account_company(WP_REST_Request $request) {
+    if ($request->get_method() === 'OPTIONS') {
+        $response = new WP_REST_Response(null, 204);
+        $origin = $request->get_header('origin');
+        if (kbm_neon_cors_origin_allowed($origin)) {
+            $response->header('Access-Control-Allow-Origin', $origin);
+            $response->header('Vary', 'Origin');
+        }
+        $response->header('Access-Control-Allow-Methods', 'POST, OPTIONS');
+        $response->header('Access-Control-Allow-Headers', 'Content-Type');
+        return $response;
+    }
+
+    $body = $request->get_json_params();
+    if (! is_array($body)) {
+        $body = array();
+    }
+
+    $account_id = isset($body['accountId']) ? trim((string) $body['accountId']) : '';
+    $company_name = isset($body['companyName']) ? trim((string) $body['companyName']) : '';
+
+    if ($account_id === '' || $company_name === '') {
+        return new WP_REST_Response(array('error' => 'missing_account_or_company'), 400);
+    }
+
+    if (! kbm_neon_is_employer_writable($company_name)) {
+        return new WP_REST_Response(array('employer' => null), 200);
+    }
+
+    $employer = kbm_neon_patch_account_company($account_id, $company_name);
+    $response = new WP_REST_Response(array('employer' => $employer), 200);
+    $origin = $request->get_header('origin');
+    if (kbm_neon_cors_origin_allowed($origin)) {
+        $response->header('Access-Control-Allow-Origin', $origin);
+        $response->header('Vary', 'Origin');
+    }
+
+    return $response;
+}
+
 add_action('rest_api_init', 'kbm_neon_register_rest_route');
+add_action('rest_api_init', 'kbm_neon_register_rest_company_route');

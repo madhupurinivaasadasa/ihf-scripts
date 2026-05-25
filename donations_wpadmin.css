@@ -541,7 +541,7 @@ body.wp-admin { background-color: #f0f0f0; margin: 0; padding: 0; }
    (goshala). The bar has two states toggled by .is-authed (set in JS by
    donor-login-bar.js):
      - Signed out: hint + "Donor Login →"
-     - Signed in:  "View Donor Portal ↗" + "✓ Signed in · Sign out"
+     - Signed in:  welcome hint + "View Donor Portal ↗" + "✓ Signed in · Sign out"
    Theme variant .kbm-theme-photo (for embed.html over a hero photo) inverts
    the palette to white pills with backdrop-filter blur for legibility.
    donations.html does not use this bar — rules are inert there.
@@ -590,6 +590,17 @@ body.wp-admin { background-color: #f0f0f0; margin: 0; padding: 0; }
     margin: 6px 0 0;
     font-size: 0.8125rem;
     color: #5c5348;
+}
+
+#kbmPortalHint.kbm-portal-hint,
+#kbmLoginBar .kbm-portal-hint {
+    display: none;
+    margin: 0 0 6px;
+    font-size: 0.875rem;
+    line-height: 1.45;
+    font-weight: 400;
+    color: var(--color-text-muted, #666);
+    max-width: 36rem;
 }
 
 #kbmLoginHint {

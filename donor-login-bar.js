@@ -10,8 +10,8 @@
  *   data-logout-target         — Neon logout targetUrl
  *   data-oauth-complete-url    — optional override for token exchange endpoint.
  *                                Default: same host as data-redirect + /api/neon/oauth/complete
- *                                (e.g. data-redirect https://www.kbgoshala.org/donate →
- *                                https://www.kbgoshala.org/api/neon/oauth/complete)
+ *                                Company sync (on employer save): /api/neon/account/company
+ *                                (only when logged in and employer changed vs Neon baseline)
  *
  * Campaign params preserved across OAuth: seva, form, opportunity, auto, c
  * (saved to sessionStorage before login; restored on callback).
@@ -28,6 +28,9 @@
     var OAUTH_CALLBACK_PARAMS = ['code', 'error', 'error_description', 'state'];
     var RETURN_PARAMS_KEY = 'kbm_oauth_return_search';
     var HANDLED_CODE_KEY = 'kbm_oauth_handled_code';
+    var NEON_ACCOUNT_ID_KEY = 'kbm_neon_account_id';
+    var NEON_COMPANY_FROM_CRM_KEY = 'kbm_neon_company_from_crm';
+    var NEON_DISPLAY_NAME_KEY = 'kbm_neon_display_name';
 
     function pickCampaignParams(params) {
         var picked = {};
@@ -113,6 +116,123 @@
     function hideOAuthError(bar) {
         var el = bar.querySelector('#kbmOAuthError');
         if (el) el.style.display = 'none';
+    }
+
+    function normalizeEmployerKey(employer) {
+        return (employer || '').trim().toLowerCase();
+    }
+
+    function isEmployerWritableToNeon(employer) {
+        var normalized = normalizeEmployerKey(employer);
+        return normalized.length > 0 && normalized !== 'none' && normalized !== 'n/a' && normalized !== 'na';
+    }
+
+    function clearNeonDonorSession() {
+        sessionStorage.removeItem(NEON_ACCOUNT_ID_KEY);
+        sessionStorage.removeItem(NEON_COMPANY_FROM_CRM_KEY);
+        sessionStorage.removeItem(NEON_DISPLAY_NAME_KEY);
+    }
+
+    function storeNeonDonorSession(payload) {
+        if (!payload || !payload.accountId) return;
+        sessionStorage.setItem(NEON_ACCOUNT_ID_KEY, String(payload.accountId));
+        var employer = payload.employer ? String(payload.employer).trim() : '';
+        if (employer) {
+            sessionStorage.setItem(NEON_COMPANY_FROM_CRM_KEY, employer);
+        } else {
+            sessionStorage.removeItem(NEON_COMPANY_FROM_CRM_KEY);
+        }
+        var displayName = payload.displayName ? String(payload.displayName).trim() : '';
+        if (displayName) {
+            sessionStorage.setItem(NEON_DISPLAY_NAME_KEY, displayName);
+        } else {
+            sessionStorage.removeItem(NEON_DISPLAY_NAME_KEY);
+        }
+    }
+
+    function readNeonDisplayName() {
+        return (sessionStorage.getItem(NEON_DISPLAY_NAME_KEY) || '').trim() || null;
+    }
+
+    function readNeonAccountId() {
+        return (sessionStorage.getItem(NEON_ACCOUNT_ID_KEY) || '').trim() || null;
+    }
+
+    function readNeonCompanyFromCrm() {
+        return (sessionStorage.getItem(NEON_COMPANY_FROM_CRM_KEY) || '').trim() || null;
+    }
+
+    function rememberNeonCompanyBaseline(companyName) {
+        sessionStorage.setItem(NEON_COMPANY_FROM_CRM_KEY, String(companyName).trim());
+    }
+
+    function resolveAccountCompanyUrl(completeUrl) {
+        if (!completeUrl) return null;
+        try {
+            var url = new URL(completeUrl);
+            if (url.pathname.indexOf('/wp-json/kbm/v1/neon/oauth/complete') !== -1) {
+                return url.origin + '/wp-json/kbm/v1/neon/account/company';
+            }
+            return new URL('/api/neon/account/company', completeUrl).href;
+        } catch (e) {
+            return null;
+        }
+    }
+
+    function shouldSyncEmployerToNeon(savedEmployer) {
+        var accountId = readNeonAccountId();
+        var baseline = readNeonCompanyFromCrm();
+        if (!accountId || !isEmployerWritableToNeon(savedEmployer)) return false;
+        return normalizeEmployerKey(savedEmployer) !== normalizeEmployerKey(baseline || '');
+    }
+
+    function syncEmployerToNeonIfChanged(savedEmployer, completeUrl) {
+        var accountId = readNeonAccountId();
+        var companyUrl = resolveAccountCompanyUrl(completeUrl);
+        if (!accountId || !companyUrl || !shouldSyncEmployerToNeon(savedEmployer)) return Promise.resolve();
+
+        return fetch(companyUrl, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                accountId: accountId,
+                companyName: String(savedEmployer).trim()
+            })
+        }).then(function(res) {
+            if (!res.ok) return;
+            return res.json();
+        }).then(function(payload) {
+            if (payload && payload.employer) {
+                rememberNeonCompanyBaseline(payload.employer);
+            } else if (payload) {
+                rememberNeonCompanyBaseline(savedEmployer);
+            }
+        }).catch(function() { /* silent — localStorage/cookie is source of truth */ });
+    }
+
+    var DONOR_PORTAL_SIGNED_IN_HINT =
+        'View your giving history and update your account in the donor portal.';
+
+    function updatePortalHint(bar) {
+        if (!bar) return;
+        var el = bar.querySelector('#kbmPortalHint');
+        if (!el) {
+            el = document.createElement('p');
+            el.id = 'kbmPortalHint';
+            el.className = 'kbm-signed-in kbm-portal-hint';
+            var left = bar.querySelector('.kbm-left');
+            if (left) left.insertBefore(el, left.firstChild);
+        }
+        if (!isLoggedIn()) {
+            el.textContent = '';
+            el.style.display = 'none';
+            return;
+        }
+        var name = readNeonDisplayName();
+        el.textContent = name
+            ? 'Welcome, ' + name + '. ' + DONOR_PORTAL_SIGNED_IN_HINT
+            : DONOR_PORTAL_SIGNED_IN_HINT;
+        el.style.display = 'block';
     }
 
     function dispatchEmployerPrefill(employer) {
@@ -202,8 +322,12 @@
 
             completeOAuthOnServer(completeUrl, code, redirectUri).then(function(payload) {
                 statusEl.style.display = 'none';
-                if (payload && payload.employer) {
-                    dispatchEmployerPrefill(payload.employer);
+                if (payload && payload.accountId) {
+                    storeNeonDonorSession(payload);
+                    updatePortalHint(bar);
+                    if (payload.employer) {
+                        dispatchEmployerPrefill(payload.employer);
+                    }
                 }
             });
         }
@@ -215,6 +339,7 @@
         if (expiry && Date.now() > expiry) {
             localStorage.removeItem('kbmLoggedIn');
             localStorage.removeItem('kbmLoggedInExpiry');
+            clearNeonDonorSession();
             return false;
         }
         return true;
@@ -267,6 +392,7 @@
             logoutBtn.addEventListener('click', function() {
                 localStorage.removeItem('kbmLoggedIn');
                 localStorage.removeItem('kbmLoggedInExpiry');
+                clearNeonDonorSession();
             });
         }
     }
@@ -275,6 +401,7 @@
         var bar = document.getElementById('kbmLoginBar');
         if (!bar) return;
         bar.classList.toggle('is-authed', isLoggedIn());
+        updatePortalHint(bar);
     }
 
     function init() {
@@ -303,4 +430,12 @@
     window.addEventListener('storage', function(e) {
         if (e.key === 'kbmLoggedIn' || e.key === 'kbmLoggedInExpiry') updateUI();
     });
+
+    window.kbmNeonDonor = {
+        storeNeonDonorSession: storeNeonDonorSession,
+        clearNeonDonorSession: clearNeonDonorSession,
+        syncEmployerToNeonIfChanged: syncEmployerToNeonIfChanged,
+        resolveAccountCompanyUrl: resolveAccountCompanyUrl,
+        readNeonAccountId: readNeonAccountId
+    };
 })();

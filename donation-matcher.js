@@ -93,6 +93,41 @@ function hideBanner() {
     document.getElementById("employerBanner").classList.remove("visible");
 }
 
+function persistEmployerLocally(name) {
+    setEmployerCookie(name);
+    localStorage.setItem("ihf_employer_name", name);
+    currentUrlType = getUrlTypeForEmployer(name);
+}
+
+function syncEmployerToNeonAfterSave(name) {
+    if (!window.kbmNeonDonor || typeof window.kbmNeonDonor.syncEmployerToNeonIfChanged !== "function") {
+        return;
+    }
+    var bar = document.getElementById("kbmLoginBar");
+    var redirect = bar
+        ? (bar.getAttribute("data-redirect") || window.location.origin + window.location.pathname)
+        : window.location.origin + window.location.pathname;
+    var completeUrl = null;
+    if (window.kbmNeonDonor.resolveAccountCompanyUrl) {
+        var explicit = bar ? (bar.getAttribute("data-oauth-complete-url") || "").trim() : "";
+        if (explicit) {
+            completeUrl = explicit;
+        } else {
+            try {
+                completeUrl = new URL("/api/neon/oauth/complete", redirect).href;
+            } catch (e) {
+                completeUrl = null;
+            }
+        }
+    }
+    window.kbmNeonDonor.syncEmployerToNeonIfChanged(name, completeUrl);
+}
+
+function saveEmployerLocallyAndMaybeSync(name) {
+    persistEmployerLocally(name);
+    syncEmployerToNeonAfterSave(name);
+}
+
 function showEmployerModal() {
     var banner = document.getElementById("employerBanner");
     var editRow = document.getElementById("bannerEditRow");
@@ -111,9 +146,7 @@ function showEmployerModal() {
     btn.addEventListener("click", function() {
         var name = input.value.trim();
         if (!name) { input.focus(); return; }
-        setEmployerCookie(name);
-        localStorage.setItem("ihf_employer_name", name);
-        currentUrlType = getUrlTypeForEmployer(name);
+        saveEmployerLocallyAndMaybeSync(name);
         showBanner(name);
         editRow.remove();
         renderTiles(currentUrlType);
@@ -220,9 +253,7 @@ function showInlineEmployerInput(card, form, queryString) {
         var name = input.value.trim();
         if (!name) { input.focus(); return; }
         if (!showLoading(card)) return;
-        setEmployerCookie(name);
-        localStorage.setItem("ihf_employer_name", name);
-        currentUrlType = getUrlTypeForEmployer(name);
+        saveEmployerLocallyAndMaybeSync(name);
         navigateTo(form[currentUrlType] + queryString);
     }
 

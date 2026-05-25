@@ -1,6 +1,9 @@
 # WordPress mu-plugin: Neon donor OAuth + employer prefill
 
-Server endpoint for [ihf-scripts `donor-login-bar.js`](../donor-login-bar.js). Exchanges the Neon OAuth `code` for the constituent account ID, then reads **Company Name** from [Neon API v2 Accounts](https://developer.neoncrm.com/accounts/).
+Server endpoints for [ihf-scripts `donor-login-bar.js`](../donor-login-bar.js) and [`donation-matcher.js`](../donation-matcher.js):
+
+- **OAuth complete** — exchanges the Neon `code` for account ID, returns employer + welcome name from [Neon API v2 Accounts](https://developer.neoncrm.com/accounts/)
+- **Company PATCH** — updates `individualAccount.company.name` when the donor saves a changed employer (silent failure; cookie/localStorage still wins)
 
 ## Install on kbgoshala.org (WordPress)
 
@@ -48,7 +51,8 @@ After uploading the mu-plugin:
 
 This registers the rewrite for:
 
-`POST https://www.kbgoshala.org/api/neon/oauth/complete`
+`POST https://www.kbgoshala.org/api/neon/oauth/complete`  
+`POST https://www.kbgoshala.org/api/neon/account/company`
 
 ### 4. Confirm ihf-scripts embed
 
@@ -66,7 +70,8 @@ data-logout-target="https://www.kbgoshala.org/donate"
 1. Open https://www.kbgoshala.org/donate?seva=cow-feeding-seva
 2. **Donor Login** → sign in at Neon
 3. Browser DevTools → **Network** → filter `oauth/complete`
-   - **200** + JSON `{ "accountId": "...", "employer": "Yahoo" }` (example) → employer banner should fill
+   - **200** + JSON `{ "accountId": "...", "employer": "Yahoo", "displayName": "Rama" }` (example) → welcome + employer banner
+   - Edit employer → Save → **POST** `/api/neon/account/company` only if value changed from Neon (NA skips PATCH)
    - **503** `oauth_not_configured` → add `NEON_OAUTH_CLIENT_SECRET` to wp-config
    - **404** → permalinks not flushed or mu-plugin missing
 4. If account has no company in Neon, `employer` is `null` — manual employer entry still works
@@ -82,13 +87,15 @@ curl -s -o /dev/null -w "%{http_code}\n" \
 
 Expect **502** (bad code) or **503** (secrets missing) — not **404**.
 
-## Fallback URL
+## Fallback URLs
 
-If `/api/neon/oauth/complete` returns 404, use the REST route on `#kbmLoginBar`:
+If pretty permalinks fail, set on `#kbmLoginBar`:
 
 ```html
 data-oauth-complete-url="https://www.kbgoshala.org/wp-json/kbm/v1/neon/oauth/complete"
 ```
+
+Company sync uses the same host: `/wp-json/kbm/v1/neon/account/company` (registered automatically).
 
 ## Security notes
 
@@ -98,4 +105,4 @@ data-oauth-complete-url="https://www.kbgoshala.org/wp-json/kbm/v1/neon/oauth/com
 
 ## Parity
 
-Logic matches `KBMWebsites/lib/neon-oauth-server.ts` and `app/api/neon/oauth/complete/route.ts`.
+Logic matches `KBMWebsites` (`lib/neon-account-api.ts`, `lib/neon-donor-client.ts`, Worker routes).
