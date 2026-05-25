@@ -492,6 +492,37 @@ function attachAutocomplete(input) {
     });
 }
 
+function applyEmployerFromOAuth(employer) {
+    if (!employer || !employer.trim()) return;
+    var existing = getStoredEmployer();
+    if (existing && existing.trim()) return;
+    var name = employer.trim();
+    setEmployerCookie(name);
+    localStorage.setItem("ihf_employer_name", name);
+    currentUrlType = getUrlTypeForEmployer(name);
+    showBanner(name);
+    renderTiles(currentUrlType);
+}
+
+window.applyKbmEmployerFromOAuth = applyEmployerFromOAuth;
+
+window.addEventListener("kbmDonorOAuthEmployer", function(e) {
+    if (e.detail && e.detail.employer) {
+        applyEmployerFromOAuth(e.detail.employer);
+    }
+});
+
+window.addEventListener("kbmDonorOAuthCampaign", function() {
+    /* URL already updated by donor-login-bar; reload campaign-driven UI if matcher ran early. */
+    var params = new URLSearchParams(window.location.search);
+    var storedName = getStoredEmployer();
+    if (storedName && storedName.trim()) {
+        currentUrlType = getUrlTypeForEmployer(storedName);
+        showBanner(storedName);
+        renderTiles(currentUrlType);
+    }
+});
+
 (function init() {
 
     function revealPage() {
