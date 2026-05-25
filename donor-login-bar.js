@@ -8,9 +8,10 @@
  * Config (data-attrs on #kbmLoginBar):
  *   data-redirect              — OAuth redirect_uri (must be registered in Neon)
  *   data-logout-target         — Neon logout targetUrl
- *   data-oauth-complete-url    — optional server endpoint for code exchange
- *                                (POST JSON { code, redirectUri }; returns { employer })
- *                                Employer comes from Neon API v2 account company name.
+ *   data-oauth-complete-url    — optional override for token exchange endpoint.
+ *                                Default: same host as data-redirect + /api/neon/oauth/complete
+ *                                (e.g. data-redirect https://www.kbgoshala.org/donate →
+ *                                https://www.kbgoshala.org/api/neon/oauth/complete)
  *
  * Campaign params preserved across OAuth: seva, form, opportunity, auto, c
  * (saved to sessionStorage before login; restored on callback).
@@ -235,10 +236,20 @@
         return OAUTH_LOGOUT_URL + '?targetUrl=' + encodeURIComponent(targetUrl);
     }
 
+    function resolveOAuthCompleteUrl(bar, redirect) {
+        var explicit = (bar.getAttribute('data-oauth-complete-url') || '').trim();
+        if (explicit) return explicit;
+        try {
+            return new URL('/api/neon/oauth/complete', redirect).href;
+        } catch (e) {
+            return null;
+        }
+    }
+
     function wireBar(bar, skipOAuthCallback) {
         var redirect = bar.getAttribute('data-redirect') || window.location.origin + window.location.pathname;
         var logoutTarget = bar.getAttribute('data-logout-target') || redirect;
-        var completeUrl = (bar.getAttribute('data-oauth-complete-url') || '').trim();
+        var completeUrl = resolveOAuthCompleteUrl(bar, redirect);
 
         if (!skipOAuthCallback) {
             handleOAuthCallback(bar, redirect, completeUrl || null);
@@ -283,8 +294,7 @@
         var bar = document.getElementById('kbmLoginBar');
         if (!bar) return;
         var redirect = bar.getAttribute('data-redirect') || window.location.origin + window.location.pathname;
-        var completeUrl = (bar.getAttribute('data-oauth-complete-url') || '').trim();
-        handleOAuthCallback(bar, redirect, completeUrl || null);
+        handleOAuthCallback(bar, redirect, resolveOAuthCompleteUrl(bar, redirect));
     }
 
     tryEarlyOAuth();

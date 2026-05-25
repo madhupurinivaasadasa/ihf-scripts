@@ -23,14 +23,9 @@
 <!-- OAuth donor login bar. Styles in donations_wpadmin.css, behavior in
      donor-login-bar.js. Redirect/logout target point to kbgoshala.org for
      parity with the production donations_wpadmin-goshala.html. -->
-<!-- Local OAuth: register redirect URI in Neon, run KBMWebsites `npm run dev`, then use:
-     data-redirect="http://127.0.0.1:9090/donations-goshala.html"
-     data-oauth-complete-url="http://127.0.0.1:3000/api/neon/oauth/complete"
-     Serve this folder: python3 -m http.server 9090 -->
 <div id="kbmLoginBar"
      data-redirect="https://www.kbgoshala.org/donate"
-     data-logout-target="https://www.kbgoshala.org/donate"
-     data-oauth-complete-url="http://127.0.0.1:3000/api/neon/oauth/complete">
+     data-logout-target="https://www.kbgoshala.org/donate">
   <div class="kbm-left">
     <a id="kbmPortalBtn" class="kbm-signed-in" href="https://secure.kbmandir.org/" target="_blank" rel="noopener">View Donor Portal ↗</a>
   </div>
