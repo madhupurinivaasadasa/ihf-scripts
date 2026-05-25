@@ -150,12 +150,6 @@
         });
     }
 
-    function hasStoredEmployer() {
-        var match = document.cookie.match(/(?:^|; )ihf_employer_name=([^;]*)/);
-        var fromCookie = match ? decodeURIComponent(match[1]) : '';
-        return (fromCookie && fromCookie.trim()) || (localStorage.getItem('ihf_employer_name') || '').trim();
-    }
-
     function handleOAuthCallback(bar, redirectUri, completeUrl) {
         var params = new URLSearchParams(window.location.search);
         var oauthError = params.get('error');
@@ -194,7 +188,8 @@
         }
         dispatchCampaignRestored(campaign);
 
-        if (completeUrl && !hasStoredEmployer()) {
+        // Always exchange code; Neon account company name overrides browser cookie/localStorage.
+        if (completeUrl) {
             var statusEl = bar.querySelector('#kbmOAuthStatus');
             if (!statusEl) {
                 statusEl = document.createElement('p');

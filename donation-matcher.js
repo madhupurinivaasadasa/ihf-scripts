@@ -492,10 +492,9 @@ function attachAutocomplete(input) {
     });
 }
 
+/** Neon CRM company on the signed-in account wins over cookie/localStorage. */
 function applyEmployerFromOAuth(employer) {
     if (!employer || !employer.trim()) return;
-    var existing = getStoredEmployer();
-    if (existing && existing.trim()) return;
     var name = employer.trim();
     setEmployerCookie(name);
     localStorage.setItem("ihf_employer_name", name);
