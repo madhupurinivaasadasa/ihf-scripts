@@ -100,6 +100,10 @@
         return error || 'Donor sign-in failed. Please try again.';
     }
 
+    function loginBarBody(bar) {
+        return bar.querySelector('.kbm-login-body') || bar.querySelector('.kbm-left') || bar;
+    }
+
     function showOAuthError(bar, message) {
         var el = bar.querySelector('#kbmOAuthError');
         if (!el) {
@@ -107,7 +111,7 @@
             el.id = 'kbmOAuthError';
             el.className = 'kbm-oauth-error';
             el.setAttribute('role', 'alert');
-            bar.querySelector('.kbm-left').appendChild(el);
+            loginBarBody(bar).appendChild(el);
         }
         el.textContent = message;
         el.style.display = 'block';
@@ -215,24 +219,42 @@
 
     function updatePortalHint(bar) {
         if (!bar) return;
-        var el = bar.querySelector('#kbmPortalHint');
-        if (!el) {
-            el = document.createElement('p');
-            el.id = 'kbmPortalHint';
-            el.className = 'kbm-signed-in kbm-portal-hint';
-            var left = bar.querySelector('.kbm-left');
-            if (left) left.insertBefore(el, left.firstChild);
-        }
+
+        var welcomeEl = bar.querySelector('#kbmWelcomeLine');
+        var descEl = bar.querySelector('#kbmPortalDesc');
+        var legacyHint = bar.querySelector('#kbmPortalHint');
+
         if (!isLoggedIn()) {
-            el.textContent = '';
-            el.style.display = 'none';
+            if (welcomeEl) welcomeEl.textContent = '';
+            if (descEl) {
+                descEl.textContent = DONOR_PORTAL_SIGNED_IN_HINT;
+            }
+            if (legacyHint) {
+                legacyHint.textContent = '';
+                legacyHint.style.display = 'none';
+            }
             return;
         }
+
         var name = readNeonDisplayName();
-        el.textContent = name
-            ? 'Welcome, ' + name + '. ' + DONOR_PORTAL_SIGNED_IN_HINT
-            : DONOR_PORTAL_SIGNED_IN_HINT;
-        el.style.display = 'block';
+        if (welcomeEl) {
+            welcomeEl.textContent = name ? 'Welcome, ' + name : '';
+        }
+        if (descEl) {
+            descEl.textContent = DONOR_PORTAL_SIGNED_IN_HINT;
+        } else if (!welcomeEl) {
+            if (!legacyHint) {
+                legacyHint = document.createElement('p');
+                legacyHint.id = 'kbmPortalHint';
+                legacyHint.className = 'kbm-signed-in kbm-portal-hint';
+                var left = bar.querySelector('.kbm-left') || loginBarBody(bar);
+                if (left) left.insertBefore(legacyHint, left.firstChild);
+            }
+            legacyHint.textContent = name
+                ? 'Welcome, ' + name + '. ' + DONOR_PORTAL_SIGNED_IN_HINT
+                : DONOR_PORTAL_SIGNED_IN_HINT;
+            legacyHint.style.display = 'block';
+        }
     }
 
     function dispatchEmployerPrefill(employer) {
@@ -315,7 +337,7 @@
                 statusEl = document.createElement('p');
                 statusEl.id = 'kbmOAuthStatus';
                 statusEl.className = 'kbm-oauth-status';
-                bar.querySelector('.kbm-left').appendChild(statusEl);
+                loginBarBody(bar).appendChild(statusEl);
             }
             statusEl.textContent = 'Loading your account details…';
             statusEl.style.display = 'block';

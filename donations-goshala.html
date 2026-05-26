@@ -26,15 +26,21 @@
 <div id="kbmLoginBar"
      data-redirect="https://www.kbgoshala.org/donate"
      data-logout-target="https://www.kbgoshala.org/donate">
-  <div class="kbm-left">
-    <a id="kbmPortalBtn" class="kbm-signed-in" href="https://secure.kbmandir.org/" target="_blank" rel="noopener">View Donor Portal ↗</a>
-  </div>
-  <div class="kbm-right">
-    <span id="kbmLoginHint" class="kbm-signed-out">Returning donor? Sign in for giving history and employer matching</span>
-    <a id="kbmLoginBtn" class="kbm-signed-out" href="#">Donor Login →</a>
-    <span id="kbmLoggedIn" class="kbm-signed-in">
-      <span class="kbm-check" aria-hidden="true">✓</span>Signed in<span class="kbm-sep" aria-hidden="true">·</span><a id="kbmLogoutBtn" href="#">Sign out</a>
-    </span>
+  <div class="kbm-login-card">
+    <div class="kbm-login-body">
+      <div class="kbm-login-eyebrow">Donor account</div>
+      <p id="kbmWelcomeLine" class="kbm-signed-in kbm-welcome-line"></p>
+      <p id="kbmPortalDesc" class="kbm-signed-in kbm-portal-desc">View your giving history and update your account in the donor portal.</p>
+      <p id="kbmLoginHint" class="kbm-signed-out kbm-login-message">Returning donor? Sign in for giving history and employer matching on this page.</p>
+    </div>
+    <div class="kbm-login-actions">
+      <a id="kbmPortalBtn" class="kbm-btn kbm-btn-outline kbm-signed-in" href="https://secure.kbmandir.org/" target="_blank" rel="noopener noreferrer">View Donor Portal</a>
+      <a id="kbmLoginBtn" class="kbm-btn kbm-btn-primary kbm-signed-out" href="#">Donor Login</a>
+      <p id="kbmLoggedIn" class="kbm-signed-in kbm-auth-status">
+        <span class="kbm-check" aria-hidden="true">✓</span> Signed in
+        <a id="kbmLogoutBtn" class="kbm-signout-link" href="#">Sign out</a>
+      </p>
+    </div>
   </div>
 </div>
 

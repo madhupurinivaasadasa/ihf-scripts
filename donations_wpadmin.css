@@ -536,49 +536,157 @@ body.wp-admin { background-color: #f0f0f0; margin: 0; padding: 0; }
 
 /* ============================================================================
    OAuth donor login bar (#kbmLoginBar)
-   ============================================================================
-   Used by donations_wpadmin.html (temple) and donations_wpadmin-goshala.html
-   (goshala). The bar has two states toggled by .is-authed (set in JS by
-   donor-login-bar.js):
-     - Signed out: hint + "Donor Login →"
-     - Signed in:  welcome hint + "View Donor Portal ↗" + "✓ Signed in · Sign out"
-   Theme variant .kbm-theme-photo (for embed.html over a hero photo) inverts
-   the palette to white pills with backdrop-filter blur for legibility.
-   donations.html does not use this bar — rules are inert there.
    ============================================================================ */
 #kbmLoginBar {
-    display: flex;
-    align-items: baseline;
-    justify-content: space-between;
-    flex-wrap: wrap;
-    gap: 6px 16px;
     width: 100%;
     max-width: 720px;
-    margin: 0 auto 10px auto;
-    padding: 10px 10px 0 10px;
+    margin: 0 auto 16px auto;
+    padding: 0 10px;
     box-sizing: border-box;
-    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
-    font-size: 1.05rem;
+    font-family: var(--font-body, 'Lora', Georgia, serif);
+    font-size: 1rem;
 }
+
+#kbmLoginBar .kbm-login-card {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    padding: 16px 18px;
+    border: 1px solid rgba(139, 69, 19, 0.18);
+    border-radius: 16px;
+    background: var(--color-card, #fff);
+    box-shadow: 0 1px 3px rgba(44, 24, 16, 0.08);
+}
+
+#kbmLoginBar .kbm-login-body {
+    flex: 1 1 auto;
+    min-width: 0;
+}
+
+#kbmLoginBar .kbm-login-eyebrow {
+    margin: 0 0 6px;
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--color-brand, #8B4513);
+    font-family: var(--font-body, 'Lora', Georgia, serif);
+}
+
+#kbmLoginBar .kbm-welcome-line {
+    margin: 0 0 4px;
+    font-size: 1.05rem;
+    font-weight: 700;
+    line-height: 1.35;
+    color: var(--color-text, #333);
+    font-family: var(--font-display, 'DM Serif Display', Georgia, serif);
+}
+
+#kbmLoginBar .kbm-portal-desc,
+#kbmLoginBar .kbm-login-message,
+#kbmLoginBar #kbmPortalHint {
+    margin: 0;
+    font-size: 0.9rem;
+    line-height: 1.5;
+    color: var(--color-text-muted, #666);
+}
+
+#kbmLoginBar .kbm-login-actions {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 10px;
+}
+
+#kbmLoginBar .kbm-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 42px;
+    padding: 10px 20px;
+    border-radius: 999px;
+    font-size: 0.95rem;
+    font-weight: 600;
+    line-height: 1.2;
+    text-decoration: none;
+    font-family: inherit;
+    transition: background 0.15s ease, color 0.15s ease, border-color 0.15s ease;
+    box-sizing: border-box;
+}
+
+#kbmLoginBar .kbm-btn-primary {
+    border: 1px solid var(--color-brand, #8B4513);
+    background: var(--color-brand, #8B4513);
+    color: #fff;
+}
+
+#kbmLoginBar .kbm-btn-primary:hover {
+    background: var(--color-brand-dark, #6d350f);
+    border-color: var(--color-brand-dark, #6d350f);
+    color: #fff;
+}
+
+#kbmLoginBar .kbm-btn-outline {
+    border: 1px solid var(--color-brand, #8B4513);
+    background: transparent;
+    color: var(--color-brand, #8B4513);
+}
+
+#kbmLoginBar .kbm-btn-outline:hover {
+    background: var(--color-brand-light, #faf5f0);
+    color: var(--color-brand-dark, #6d350f);
+}
+
+#kbmLoginBar .kbm-auth-status {
+    margin: 0;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 8px;
+    font-size: 0.875rem;
+    color: var(--color-text-muted, #666);
+}
+
+#kbmLoginBar .kbm-auth-status .kbm-check {
+    color: #2e7d32;
+    font-weight: 700;
+}
+
+#kbmLoginBar .kbm-signout-link {
+    color: var(--color-brand, #8B4513);
+    font-weight: 600;
+    text-decoration: none;
+}
+
+#kbmLoginBar .kbm-signout-link:hover {
+    text-decoration: underline;
+}
+
+/* Legacy markup (.kbm-left / .kbm-right) — still styled if WP embed not updated yet */
 #kbmLoginBar .kbm-left,
 #kbmLoginBar .kbm-right {
     display: flex;
-    align-items: baseline;
+    flex-direction: column;
+    align-items: flex-start;
     gap: 10px;
 }
-#kbmLoginBar .kbm-left  { flex: 1 1 auto; min-width: 0; }
-#kbmLoginBar .kbm-right { flex: 0 0 auto; }
 
-/* Visibility — toggled by .is-authed on #kbmLoginBar via JS. */
-#kbmLoginBar .kbm-signed-in  { display: none; }
-#kbmLoginBar .kbm-signed-out { display: inline-block; }
-#kbmLoginBar.is-authed .kbm-signed-in  { display: inline-block; }
-#kbmLoginBar.is-authed .kbm-signed-out { display: none; }
+#kbmLoginBar .kbm-left { flex: 1 1 auto; min-width: 0; width: 100%; }
+#kbmLoginBar #kbmPortalHint { width: 100%; margin: 0 0 8px; }
+
+/* Visibility — toggled by .is-authed on #kbmLoginBar */
+#kbmLoginBar .kbm-signed-in { display: none !important; }
+#kbmLoginBar .kbm-signed-out { display: block; }
+#kbmLoginBar.is-authed .kbm-signed-in { display: block !important; }
+#kbmLoginBar.is-authed .kbm-signed-in.kbm-btn { display: inline-flex !important; }
+#kbmLoginBar.is-authed .kbm-signed-in.kbm-auth-status { display: flex !important; }
+#kbmLoginBar.is-authed #kbmWelcomeLine:empty { display: none !important; }
+#kbmLoginBar.is-authed .kbm-signed-out { display: none !important; }
 
 #kbmOAuthError.kbm-oauth-error,
 #kbmLoginBar .kbm-oauth-error {
     display: none;
-    margin: 8px 0 0;
+    margin: 10px 0 0;
     font-size: 0.875rem;
     line-height: 1.4;
     color: #ba1a1a;
@@ -587,148 +695,94 @@ body.wp-admin { background-color: #f0f0f0; margin: 0; padding: 0; }
 #kbmOAuthStatus.kbm-oauth-status,
 #kbmLoginBar .kbm-oauth-status {
     display: none;
-    margin: 6px 0 0;
+    margin: 8px 0 0;
     font-size: 0.8125rem;
     color: #5c5348;
 }
 
-#kbmPortalHint.kbm-portal-hint,
-#kbmLoginBar .kbm-portal-hint {
-    display: none;
-    margin: 0 0 6px;
-    font-size: 0.875rem;
-    line-height: 1.45;
-    font-weight: 400;
-    color: var(--color-text-muted, #666);
-    max-width: 36rem;
+@media (min-width: 640px) {
+    #kbmLoginBar .kbm-login-card {
+        flex-direction: row;
+        align-items: center;
+        justify-content: space-between;
+    }
+
+    #kbmLoginBar .kbm-login-actions {
+        flex: 0 0 auto;
+        justify-content: flex-end;
+    }
 }
 
-#kbmLoginHint {
-    color: var(--color-text-muted, #666);
-    font-size: 0.95rem;
+/* Theme variant for embed.html (donate-now) — bar sits over a hero photo */
+#kbmLoginBar.kbm-theme-photo { max-width: 1200px; }
+.kbm-theme-photo .kbm-login-card {
+    border-color: rgba(255, 255, 255, 0.35);
+    background: rgba(0, 0, 0, 0.45);
+    backdrop-filter: blur(8px);
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.25);
 }
-
-#kbmLoginBtn,
-#kbmPortalBtn {
-    color: var(--color-brand, #8B4513);
-    text-decoration: none;
-    font-weight: 600;
-    font-family: inherit;
-    padding: 4px 2px;
-    border-bottom: 1px solid transparent;
-    transition: border-color 0.15s ease, color 0.15s ease;
-}
-#kbmLoginBtn:hover,
-#kbmPortalBtn:hover {
-    color: var(--color-brand-dark, #6d350f);
-    border-bottom-color: currentColor;
-}
-
-#kbmLoggedIn {
-    color: var(--color-text-muted, #666);
-    font-family: inherit;
-    font-size: 0.95rem;
-}
-#kbmLoggedIn .kbm-check { color: #2e7d32; margin-right: 4px; }
-#kbmLoggedIn .kbm-sep   { margin: 0 8px; color: #ccc; }
-#kbmLoggedIn a {
-    color: var(--color-brand, #8B4513);
-    text-decoration: none;
-    font-weight: 600;
-    border-bottom: 1px solid transparent;
-    transition: border-color 0.15s ease, color 0.15s ease;
-}
-#kbmLoggedIn a:hover {
-    color: var(--color-brand-dark, #6d350f);
-    border-bottom-color: currentColor;
-}
-
-/* Theme variant for embed.html (donate-now) — bar sits over a hero photo
-   background, so links/text need higher contrast (pills, text shadows). */
-#kbmLoginBar.kbm-theme-photo  { max-width: 1200px; }
-.kbm-theme-photo #kbmLoginHint {
+.kbm-theme-photo .kbm-login-eyebrow,
+.kbm-theme-photo .kbm-welcome-line,
+.kbm-theme-photo .kbm-portal-desc,
+.kbm-theme-photo #kbmLoginHint,
+.kbm-theme-photo #kbmPortalHint {
     color: #ffffff;
-    font-weight: 500;
-    text-shadow: 0 1px 3px rgba(0,0,0,0.6);
-    background: rgba(0,0,0,0.35);
-    padding: 6px 12px;
-    border-radius: 4px;
-    backdrop-filter: blur(4px);
+    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.6);
 }
-.kbm-theme-photo #kbmLoginBtn,
-.kbm-theme-photo #kbmPortalBtn {
+.kbm-theme-photo .kbm-login-eyebrow { color: rgba(255, 255, 255, 0.85); }
+.kbm-theme-photo #kbmLoginBtn.kbm-btn-primary {
     background: rgba(27, 58, 107, 0.92);
+    border-color: rgba(27, 58, 107, 0.92);
     color: #ffffff;
-    padding: 10px 22px;
-    border-radius: 6px;
-    border-bottom: 0;
-    backdrop-filter: blur(4px);
-    transition: background 0.15s ease;
 }
-.kbm-theme-photo #kbmLoginBtn:hover,
-.kbm-theme-photo #kbmPortalBtn:hover {
+.kbm-theme-photo #kbmLoginBtn.kbm-btn-primary:hover {
     background: #2a52a0;
-    border-bottom: 0;
+    border-color: #2a52a0;
 }
-.kbm-theme-photo #kbmPortalBtn {
+.kbm-theme-photo #kbmPortalBtn.kbm-btn-outline {
     background: rgba(255, 255, 255, 0.92);
+    border-color: rgba(255, 255, 255, 0.92);
     color: #1b3a6b;
 }
-.kbm-theme-photo #kbmPortalBtn:hover {
+.kbm-theme-photo #kbmPortalBtn.kbm-btn-outline:hover {
     background: #ffffff;
     color: #2a52a0;
 }
-.kbm-theme-photo #kbmLoggedIn {
+.kbm-theme-photo .kbm-auth-status {
     color: #ffffff;
-    font-weight: 600;
-    font-size: 0.95rem;
-    background: rgba(0,0,0,0.45);
+    background: rgba(0, 0, 0, 0.35);
     padding: 8px 14px;
-    border-radius: 6px;
-    backdrop-filter: blur(4px);
+    border-radius: 999px;
 }
-.kbm-theme-photo #kbmLoggedIn .kbm-check { color: #66d97f; }
-.kbm-theme-photo #kbmLoggedIn .kbm-sep   { opacity: 0.4; color: #ffffff; }
-.kbm-theme-photo #kbmLoggedIn a {
+.kbm-theme-photo .kbm-auth-status .kbm-check { color: #66d97f; }
+.kbm-theme-photo .kbm-signout-link {
     color: #ffffff;
     text-decoration: underline;
     text-underline-offset: 3px;
-    border-bottom: 0;
 }
-.kbm-theme-photo #kbmLoggedIn a:hover {
-    color: #ffd;
-    border-bottom: 0;
-}
+.kbm-theme-photo .kbm-signout-link:hover { color: #ffd; }
 
-/* Mobile: stack and center. Promote login link to a tappable button. */
 @media (max-width: 600px) {
     #kbmLoginBar {
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-        gap: 8px;
-        padding: 10px 12px 0 12px;
+        padding: 0 12px;
+    }
+    #kbmLoginBar .kbm-login-card {
+        padding: 14px 16px;
+    }
+    #kbmLoginBar .kbm-login-actions {
+        width: 100%;
+        justify-content: stretch;
+    }
+    #kbmLoginBar .kbm-btn {
+        flex: 1 1 auto;
+        min-width: 0;
     }
     #kbmLoginBar .kbm-left,
     #kbmLoginBar .kbm-right {
-        flex-direction: column;
-        align-items: center;
-        gap: 6px;
-        text-align: center;
+        align-items: stretch;
+        text-align: left;
     }
     #kbmLoginBar #kbmLoginHint { font-size: 0.875rem; }
-    #kbmLoginBar:not(.kbm-theme-photo) #kbmLoginBtn {
-        background: var(--color-brand, #8B4513);
-        color: #ffffff;
-        padding: 9px 18px;
-        border-radius: 6px;
-        border-bottom: 0;
-    }
-    #kbmLoginBar:not(.kbm-theme-photo) #kbmLoginBtn:hover {
-        background: var(--color-brand-dark, #6d350f);
-        color: #ffffff;
-        border-bottom: 0;
-    }
 }
 
 /* ============================================================================
