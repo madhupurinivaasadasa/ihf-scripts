@@ -45,6 +45,9 @@
     </div>
   </div>
 </div>
+<!-- Prevent flash: visibility + pill buttons before CDN CSS/JS load (WordPress embed). -->
+<style id="kbmLoginBarCritical">#kbmLoginBar .kbm-signed-in{display:none!important}#kbmLoginBar.is-authed .kbm-signed-in{display:block!important}#kbmLoginBar.is-authed .kbm-signed-in.kbm-btn{display:inline-flex!important}#kbmLoginBar.is-authed .kbm-signed-in.kbm-auth-status{display:flex!important}#kbmLoginBar.is-authed #kbmWelcomeLine:empty{display:none!important}#kbmLoginBar.is-authed .kbm-signed-out{display:none!important}#kbmLoginBar .kbm-btn{display:inline-flex;align-items:center;padding:10px 20px;border-radius:999px;font-weight:600;text-decoration:none;box-sizing:border-box}#kbmLoginBar .kbm-btn-primary{background:#8B4513;color:#fff;border:1px solid #8B4513}#kbmLoginBar .kbm-btn-outline{border:1px solid #8B4513;color:#8B4513;background:transparent}</style>
+<script>(function(){var b=document.getElementById('kbmLoginBar');if(!b)return;try{var ok=localStorage.getItem('kbmLoggedIn');var exp=parseInt(localStorage.getItem('kbmLoggedInExpiry')||'0',10);if(ok&&(!exp||Date.now()<exp))b.classList.add('is-authed');}catch(e){}})();</script>
 
 <h1>Donation Opportunities</h1>
 

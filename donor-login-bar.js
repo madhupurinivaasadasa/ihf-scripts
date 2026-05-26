@@ -441,6 +441,18 @@
         handleOAuthCallback(bar, redirect, resolveOAuthCompleteUrl(bar, redirect));
     }
 
+    function bootstrapLoginBarFromStorage() {
+        var bar = document.getElementById('kbmLoginBar');
+        if (!bar) return;
+        try {
+            if (!localStorage.getItem('kbmLoggedIn')) return;
+            var expiry = parseInt(localStorage.getItem('kbmLoggedInExpiry') || '0', 10);
+            if (expiry && Date.now() > expiry) return;
+            bar.classList.add('is-authed');
+        } catch (e) { /* ignore */ }
+    }
+
+    bootstrapLoginBarFromStorage();
     tryEarlyOAuth();
 
     if (document.readyState === 'loading') {
