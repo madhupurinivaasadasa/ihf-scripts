@@ -24,6 +24,17 @@ window.donationForms = {
         bgColor: "#FFE5B4",
         icon: "🕉️"
     },
+    "janmashtami-2026": {
+        label: "",
+        tagline: "Celebrate Sri Krishna Janmashtami with devotion",
+        description: "Celebrate Sri Krishna Janmashtami filled with devotion and spiritual festivities",
+        price: "",
+        img: "https://secure.kbmandir.org/neon/resource/ihf/images/jnm_2026_landscape.jpg",
+        vpf: "https://secure.kbmandir.org/forms/janmashtami-2026-vpf",
+        ihf: "https://secure.kbmandir.org/forms/janmashtami-2026-ihf",
+        bgColor: "#FFE5B4",
+        icon: "🕉️"
+    },
     "goshala-project": {
         label: "Goshala Project",
         tagline: "Help build mother cow's home!",
