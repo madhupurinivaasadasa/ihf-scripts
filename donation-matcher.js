@@ -404,7 +404,6 @@ function renderTiles(urlType) {
     if (container) container.innerHTML = "";
 
     var urlParams = new URLSearchParams(window.location.search);
-    var priorityKey = urlParams.get("opportunity") || urlParams.get("form");
     urlParams.delete('form');
     urlParams.delete('opportunity');
     urlParams.delete('seva');
@@ -412,16 +411,7 @@ function renderTiles(urlType) {
     urlParams.delete('c');
     var queryString = urlParams.toString() ? ("?" + urlParams.toString()) : "";
 
-    var entries = Object.entries(getDonationForms());
-    if (priorityKey) {
-        var originalOrder = entries.slice();
-        entries.sort(function(a, b) {
-            if (a[0] === priorityKey) return -1;
-            if (b[0] === priorityKey) return 1;
-            return originalOrder.findIndex(function(x) { return x[0] === a[0]; })
-                 - originalOrder.findIndex(function(x) { return x[0] === b[0]; });
-        });
-    }
+    var entries = getOrderedDonationEntries();
 
     if (entries.length > 0 && heroContainer) {
         heroContainer.appendChild(buildCard(entries[0][1], urlType, queryString, true));
@@ -435,8 +425,24 @@ function renderTiles(urlType) {
 
 var prefetchedImages = {};
 
-function prefetchHeroImage() {
+function getOrderedDonationEntries() {
     var entries = Object.entries(getDonationForms());
+    var urlParams = new URLSearchParams(window.location.search);
+    var priorityKey = urlParams.get("seva") || urlParams.get("opportunity") || urlParams.get("form");
+    if (!priorityKey) return entries;
+
+    var originalOrder = entries.slice();
+    entries.sort(function(a, b) {
+        if (a[0] === priorityKey) return -1;
+        if (b[0] === priorityKey) return 1;
+        return originalOrder.findIndex(function(x) { return x[0] === a[0]; })
+             - originalOrder.findIndex(function(x) { return x[0] === b[0]; });
+    });
+    return entries;
+}
+
+function prefetchHeroImage() {
+    var entries = getOrderedDonationEntries();
     if (entries.length === 0) return;
     var heroForm = entries[0][1];
     if (!prefetchedImages[heroForm.img]) {
@@ -616,16 +622,7 @@ window.addEventListener("kbmDonorOAuthCampaign", function() {
             // Lighthouse flags it; the tradeoff is accepted for better first-visit UX.
             var heroCard = document.querySelector("#heroTile .tile");
             if (heroCard) {
-                var priorityKey = params.get("seva") || params.get("opportunity") || params.get("form");
-                var allEntries = Object.entries(getDonationForms());
-                if (priorityKey) {
-                    var orig = allEntries.slice();
-                    allEntries.sort(function(a, b) {
-                        if (a[0] === priorityKey) return -1;
-                        if (b[0] === priorityKey) return 1;
-                        return orig.indexOf(a) - orig.indexOf(b);
-                    });
-                }
+                var allEntries = getOrderedDonationEntries();
                 if (allEntries.length > 0) {
                     var urlParams2 = new URLSearchParams(window.location.search);
                     urlParams2.delete('form'); urlParams2.delete('opportunity');
