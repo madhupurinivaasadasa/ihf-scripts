@@ -13,17 +13,6 @@ window.donationForms = {
     //     bgColor: "#FFD700",
     //     icon: "🕉️"
     // },
-    "janmashtami-2026": {
-        label: "",
-        tagline: "Celebrate Sri Krishna Janmashtami with devotion",
-        description: "Celebrate Sri Krishna Janmashtami filled with devotion and spiritual festivities",
-        price: "",
-        img: "https://secure.kbmandir.org/neon/resource/ihf/images/jnm_2026_landscape.jpg",
-        vpf: "https://secure.kbmandir.org/forms/janmashtami-2026-vpf",
-        ihf: "https://secure.kbmandir.org/forms/janmashtami-2026-ihf",
-        bgColor: "#FFE5B4",
-        icon: "🕉️"
-    },
     "kbm-festival": {
         label: "",
         tagline: "Celebrate Jagannath Ratha Yatra with devotion",
@@ -32,6 +21,17 @@ window.donationForms = {
         img: "https://secure.kbmandir.org/neon/resource/ihf/images/RY26L.jpg",
         vpf: "https://secure.kbmandir.org/forms/kbm-festival-seva-vpf",
         ihf: "https://secure.kbmandir.org/forms/kbm-festival-seva-ihf",
+        bgColor: "#FFE5B4",
+        icon: "🕉️"
+    },
+    "janmashtami-2026": {
+        label: "",
+        tagline: "Celebrate Sri Krishna Janmashtami with devotion",
+        description: "Celebrate Sri Krishna Janmashtami filled with devotion and spiritual festivities",
+        price: "",
+        img: "https://secure.kbmandir.org/neon/resource/ihf/images/jnm_2026_landscape.jpg",
+        vpf: "https://secure.kbmandir.org/forms/janmashtami-2026-vpf",
+        ihf: "https://secure.kbmandir.org/forms/janmashtami-2026-ihf",
         bgColor: "#FFE5B4",
         icon: "🕉️"
     },
