@@ -10,6 +10,8 @@
     var SHARE_URL = 'https://secure.kbmandir.org/nx/portal/clp/share/UE9SVEFMLUNMUC1JSEYtQ1JNLWloZg==';
     var STORAGE_SANDBOX = 'allow-storage-access-by-user-activation';
     var STORAGE_ALLOW = 'storage-access *';
+    var syncing = false;
+    var resizeTimer;
 
     function deframeWrapper(el) {
         if (!el) return;
@@ -22,6 +24,18 @@
         el.style.border = '0';
         el.style.borderRadius = '0';
         el.style.boxShadow = 'none';
+    }
+
+    function patchIframe(iframe) {
+        if (!iframe || iframe.tagName !== 'IFRAME') return;
+        var sandbox = iframe.getAttribute('sandbox') || '';
+        if (sandbox.indexOf(STORAGE_SANDBOX) === -1) {
+            iframe.setAttribute('sandbox', (sandbox + ' ' + STORAGE_SANDBOX).trim());
+        }
+        var allow = iframe.getAttribute('allow') || '';
+        if (allow.indexOf('storage-access') === -1) {
+            iframe.setAttribute('allow', (allow ? allow + '; ' : '') + STORAGE_ALLOW);
+        }
     }
 
     function applyDesktopWidth() {
@@ -48,26 +62,6 @@
             iframes[j].style.border = '0';
             patchIframe(iframes[j]);
         }
-
-        notifyEmbedResize();
-    }
-
-    function notifyEmbedResize() {
-        try {
-            window.dispatchEvent(new Event('resize'));
-        } catch (e) {}
-    }
-
-    function patchIframe(iframe) {
-        if (!iframe || iframe.tagName !== 'IFRAME') return;
-        var sandbox = iframe.getAttribute('sandbox') || '';
-        if (sandbox.indexOf(STORAGE_SANDBOX) === -1) {
-            iframe.setAttribute('sandbox', (sandbox + ' ' + STORAGE_SANDBOX).trim());
-        }
-        var allow = iframe.getAttribute('allow') || '';
-        if (allow.indexOf('storage-access') === -1) {
-            iframe.setAttribute('allow', (allow ? allow + '; ' : '') + STORAGE_ALLOW);
-        }
     }
 
     function reparentWrapper() {
@@ -88,15 +82,18 @@
             }
         }
 
-        var iframes = target.getElementsByClassName('neon-clp-embed-iframe');
-        for (var j = 0; j < iframes.length; j++) {
-            patchIframe(iframes[j]);
-        }
-
-        applyDesktopWidth();
-        notifyEmbedResize();
-
         return true;
+    }
+
+    function syncEmbed() {
+        if (syncing) return;
+        syncing = true;
+        try {
+            reparentWrapper();
+            applyDesktopWidth();
+        } finally {
+            syncing = false;
+        }
     }
 
     if (!window.__kbmPortalIframeSandboxPatched) {
@@ -115,21 +112,18 @@
         };
     }
 
-    function onDomChange() {
-        reparentWrapper();
-        applyDesktopWidth();
-        var list = document.getElementsByClassName('neon-clp-embed-iframe');
-        for (var i = 0; i < list.length; i++) {
-            patchIframe(list[i]);
-        }
-    }
-
     if (window.MutationObserver) {
-        var observer = new MutationObserver(onDomChange);
+        var observer = new MutationObserver(function(mutations) {
+            for (var i = 0; i < mutations.length; i++) {
+                if (mutations[i].type === 'childList') {
+                    syncEmbed();
+                    return;
+                }
+            }
+        });
         observer.observe(document.documentElement, {
             childList: true,
-            subtree: true,
-            attributes: true
+            subtree: true
         });
     }
 
@@ -146,15 +140,19 @@
         (document.body || document.documentElement).appendChild(script);
     }
 
+    window.addEventListener('resize', function() {
+        clearTimeout(resizeTimer);
+        resizeTimer = setTimeout(syncEmbed, 150);
+    });
+
     if (document.body) {
         loadNeonShareScript();
     } else {
         document.addEventListener('DOMContentLoaded', loadNeonShareScript);
     }
 
-    onDomChange();
-    setTimeout(onDomChange, 0);
-    setTimeout(onDomChange, 500);
-    setTimeout(onDomChange, 2000);
-    window.addEventListener('resize', applyDesktopWidth);
+    syncEmbed();
+    setTimeout(syncEmbed, 0);
+    setTimeout(syncEmbed, 500);
+    setTimeout(syncEmbed, 2000);
 })();
