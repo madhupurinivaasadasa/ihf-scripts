@@ -7,23 +7,53 @@
     window.__kbmPortalEmbedInit = true;
 
     var TARGET_ID = 'kbmDonorPortalWrap';
+    var EMBED_ID = 'kbmDonorPortalEmbed';
     var SHARE_URL = 'https://secure.kbmandir.org/nx/portal/clp/share/UE9SVEFMLUNMUC1JSEYtQ1JNLWloZg==';
     var STORAGE_SANDBOX = 'allow-storage-access-by-user-activation';
     var STORAGE_ALLOW = 'storage-access *';
+    var MOBILE_BREAKPOINT = 992;
     var syncing = false;
     var resizeTimer;
 
-    function deframeWrapper(el) {
+    function isMobileViewport() {
+        return window.innerWidth < MOBILE_BREAKPOINT;
+    }
+
+    function getContentWidth() {
+        if (isMobileViewport()) {
+            return document.documentElement.clientWidth || window.innerWidth;
+        }
+        var embed = document.getElementById(EMBED_ID);
+        if (embed) {
+            var rect = embed.getBoundingClientRect();
+            if (rect.width > 0) return Math.floor(rect.width);
+            if (embed.clientWidth > 0) return embed.clientWidth;
+        }
+        return document.documentElement.clientWidth || window.innerWidth;
+    }
+
+    function setBoxWidth(el, widthPx, mobile) {
         if (!el) return;
-        el.style.width = '100%';
-        el.style.maxWidth = 'none';
+        if (mobile) {
+            el.style.width = widthPx + 'px';
+            el.style.maxWidth = widthPx + 'px';
+        } else {
+            el.style.width = '100%';
+            el.style.maxWidth = '100%';
+        }
         el.style.minWidth = '0';
+        el.style.boxSizing = 'border-box';
+    }
+
+    function deframeWrapper(el, mobile) {
+        if (!el) return;
         el.style.margin = '0';
         el.style.padding = '0';
         el.style.background = 'transparent';
         el.style.border = '0';
         el.style.borderRadius = '0';
         el.style.boxShadow = 'none';
+        el.style.overflow = mobile ? 'hidden' : 'visible';
     }
 
     function patchIframe(iframe) {
@@ -38,32 +68,29 @@
         }
     }
 
-    function applyDesktopWidth() {
+    function applyLayout() {
         var target = document.getElementById(TARGET_ID);
+        var embed = document.getElementById(EMBED_ID);
         if (!target) return;
 
-        target.style.width = '100%';
-        target.style.maxWidth = 'none';
-        target.style.margin = '0';
+        var mobile = isMobileViewport();
+        var widthPx = getContentWidth();
 
-        var embed = document.getElementById('kbmDonorPortalEmbed');
-        if (embed) {
-            embed.style.width = '100%';
-            embed.style.maxWidth = '100%';
-            embed.style.margin = '0';
-        }
+        embed && setBoxWidth(embed, widthPx, mobile);
+        setBoxWidth(target, widthPx, mobile);
+        target.style.margin = '0';
 
         var wrappers = document.getElementsByClassName('neon-clp-embed-wrapper');
         for (var i = 0; i < wrappers.length; i++) {
-            deframeWrapper(wrappers[i]);
+            deframeWrapper(wrappers[i], mobile);
+            setBoxWidth(wrappers[i], widthPx, mobile);
         }
 
         var iframes = document.getElementsByClassName('neon-clp-embed-iframe');
         for (var j = 0; j < iframes.length; j++) {
-            iframes[j].style.width = '100%';
-            iframes[j].style.maxWidth = 'none';
-            iframes[j].style.minWidth = '0';
+            setBoxWidth(iframes[j], widthPx, mobile);
             iframes[j].style.border = '0';
+            iframes[j].style.display = 'block';
             patchIframe(iframes[j]);
         }
     }
@@ -94,7 +121,7 @@
         syncing = true;
         try {
             reparentWrapper();
-            applyDesktopWidth();
+            applyLayout();
         } finally {
             syncing = false;
         }
@@ -144,10 +171,13 @@
         (document.body || document.documentElement).appendChild(script);
     }
 
-    window.addEventListener('resize', function() {
+    function scheduleSync() {
         clearTimeout(resizeTimer);
         resizeTimer = setTimeout(syncEmbed, 150);
-    });
+    }
+
+    window.addEventListener('resize', scheduleSync);
+    window.addEventListener('orientationchange', scheduleSync);
 
     if (document.body) {
         loadNeonShareScript();
@@ -159,4 +189,7 @@
     setTimeout(syncEmbed, 0);
     setTimeout(syncEmbed, 500);
     setTimeout(syncEmbed, 2000);
+    /* Neon applyWidth runs on setTimeout(0) — re-sync after it sets wrapper width */
+    setTimeout(syncEmbed, 50);
+    setTimeout(syncEmbed, 300);
 })();
