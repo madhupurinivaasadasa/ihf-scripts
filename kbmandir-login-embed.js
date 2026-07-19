@@ -15,18 +15,21 @@
         var target = document.getElementById(TARGET_ID);
         if (!target) return;
 
+        var useDesktop = window.innerWidth >= 992;
         target.style.width = '100%';
 
         var wrappers = target.getElementsByClassName('neon-clp-embed-wrapper');
         for (var i = 0; i < wrappers.length; i++) {
             wrappers[i].style.width = '100%';
             wrappers[i].style.maxWidth = 'none';
+            wrappers[i].style.minWidth = useDesktop ? '992px' : '';
         }
 
         var iframes = target.getElementsByClassName('neon-clp-embed-iframe');
         for (var j = 0; j < iframes.length; j++) {
             iframes[j].style.width = '100%';
             iframes[j].style.maxWidth = 'none';
+            iframes[j].style.minWidth = useDesktop ? '992px' : '';
         }
     }
 
