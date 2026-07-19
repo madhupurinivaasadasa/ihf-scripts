@@ -11,26 +11,45 @@
     var STORAGE_SANDBOX = 'allow-storage-access-by-user-activation';
     var STORAGE_ALLOW = 'storage-access *';
 
+    function deframeWrapper(el) {
+        if (!el) return;
+        el.style.width = '100%';
+        el.style.maxWidth = 'none';
+        el.style.minWidth = '0';
+        el.style.margin = '0';
+        el.style.padding = '0';
+        el.style.background = 'transparent';
+        el.style.border = '0';
+        el.style.borderRadius = '0';
+        el.style.boxShadow = 'none';
+    }
+
     function applyDesktopWidth() {
         var target = document.getElementById(TARGET_ID);
+        var embed = document.getElementById('kbmDonorPortalEmbed');
         if (!target) return;
 
-        var useDesktop = window.innerWidth >= 992;
         target.style.width = '100%';
-
-        var wrappers = target.getElementsByClassName('neon-clp-embed-wrapper');
-        for (var i = 0; i < wrappers.length; i++) {
-            wrappers[i].style.width = '100%';
-            wrappers[i].style.maxWidth = 'none';
-            wrappers[i].style.minWidth = useDesktop ? '992px' : '';
+        if (embed) {
+            embed.style.width = '100vw';
+            embed.style.maxWidth = '100vw';
         }
 
-        var iframes = target.getElementsByClassName('neon-clp-embed-iframe');
+        var wrappers = document.getElementsByClassName('neon-clp-embed-wrapper');
+        for (var i = 0; i < wrappers.length; i++) {
+            deframeWrapper(wrappers[i]);
+        }
+
+        var iframes = document.getElementsByClassName('neon-clp-embed-iframe');
         for (var j = 0; j < iframes.length; j++) {
             iframes[j].style.width = '100%';
             iframes[j].style.maxWidth = 'none';
-            iframes[j].style.minWidth = useDesktop ? '992px' : '';
+            iframes[j].style.minWidth = '0';
+            iframes[j].style.border = '0';
+            patchIframe(iframes[j]);
         }
+
+        notifyEmbedResize();
     }
 
     function notifyEmbedResize() {
