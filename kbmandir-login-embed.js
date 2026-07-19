@@ -1,10 +1,13 @@
-/* kbmandir-login-embed.js — load BEFORE Neon CLP portal share script on kbmandir.org/login/
- * Neon sets iframe sandbox without allow-storage-access-by-user-activation; reCAPTCHA
- * on the login form needs it for Storage Access API in Safari / strict cookie modes. */
+/* kbmandir-login-embed.js — single external loader for kbmandir.org/login/
+ * 1. Patch Neon CLP iframe sandbox for reCAPTCHA storage access
+ * 2. Reparent .neon-clp-embed-wrapper into #kbmDonorPortalWrap (Jetpack Boost moves scripts to footer)
+ * 3. Load Neon CLP share script once */
 (function() {
-    if (window.__kbmPortalIframeSandboxPatched) return;
-    window.__kbmPortalIframeSandboxPatched = true;
+    if (window.__kbmPortalEmbedInit) return;
+    window.__kbmPortalEmbedInit = true;
 
+    var TARGET_ID = 'kbmDonorPortalWrap';
+    var SHARE_URL = 'https://secure.kbmandir.org/nx/portal/clp/share/UE9SVEFMLUNMUC1JSEYtQ1JNLWloZg==';
     var STORAGE_SANDBOX = 'allow-storage-access-by-user-activation';
     var STORAGE_ALLOW = 'storage-access *';
 
@@ -20,39 +23,86 @@
         }
     }
 
-    function patchNeonPortalIframes() {
+    function reparentWrapper() {
+        var target = document.getElementById(TARGET_ID);
+        if (!target) return false;
+
+        var wrappers = document.getElementsByClassName('neon-clp-embed-wrapper');
+        if (!wrappers.length) return false;
+
+        var primary = wrappers[0];
+        if (primary.parentNode !== target) {
+            target.appendChild(primary);
+        }
+
+        for (var i = 1; i < wrappers.length; i++) {
+            if (wrappers[i].parentNode) {
+                wrappers[i].parentNode.removeChild(wrappers[i]);
+            }
+        }
+
+        var iframes = target.getElementsByClassName('neon-clp-embed-iframe');
+        for (var j = 0; j < iframes.length; j++) {
+            patchIframe(iframes[j]);
+        }
+
+        return true;
+    }
+
+    if (!window.__kbmPortalIframeSandboxPatched) {
+        window.__kbmPortalIframeSandboxPatched = true;
+        var nativeSetAttribute = Element.prototype.setAttribute;
+        Element.prototype.setAttribute = function(name, value) {
+            if (this.tagName === 'IFRAME' && typeof value === 'string') {
+                if (name === 'sandbox' && value.indexOf(STORAGE_SANDBOX) === -1) {
+                    value = value + ' ' + STORAGE_SANDBOX;
+                }
+                if (name === 'allow' && value.indexOf('storage-access') === -1) {
+                    value = value + (value ? '; ' : '') + STORAGE_ALLOW;
+                }
+            }
+            return nativeSetAttribute.call(this, name, value);
+        };
+    }
+
+    function onDomChange() {
+        reparentWrapper();
         var list = document.getElementsByClassName('neon-clp-embed-iframe');
         for (var i = 0; i < list.length; i++) {
             patchIframe(list[i]);
         }
-        var all = document.getElementsByTagName('iframe');
-        for (var j = 0; j < all.length; j++) {
-            var id = all[j].id || '';
-            if (id.indexOf('neon-clp-embed') === 0) {
-                patchIframe(all[j]);
-            }
-        }
     }
 
-    var nativeSetAttribute = Element.prototype.setAttribute;
-    Element.prototype.setAttribute = function(name, value) {
-        if (this.tagName === 'IFRAME' && typeof value === 'string') {
-            if (name === 'sandbox' && value.indexOf(STORAGE_SANDBOX) === -1) {
-                value = value + ' ' + STORAGE_SANDBOX;
-            }
-            if (name === 'allow' && value.indexOf('storage-access') === -1) {
-                value = value + (value ? '; ' : '') + STORAGE_ALLOW;
-            }
-        }
-        return nativeSetAttribute.call(this, name, value);
-    };
-
     if (window.MutationObserver) {
-        var observer = new MutationObserver(patchNeonPortalIframes);
+        var observer = new MutationObserver(onDomChange);
         observer.observe(document.documentElement, {
             childList: true,
             subtree: true,
             attributes: true
         });
     }
+
+    function loadNeonShareScript() {
+        var scripts = document.getElementsByTagName('script');
+        for (var i = 0; i < scripts.length; i++) {
+            var src = scripts[i].getAttribute('src') || '';
+            if (src.indexOf('UE9SVEFMLUNMUC1JSEYtQ1JNLWloZg') !== -1 || scripts[i].getAttribute('data-neon-clp-embed')) {
+                return;
+            }
+        }
+        var script = document.createElement('script');
+        script.src = SHARE_URL;
+        (document.body || document.documentElement).appendChild(script);
+    }
+
+    if (document.body) {
+        loadNeonShareScript();
+    } else {
+        document.addEventListener('DOMContentLoaded', loadNeonShareScript);
+    }
+
+    onDomChange();
+    setTimeout(onDomChange, 0);
+    setTimeout(onDomChange, 500);
+    setTimeout(onDomChange, 2000);
 })();
