@@ -40,13 +40,17 @@
 
     function applyDesktopWidth() {
         var target = document.getElementById(TARGET_ID);
-        var embed = document.getElementById('kbmDonorPortalEmbed');
         if (!target) return;
 
         target.style.width = '100%';
+        target.style.maxWidth = 'none';
+        target.style.margin = '0';
+
+        var embed = document.getElementById('kbmDonorPortalEmbed');
         if (embed) {
-            embed.style.width = '100vw';
-            embed.style.maxWidth = '100vw';
+            embed.style.width = '100%';
+            embed.style.maxWidth = '100%';
+            embed.style.margin = '0';
         }
 
         var wrappers = document.getElementsByClassName('neon-clp-embed-wrapper');
