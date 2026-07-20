@@ -13,17 +13,17 @@ window.donationForms = {
     //     bgColor: "#FFD700",
     //     icon: "🕉️"
     // },
-    "kbm-festival": {
-        label: "",
-        tagline: "Celebrate Jagannath Ratha Yatra with devotion",
-        description: "Celebrate Jagannath Ratha Yatra filled with devotion and spiritual festivities",
-        price: "",
-        img: "https://secure.kbmandir.org/neon/resource/ihf/images/RY26L.jpg",
-        vpf: "https://secure.kbmandir.org/forms/kbm-festival-seva-vpf",
-        ihf: "https://secure.kbmandir.org/forms/kbm-festival-seva-ihf",
-        bgColor: "#FFE5B4",
-        icon: "🕉️"
-    },
+    // "kbm-festival": {
+    //     label: "",
+    //     tagline: "Celebrate Jagannath Ratha Yatra with devotion",
+    //     description: "Celebrate Jagannath Ratha Yatra filled with devotion and spiritual festivities",
+    //     price: "",
+    //     img: "https://secure.kbmandir.org/neon/resource/ihf/images/RY26L.jpg",
+    //     vpf: "https://secure.kbmandir.org/forms/kbm-festival-seva-vpf",
+    //     ihf: "https://secure.kbmandir.org/forms/kbm-festival-seva-ihf",
+    //     bgColor: "#FFE5B4",
+    //     icon: "🕉️"
+    // },
     "janmashtami-2026": {
         label: "",
         tagline: "Celebrate Sri Krishna Janmashtami with devotion",
