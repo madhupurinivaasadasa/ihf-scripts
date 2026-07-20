@@ -23,7 +23,7 @@ window.donationForms = {
     //     ihf: "https://secure.kbmandir.org/forms/kbm-festival-seva-ihf",
     //     bgColor: "#FFE5B4",
     //     icon: "🕉️"
-    // },
+    // }
     "janmashtami-2026": {
         label: "",
         tagline: "Celebrate Sri Krishna Janmashtami with devotion",
