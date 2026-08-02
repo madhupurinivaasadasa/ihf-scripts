@@ -211,6 +211,8 @@
   /* FOOTER */
   footer{background:var(--navy-deep); border-top:1px solid rgba(212,175,55,0.14); padding:48px 0 30px;}
   .footer-inner{display:flex; justify-content:space-between; align-items:flex-start; flex-wrap:wrap; gap:24px;}
+  .footer-letterhead{margin-bottom:32px; padding-bottom:32px; border-bottom:1px solid rgba(212,175,55,0.14);}
+  .footer-letterhead img{width:100%; max-width:820px; display:block; border-radius:4px;}
   .footer-brand{font-family:'Cinzel',serif; font-size:1rem; color:var(--cream);}
   .footer-links{display:flex; gap:22px; font-size:.86rem; color:var(--cream-dim);}
   .footer-links a{text-decoration:none;}
@@ -235,7 +237,7 @@
 <header class="nav">
   <div class="wrap nav-inner">
     <div class="brand">
-      <img class="nav-logo" src="https://d2r0txsugik6oi.cloudfront.net/neon/resource/ihf/images/kbm-letterhead-v4.jpg" alt="Sri Krishna Balaram Mandir">
+      <img class="nav-logo" src="https://d2r0txsugik6oi.cloudfront.net/neon/resource/ihf/images/kbevlogo-transparent-800.png" alt="Sri Krishna Balaram Mandir Eco-Village">
       <span class="brand-text">Koti Japa Yagna<small>Sri Krishna Balaram Mandir</small></span>
     </div>
     <nav class="links">
@@ -401,6 +403,11 @@
 </section>
 
 <footer>
+  <div class="wrap">
+    <div class="footer-letterhead">
+      <img src="https://d2r0txsugik6oi.cloudfront.net/neon/resource/ihf/images/kbm-letterhead-v4.jpg" alt="India Heritage Foundation · Sri Krishna Balaram Mandir · 680 E Calaveras Blvd, Milpitas, CA 95035 · www.kbmandir.org · info@kbmandir.org · 408 657 8485 · EIN 20-1722833">
+    </div>
+  </div>
   <div class="wrap footer-inner">
     <div>
       <div class="footer-brand">Koti Japa Yagna</div>
@@ -424,7 +431,7 @@
 
   // Paste the Apps Script Web App URL here once deployed (Deploy > New deployment > Web app).
   // It should end in /exec. See koti-japa-yagna-appscript.gs for the script + deploy steps.
-  var DASHBOARD_API_URL = ""; // e.g. "https://script.google.com/macros/s/XXXXXXXX/exec"
+  var DASHBOARD_API_URL = "https://script.google.com/macros/s/AKfycbxRut49bjrz6ZokVYO6-NUJeLvzSxu6b3a1ZGo4Ytzy65sP5-I0ACwWHjS49tfXiv-JTw/exec";
 
   // Shown until the Apps Script URL above is connected
   var DEMO = {
