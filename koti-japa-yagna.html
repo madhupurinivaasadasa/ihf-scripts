@@ -193,7 +193,7 @@
   .form-panel-head .tag{font-size:.68rem; letter-spacing:.14em; text-transform:uppercase; color:var(--gold); font-weight:600;}
   .form-panel-head h3{font-family:'Cormorant Garamond',serif; font-size:1.5rem; margin:8px 0 6px; color:var(--cream);}
   .form-panel-head p{font-size:.86rem; color:var(--cream-dim); margin:0; line-height:1.5;}
-  .form-panel iframe{width:100%; min-height:640px; border:none; display:block; background:var(--cream);}
+  .form-panel iframe{width:100%; height:820px; max-height:80vh; border:none; display:block; background:var(--cream); overflow-y:auto;}
 
   /* LEADERBOARD placeholder */
   .board-tabs{display:flex; gap:10px; margin-bottom:22px;}
@@ -366,7 +366,7 @@
           <h3>Register &amp; make your sankalpa</h3>
           <p>Your name, mobile, city and daily rounds vow. Takes about a minute.</p>
         </div>
-        <iframe id="JotFormIFrame-262134130460039" src="https://form.jotform.com/262134130460039" title="Koti Japa Yagna sankalpa registration form" loading="lazy" allowtransparency="true" allow="geolocation; microphone; camera" scrolling="no" onload="window.parent.scrollTo(0,0)"></iframe>
+        <iframe id="JotFormIFrame-262134130460039" src="https://form.jotform.com/262134130460039" title="Koti Japa Yagna sankalpa registration form" loading="lazy" allowtransparency="true" allow="geolocation; microphone; camera" scrolling="auto"></iframe>
       </div>
       <div class="form-panel">
         <div class="form-panel-head">
@@ -374,7 +374,7 @@
           <h3>Log today's rounds</h3>
           <p>Already registered? Submit the rounds you chanted today using the same mobile number.</p>
         </div>
-        <iframe id="JotFormIFrame-262134112078044" src="https://form.jotform.com/262134112078044" title="Koti Japa Yagna daily round log form" loading="lazy" allowtransparency="true" allow="geolocation; microphone; camera" scrolling="no" onload="window.parent.scrollTo(0,0)"></iframe>
+        <iframe id="JotFormIFrame-262134112078044" src="https://form.jotform.com/262134112078044" title="Koti Japa Yagna daily round log form" loading="lazy" allowtransparency="true" allow="geolocation; microphone; camera" scrolling="auto"></iframe>
       </div>
     </div>
   </div>
@@ -578,25 +578,6 @@
   // Refresh every 60s if a live sheet is connected
   if (SHEET_CSV_URL) setInterval(loadLiveOrDemo, 60000);
 })();
-</script>
-
-<!-- Jotform embed handler: lets both forms above auto-resize their iframe height as pages/fields change -->
-<script src="https://cdn.jotfor.ms/s/umd/latest/for-form-embed-handler.js"></script>
-<script>
-  (function(){
-    function attach(){
-      try {
-        if (typeof window.jotformEmbedHandler !== 'function') return;
-        window.jotformEmbedHandler("iframe[id='JotFormIFrame-262134130460039']", "https://form.jotform.com");
-        window.jotformEmbedHandler("iframe[id='JotFormIFrame-262134112078044']", "https://form.jotform.com");
-      } catch (e) {
-        // Silently ignore — forms still work as plain iframes even if auto-resize can't attach
-        // (e.g. when previewed inside a nested/sandboxed iframe).
-      }
-    }
-    if (document.readyState === 'complete') attach();
-    else window.addEventListener('load', attach);
-  })();
 </script>
 
 </body>
