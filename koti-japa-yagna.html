@@ -44,8 +44,10 @@
   .nav-inner{display:flex; align-items:center; justify-content:space-between; gap:20px;}
   .brand{
     font-family:'Cinzel',serif; font-weight:600; font-size:1.1rem; letter-spacing:.03em;
-    display:flex; flex-direction:column; line-height:1.15;
+    display:flex; align-items:center; gap:12px; line-height:1.15;
   }
+  .brand img.nav-logo{height:44px; width:auto; display:block;}
+  .brand .brand-text{display:flex; flex-direction:column;}
   .brand small{font-family:'Inter',sans-serif; font-weight:500; font-size:.62rem; letter-spacing:.16em; color:var(--gold-dim); text-transform:uppercase; margin-top:2px;}
   nav.links{display:flex; gap:28px; font-size:.92rem; font-weight:500;}
   nav.links a{text-decoration:none; opacity:.75; transition:opacity .2s;}
@@ -186,6 +188,7 @@
   /* SANKALPA / FORM SECTION */
   .sankalpa-section{background:var(--navy);}
   .form-panels{display:grid; grid-template-columns:1fr 1fr; gap:28px; margin-top:12px;}
+  .form-panels-single{grid-template-columns:1fr; max-width:640px; margin-left:auto; margin-right:auto;}
   .form-panel{
     background:var(--navy-deep); border:1px solid rgba(212,175,55,0.18); border-radius:6px; overflow:hidden;
   }
@@ -193,7 +196,7 @@
   .form-panel-head .tag{font-size:.68rem; letter-spacing:.14em; text-transform:uppercase; color:var(--gold); font-weight:600;}
   .form-panel-head h3{font-family:'Cormorant Garamond',serif; font-size:1.5rem; margin:8px 0 6px; color:var(--cream);}
   .form-panel-head p{font-size:.86rem; color:var(--cream-dim); margin:0; line-height:1.5;}
-  .form-panel iframe{width:100%; height:820px; max-height:80vh; border:none; display:block; background:var(--cream); overflow-y:auto;}
+  .form-panel iframe{width:100%; height:420px; max-height:85vh; border:none; display:block; background:var(--cream); overflow-y:auto; transition:height 300ms ease;}
 
   /* LEADERBOARD placeholder */
   .board-tabs{display:flex; gap:10px; margin-bottom:22px;}
@@ -231,7 +234,10 @@
 
 <header class="nav">
   <div class="wrap nav-inner">
-    <div class="brand">Koti Japa Yagna<small>Sri Krishna Balaram Mandir</small></div>
+    <div class="brand">
+      <img class="nav-logo" src="https://d2r0txsugik6oi.cloudfront.net/neon/resource/ihf/images/kbm-letterhead-v4.jpg" alt="Sri Krishna Balaram Mandir">
+      <span class="brand-text">Koti Japa Yagna<small>Sri Krishna Balaram Mandir</small></span>
+    </div>
     <nav class="links">
       <a href="#why">Why chant</a>
       <a href="#sankalpa">Sankalpa</a>
@@ -346,7 +352,7 @@
       <div class="step-card">
         <span class="step-num">Log</span>
         <h3>Submit your rounds</h3>
-        <p>Log the rounds you complete each day. Watch the community's offering rise together toward one Koti.</p>
+        <p>Log however many rounds you actually chanted each day &mdash; more, less, or exactly your vow. Every honest offering rises the community's count toward one Koti.</p>
       </div>
     </div>
   </div>
@@ -356,25 +362,17 @@
   <div class="wrap">
     <div class="section-head">
       <span class="section-eyebrow">Make your sankalpa</span>
-      <h2 class="section-title">Commit to your daily japa</h2>
-      <p class="section-body">Choose how many rounds you'll chant each day, from now to Janmashtami, and hold to it as your vow. Already registered? Use the second form to log today's rounds.</p>
+      <h2 class="section-title">Join, or log today's rounds</h2>
+      <p class="section-body">One form for everything. Enter your mobile number, then choose whether you're joining the yagna for the first time or logging today's rounds &mdash; whether that's more, less, or exactly your daily commitment.</p>
     </div>
-    <div class="form-panels">
+    <div class="form-panels form-panels-single">
       <div class="form-panel">
         <div class="form-panel-head">
-          <span class="tag">Step 1 · One time</span>
-          <h3>Register &amp; make your sankalpa</h3>
-          <p>Your name, mobile, city and daily rounds vow. Takes about a minute.</p>
+          <span class="tag">One form · Join or log</span>
+          <h3>Koti Japa Yagna</h3>
+          <p>Your mobile number identifies you throughout the yagna &mdash; use the same one every time.</p>
         </div>
-        <iframe id="JotFormIFrame-262134130460039" src="https://form.jotform.com/262134130460039" title="Koti Japa Yagna sankalpa registration form" loading="lazy" allowtransparency="true" allow="geolocation; microphone; camera" scrolling="auto"></iframe>
-      </div>
-      <div class="form-panel">
-        <div class="form-panel-head">
-          <span class="tag">Step 2 · Every day</span>
-          <h3>Log today's rounds</h3>
-          <p>Already registered? Submit the rounds you chanted today using the same mobile number.</p>
-        </div>
-        <iframe id="JotFormIFrame-262134112078044" src="https://form.jotform.com/262134112078044" title="Koti Japa Yagna daily round log form" loading="lazy" allowtransparency="true" allow="geolocation; microphone; camera" scrolling="auto"></iframe>
+        <iframe id="JotFormIFrame-262135172100037" src="https://form.jotform.com/262135172100037" title="Koti Japa Yagna join or log form" loading="lazy" allowtransparency="true" allow="geolocation; microphone; camera" scrolling="auto"></iframe>
       </div>
     </div>
   </div>
@@ -393,7 +391,7 @@
       <button class="board-tab">Cities</button>
     </div>
     <table class="board-table">
-      <thead><tr><th>Rank</th><th>Chanter</th><th>City</th><th>Rounds</th></tr></thead>
+      <thead><tr><th>Rank</th><th id="board-th-1">Chanter</th><th id="board-th-2">City</th><th>Rounds</th></tr></thead>
       <tbody id="board-body">
         <tr><td class="rank">&mdash;</td><td colspan="3">Leaderboard will populate once daily logs start coming in.</td></tr>
       </tbody>
@@ -423,17 +421,17 @@
   // ---------- CONFIG ----------
   // Janmashtami 2026 target date (adjust if needed)
   var TARGET_DATE = new Date("2026-09-04T00:00:00");
-  var KOTI = 10000000; // 1 Koti = 1,00,00,000 names
-  var NAMES_PER_ROUND = 1728; // 108 beads x 16 words
 
-  // OPTIONAL LIVE DATA SOURCE:
-  // Publish the Google Sheet connected to your Jotform "daily log" form to the web as CSV
-  // (Google Sheet > File > Share > Publish to web > CSV) and paste that URL below.
-  // Expected columns (any order, matched by header name): Mobile, Name, City, Rounds, Date
-  var SHEET_CSV_URL = ""; // e.g. "https://docs.google.com/spreadsheets/d/e/XXXX/pub?output=csv"
+  // Paste the Apps Script Web App URL here once deployed (Deploy > New deployment > Web app).
+  // It should end in /exec. See koti-japa-yagna-appscript.gs for the script + deploy steps.
+  var DASHBOARD_API_URL = ""; // e.g. "https://script.google.com/macros/s/XXXXXXXX/exec"
 
-  // Fallback demo numbers, shown until a live sheet is connected
-  var DEMO = { names: 0, rounds: 0, chanters: 0, cities: 0 };
+  // Shown until the Apps Script URL above is connected
+  var DEMO = {
+    namesOffered: 0, namesTarget: 10000000, percentIntoKoti: 0,
+    totalRounds: 0, roundsToday: 0, chanters: 0, chantersToday: 0, cities: 0,
+    latest: null, leaderboard: { today: [], overall: [], cities: [] }
+  };
 
   // ---------- COUNTDOWN ----------
   function tickCountdown(){
@@ -505,79 +503,107 @@
     requestAnimationFrame(step);
   }
 
-  function renderStats(data){
-    var namesOffered = data.rounds * NAMES_PER_ROUND;
-    var pctIntoKoti = Math.min((namesOffered / KOTI) * 100, 100);
-    animateCount(document.getElementById('names-count'), namesOffered, 1400);
-    document.getElementById('names-pct').textContent = pctIntoKoti.toFixed(1) + '% into the offering';
-    setMalaProgress(pctIntoKoti);
+  function renderLeaderboard(rows, columns){
+    var tbody = document.getElementById('board-body');
+    if (!rows || !rows.length){
+      tbody.innerHTML = '<tr><td class="rank">&mdash;</td><td colspan="' + (columns.length) + '">No entries yet.</td></tr>';
+      return;
+    }
+    tbody.innerHTML = rows.map(function(row, i){
+      var cells = columns.map(function(col){ return '<td>' + (row[col] != null ? row[col] : '') + '</td>'; }).join('');
+      return '<tr><td class="rank">' + (i+1) + '</td>' + cells + '</tr>';
+    }).join('');
+  }
 
-    document.getElementById('stat-rounds').textContent = data.rounds.toLocaleString('en-IN');
-    document.getElementById('stat-chanters').textContent = data.chanters.toLocaleString('en-IN');
-    document.getElementById('stat-cities').textContent = data.cities.toLocaleString('en-IN');
+  var currentBoard = 'today';
+  function showBoard(which, data){
+    currentBoard = which;
+    document.querySelectorAll('.board-tab').forEach(function(btn, idx){
+      var map = ['today','overall','cities'];
+      btn.classList.toggle('active', map[idx] === which);
+    });
+    var th1 = document.getElementById('board-th-1');
+    var th2 = document.getElementById('board-th-2');
+    if (which === 'cities'){
+      th1.textContent = 'City';
+      th2.textContent = '';
+      renderLeaderboard(
+        (data.leaderboard.cities || []).map(function(r){ return { name: r.city, city: '', rounds: r.rounds }; }),
+        ['name','city','rounds']
+      );
+    } else {
+      th1.textContent = 'Chanter';
+      th2.textContent = 'City';
+      var rows = (data.leaderboard[which] || []).map(function(r){
+        return { name: r.name, city: r.city, rounds: r.rounds };
+      });
+      renderLeaderboard(rows, ['name','city','rounds']);
+    }
+  }
+
+  function renderStats(data){
+    animateCount(document.getElementById('names-count'), data.namesOffered || 0, 1400);
+    document.getElementById('names-pct').textContent = (data.percentIntoKoti || 0).toFixed(1) + '% into the offering';
+    setMalaProgress(data.percentIntoKoti || 0);
+
+    document.getElementById('stat-rounds').textContent = (data.totalRounds || 0).toLocaleString('en-IN');
+    document.getElementById('stat-chanters').textContent = (data.chanters || 0).toLocaleString('en-IN');
+    document.getElementById('stat-cities').textContent = (data.cities || 0).toLocaleString('en-IN');
     document.getElementById('stat-rounds-delta').textContent = 'Today +' + (data.roundsToday||0);
     document.getElementById('stat-chanters-delta').textContent = 'Today +' + (data.chantersToday||0);
 
     if (data.latest){
-      document.getElementById('live-feed-text').textContent =
-        data.latest.name + ' from ' + data.latest.city + ' just offered ' + data.latest.rounds + ' rounds';
+      var text = data.latest.justJoined
+        ? (data.latest.name + ' from ' + data.latest.city + ' just joined, vowing ' + data.latest.rounds + ' rounds/day')
+        : (data.latest.name + ' from ' + data.latest.city + ' just offered ' + data.latest.rounds + ' rounds');
+      document.getElementById('live-feed-text').textContent = text;
     }
+
+    showBoard(currentBoard, data);
+    window.__kotiDashboardData = data; // keep latest payload around for tab switches
   }
 
-  // Minimal CSV parser (handles simple comma-separated, quoted fields)
-  function parseCSV(text){
-    var rows = text.trim().split(/\r?\n/).map(function(line){
-      return line.split(',').map(function(cell){ return cell.replace(/^"|"$/g,'').trim(); });
+  document.querySelectorAll('.board-tab').forEach(function(btn, idx){
+    var map = ['today','overall','cities'];
+    btn.addEventListener('click', function(){
+      if (window.__kotiDashboardData) showBoard(map[idx], window.__kotiDashboardData);
     });
-    var headers = rows[0].map(function(h){ return h.toLowerCase(); });
-    return rows.slice(1).map(function(row){
-      var obj = {};
-      headers.forEach(function(h, idx){ obj[h] = row[idx]; });
-      return obj;
-    });
-  }
-
-  function computeFromRows(rows){
-    var totalRounds = 0, cities = {}, mobiles = {};
-    var today = new Date().toISOString().slice(0,10);
-    var roundsToday = 0, chantersToday = 0;
-    rows.forEach(function(row){
-      var rounds = parseInt(row.rounds || row['rounds chanted today'] || 0, 10) || 0;
-      totalRounds += rounds;
-      if (row.city) cities[row.city.toLowerCase()] = true;
-      if (row.mobile) mobiles[row.mobile] = true;
-      var rowDate = (row.date || '').slice(0,10);
-      if (rowDate === today){
-        roundsToday += rounds;
-        chantersToday += 1;
-      }
-    });
-    var latestRow = rows[rows.length-1];
-    return {
-      rounds: totalRounds,
-      chanters: Object.keys(mobiles).length,
-      cities: Object.keys(cities).length,
-      roundsToday: roundsToday,
-      chantersToday: chantersToday,
-      latest: latestRow ? { name: latestRow.name||'A devotee', city: latestRow.city||'', rounds: latestRow.rounds||latestRow['rounds chanted today']||'' } : null
-    };
-  }
+  });
 
   function loadLiveOrDemo(){
-    if (!SHEET_CSV_URL){
+    if (!DASHBOARD_API_URL){
       renderStats(DEMO);
       return;
     }
-    fetch(SHEET_CSV_URL)
-      .then(function(res){ return res.text(); })
-      .then(function(text){ renderStats(computeFromRows(parseCSV(text))); })
+    fetch(DASHBOARD_API_URL)
+      .then(function(res){ return res.json(); })
+      .then(renderStats)
       .catch(function(){ renderStats(DEMO); });
   }
 
   loadLiveOrDemo();
-  // Refresh every 60s if a live sheet is connected
-  if (SHEET_CSV_URL) setInterval(loadLiveOrDemo, 60000);
+  // Refresh every 60s if the Apps Script URL is connected
+  if (DASHBOARD_API_URL) setInterval(loadLiveOrDemo, 60000);
 })();
+</script>
+
+<!-- Jotform embed handler: expands the iframe height automatically as the Join/Log
+     conditional sections reveal or hide inside the form -->
+<script src="https://cdn.jotfor.ms/s/umd/latest/for-form-embed-handler.js"></script>
+<script>
+  (function(){
+    function attach(){
+      try {
+        if (typeof window.jotformEmbedHandler !== 'function') return;
+        window.jotformEmbedHandler("iframe[id='JotFormIFrame-262135172100037']", "https://form.jotform.com");
+      } catch (e) {
+        // Silently ignore — the form still works via the iframe's own internal scroll
+        // if auto-resize can't attach for any reason.
+      }
+    }
+    if (document.readyState === 'complete') attach();
+    else window.addEventListener('load', attach);
+  })();
 </script>
 
 </body>
