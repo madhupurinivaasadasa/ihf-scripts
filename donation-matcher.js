@@ -395,6 +395,23 @@ function buildCard(form, urlType, queryString, isHero) {
     return card;
 }
 
+// Query string forwarded onto secure form URLs. Drops page-routing params
+// and strips hyphens from utm_source (Neon CRM source: ig-aarti → igaarti).
+function getForwardedQueryString(searchParams) {
+    var params = new URLSearchParams(searchParams || window.location.search);
+    params.delete("form");
+    params.delete("opportunity");
+    params.delete("seva");
+    params.delete("auto");
+    params.delete("c");
+    var utmSource = params.get("utm_source");
+    if (utmSource && utmSource.indexOf("-") !== -1) {
+        params.set("utm_source", utmSource.replace(/-/g, ""));
+    }
+    var qs = params.toString();
+    return qs ? ("?" + qs) : "";
+}
+
 function renderTiles(urlType) {
     document.body.setAttribute("data-theme", urlType);
 
@@ -403,13 +420,7 @@ function renderTiles(urlType) {
     if (heroContainer) heroContainer.innerHTML = "";
     if (container) container.innerHTML = "";
 
-    var urlParams = new URLSearchParams(window.location.search);
-    urlParams.delete('form');
-    urlParams.delete('opportunity');
-    urlParams.delete('seva');
-    urlParams.delete('auto');
-    urlParams.delete('c');
-    var queryString = urlParams.toString() ? ("?" + urlParams.toString()) : "";
+    var queryString = getForwardedQueryString();
 
     var entries = getOrderedDonationEntries();
 
@@ -596,12 +607,7 @@ window.addEventListener("kbmDonorOAuthCampaign", function() {
                 if (!targetForm) { autoRedirect = false; }
             }
             if (autoRedirect && targetForm) {
-                params.delete("auto");
-                params.delete("c");
-                params.delete("seva");
-                params.delete("form");
-                params.delete("opportunity");
-                var qs = params.toString() ? ("?" + params.toString()) : "";
+                var qs = getForwardedQueryString(params);
                 try {
                     (window.top || window).location.href = targetForm[currentUrlType] + qs;
                 } catch (navErr) {
@@ -624,11 +630,7 @@ window.addEventListener("kbmDonorOAuthCampaign", function() {
             if (heroCard) {
                 var allEntries = getOrderedDonationEntries();
                 if (allEntries.length > 0) {
-                    var urlParams2 = new URLSearchParams(window.location.search);
-                    urlParams2.delete('form'); urlParams2.delete('opportunity');
-                    urlParams2.delete('seva'); urlParams2.delete('auto'); urlParams2.delete('c');
-                    var qs = urlParams2.toString() ? ("?" + urlParams2.toString()) : "";
-                    showInlineEmployerInput(heroCard, allEntries[0][1], qs);
+                    showInlineEmployerInput(heroCard, allEntries[0][1], getForwardedQueryString());
                 }
             }
         }
