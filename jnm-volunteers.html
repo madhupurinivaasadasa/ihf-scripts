@@ -698,6 +698,58 @@ window.JNM_VOL_JSONP_URL='https://script.google.com/macros/s/AKfycbz_F_xiI_eecqR
       background: #efe0c4;
       color: var(--muted);
     }
+    .lookup-view-bar {
+      display: none;
+      align-items: center;
+      justify-content: flex-end;
+      margin: 0 0 8px;
+    }
+    .lookup-view-bar button {
+      font: 600 0.82rem var(--font-body);
+      color: var(--maroon);
+      background: #fff;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      padding: 8px 14px;
+      cursor: pointer;
+    }
+    @media (max-width: 720px), (orientation: landscape) and (max-height: 540px) {
+      .lookup-view-bar[data-multi="1"] { display: flex; }
+      .lookup-stack .table-wrap { overflow: visible; }
+      .lookup-stack table.sheet { min-width: 0; }
+      .lookup-stack table.sheet thead { display: none; }
+      .lookup-stack table.sheet,
+      .lookup-stack table.sheet tbody,
+      .lookup-stack table.sheet tr,
+      .lookup-stack table.sheet td {
+        display: block;
+        width: 100%;
+      }
+      .lookup-stack table.sheet tr {
+        padding: 12px;
+        margin: 0 0 10px;
+        border: 1px solid var(--line);
+        border-radius: 10px;
+        background: #fffaf1;
+      }
+      .lookup-stack table.sheet tbody tr:nth-child(even) { background: #fffaf1; }
+      .lookup-stack table.sheet td {
+        display: grid;
+        grid-template-columns: 7.2rem minmax(0, 1fr);
+        gap: 8px;
+        padding: 6px 0;
+        border-bottom: 0;
+      }
+      .lookup-stack table.sheet td::before {
+        content: attr(data-label);
+        font-size: 0.68rem;
+        letter-spacing: 0.06em;
+        text-transform: uppercase;
+        color: var(--muted);
+        font-weight: 700;
+        padding-top: 3px;
+      }
+    }
   </style>
 </head>
 <body class="data-loading">
@@ -1565,23 +1617,45 @@ window.JNM_VOL_JSONP_URL='https://script.google.com/macros/s/AKfycbz_F_xiI_eecqR
       var el = document.getElementById('results');
       var rows = res.rows || [];
       if (!rows.length) {
+        el.className = '';
         el.innerHTML = '<p class="empty-page">No matching assignment. Try a full name or the full 10-digit phone number.</p>';
         return;
       }
       var body = rows.map(function (r) {
-        return '<tr><td>' + esc(r.areaLead || '—') +
-          '</td><td>' + leadPhonesHtml(r.areaLeads || []) +
-          '</td><td>' + esc(r.volunteerName) +
-          '</td><td>' + esc(r.date) + '</td><td>' + esc(r.slot) +
-          '</td><td>' + esc(r.keyArea) + '</td><td>' + esc(r.grouping) +
-          '</td><td>' + esc(fmtPhone(r.volunteerPhone) || '—') + '</td></tr>';
+        return '<tr>' +
+          '<td data-label="Area lead">' + esc(r.areaLead || '—') + '</td>' +
+          '<td data-label="Area lead phone">' + leadPhonesHtml(r.areaLeads || []) + '</td>' +
+          '<td data-label="Volunteer name">' + esc(r.volunteerName) + '</td>' +
+          '<td data-label="Date">' + esc(r.date) + '</td>' +
+          '<td data-label="Time slot">' + esc(r.slot) + '</td>' +
+          '<td data-label="Key area">' + esc(r.keyArea) + '</td>' +
+          '<td data-label="Key area grouping">' + esc(r.grouping) + '</td>' +
+          '<td data-label="Volunteer phone">' + esc(fmtPhone(r.volunteerPhone) || '—') + '</td>' +
+          '</tr>';
       }).join('');
-      el.innerHTML = '<div class="table-wrap"><table class="sheet"><thead><tr>' +
+      var multi = rows.length > 1;
+      el.className = multi ? '' : 'lookup-stack';
+      el.innerHTML =
+        '<div class="lookup-view-bar" data-multi="' + (multi ? '1' : '0') + '">' +
+          '<button type="button" id="lookupViewToggle">Show all info</button>' +
+        '</div>' +
+        '<div class="table-wrap"><table class="sheet"><thead><tr>' +
         '<th>Area lead</th><th>Area lead phone</th><th>Volunteer name</th>' +
         '<th>Date</th><th>Time slot</th><th>Key area</th><th>Key area grouping</th>' +
         '<th>Volunteer phone</th>' +
         '</tr></thead><tbody>' + body + '</tbody></table></div>';
       bindContactCopy(el);
+      bindLookupViewToggle(el, multi);
+      notifyParentHeight();
+    }
+    function bindLookupViewToggle(root, multi) {
+      var btn = document.getElementById('lookupViewToggle');
+      if (!btn || !multi) return;
+      btn.addEventListener('click', function () {
+        var stacked = root.classList.toggle('lookup-stack');
+        btn.textContent = stacked ? 'Table' : 'Show all info';
+        notifyParentHeight();
+      });
     }
     function renderRoster(res) {
       var el = document.getElementById('results');
