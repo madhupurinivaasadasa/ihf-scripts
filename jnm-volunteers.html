@@ -38,12 +38,27 @@ window.JNM_VOL_JSONP_URL='https://script.google.com/macros/s/AKfycbz_F_xiI_eecqR
       --radius: 14px;
     }
     * { box-sizing: border-box; }
-    html, body { margin: 0; min-height: 100%; }
+    html, body { margin: 0; min-height: 100%; width: 100%; }
     html.embedded, html.embedded body {
+      width: 100%;
       min-height: 100%;
+      min-height: 100dvh;
+      min-height: 100svh;
       background: var(--paper);
     }
     html.embedded body::before { opacity: 0.08; }
+    html.embedded .wrap {
+      width: 100%;
+      max-width: none;
+      min-height: 100dvh;
+      min-height: 100svh;
+      box-sizing: border-box;
+    }
+    @media (orientation: landscape) {
+      html.embedded .wrap { padding: 8px 12px 12px; min-height: 100svh; }
+      html.embedded h1 { font-size: 1.45rem; }
+      html.embedded header.mast { margin-bottom: 10px; padding-bottom: 8px; }
+    }
     body {
       font-family: var(--font-body);
       color: var(--ink);
@@ -1963,6 +1978,10 @@ window.JNM_VOL_JSONP_URL='https://script.google.com/macros/s/AKfycbz_F_xiI_eecqR
       });
     }
     window.addEventListener('resize', notifyParentHeight);
+    window.addEventListener('orientationchange', function () {
+      setTimeout(notifyParentHeight, 80);
+      setTimeout(notifyParentHeight, 400);
+    });
     start();
     window.runVolContactTests = function () {
       var results = [];
