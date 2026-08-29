@@ -1324,6 +1324,63 @@ window.JNM_VOL_JSONP_URL='https://script.google.com/macros/s/AKfycbz_F_xiI_eecqR
       assignments.sort(rosterSort);
       return { ok: true, assignments: assignments, filtered: !!(f.lead || f.tc || f.area || f.group) };
     }
+    function todayYmdPt() {
+      var parts = new Intl.DateTimeFormat('en-US', {
+        timeZone: 'America/Los_Angeles',
+        year: 'numeric',
+        month: '2-digit',
+        day: '2-digit'
+      }).formatToParts(new Date());
+      var y = '', m = '', d = '';
+      parts.forEach(function (p) {
+        if (p.type === 'year') y = p.value;
+        if (p.type === 'month') m = p.value;
+        if (p.type === 'day') d = p.value;
+      });
+      return Number(y + m + d);
+    }
+    function dayYmdKeys(day) {
+      var text = String(day || '');
+      var months = { jan: 1, feb: 2, mar: 3, apr: 4, may: 5, jun: 6, jul: 7, aug: 8, sep: 9, oct: 10, nov: 11, dec: 12 };
+      var keys = [];
+      var re = /(jan(?:uary)?|feb(?:ruary)?|mar(?:ch)?|apr(?:il)?|may|jun(?:e)?|jul(?:y)?|aug(?:ust)?|sep(?:t|tember)?|oct(?:ober)?|nov(?:ember)?|dec(?:ember)?)\s*(\d{1,2})/gi;
+      var match;
+      while ((match = re.exec(text))) {
+        var raw = match[1].toLowerCase();
+        var month = raw.indexOf('sept') === 0 ? 9 : months[raw.substring(0, 3)];
+        var dayN = parseInt(match[2], 10);
+        if (month) keys.push(2026 * 10000 + month * 100 + dayN);
+      }
+      var re2 = /\b(\d{1,2})\/(\d{1,2})(?:\/(20\d{2}))?\b/g;
+      while ((match = re2.exec(text))) {
+        var mo = parseInt(match[1], 10);
+        var da = parseInt(match[2], 10);
+        var yr = parseInt(match[3] || '2026', 10);
+        if (mo >= 1 && mo <= 12 && da >= 1 && da <= 31) keys.push(yr * 10000 + mo * 100 + da);
+      }
+      if (keys.length) {
+        var month0 = Math.floor(keys[0] / 100) % 100;
+        var year0 = Math.floor(keys[0] / 10000);
+        var re3 = /(?:&|and|,)\s*(\d{1,2})\b/gi;
+        while ((match = re3.exec(text))) {
+          var extra = parseInt(match[1], 10);
+          if (extra >= 1 && extra <= 31) keys.push(year0 * 10000 + month0 * 100 + extra);
+        }
+      }
+      var seen = {};
+      return keys.filter(function (k) {
+        if (seen[k]) return false;
+        seen[k] = true;
+        return true;
+      });
+    }
+    function assignmentIsUpcoming(a, todayYmd) {
+      var keys = dayYmdKeys(a && a.day);
+      var ds = Number(a && a.daySort) || 0;
+      if (ds && keys.indexOf(ds) < 0) keys.push(ds);
+      if (!keys.length) return true;
+      return Math.max.apply(null, keys) >= todayYmd;
+    }
     function lookupQueryOk(q) {
       if (phoneDigits10(q)) return true;
       var nq = normalize(q).replace(/[0-9]+/g, ' ').replace(/\s+/g, ' ').trim();
@@ -1333,9 +1390,11 @@ window.JNM_VOL_JSONP_URL='https://script.google.com/macros/s/AKfycbz_F_xiI_eecqR
       if (!lookupQueryOk(params.query)) return { ok: true, rows: [] };
       var people = suggestLocal(DATA.lookupPeople, params.query);
       var map = asgById();
+      var today = todayYmdPt();
       var rows = [];
       people.forEach(function (p) {
         var assignments = (p.assignmentIds || []).map(function (id) { return map[id]; }).filter(Boolean);
+        assignments = assignments.filter(function (a) { return assignmentIsUpcoming(a, today); });
         assignments.sort(function (a, b) { return (a.daySort - b.daySort) || (a.slotSort - b.slotSort); });
         assignments.forEach(function (a) {
           rows.push({
@@ -1350,7 +1409,7 @@ window.JNM_VOL_JSONP_URL='https://script.google.com/macros/s/AKfycbz_F_xiI_eecqR
           });
         });
       });
-      return { ok: true, rows: rows.slice(0, 40) };
+      return { ok: true, rows: rows.slice(0, 40), upcomingOnly: !!people.length };
     }
     function rosterLocal(params) {
       var q = String((params && params.query) || '').trim();
@@ -1392,7 +1451,7 @@ window.JNM_VOL_JSONP_URL='https://script.google.com/macros/s/AKfycbz_F_xiI_eecqR
       document.getElementById('rosterSearch').hidden = lookup;
       document.getElementById('stats').hidden = lookup;
       document.getElementById('searchHint').textContent = lookup
-        ? 'Matching assignments appear below with time slot, area lead, and area lead phone. Phone search needs the full 10-digit number.'
+        ? 'Matching assignments appear below with time slot, area lead, and area lead phone. Upcoming shifts only (today onward, Pacific). Phone search needs the full 10-digit number.'
         : '';
       document.getElementById('searchLabel').textContent = 'Search';
       document.getElementById('q').placeholder = 'Type a name or a full phone number, then press Enter';
@@ -1618,7 +1677,9 @@ window.JNM_VOL_JSONP_URL='https://script.google.com/macros/s/AKfycbz_F_xiI_eecqR
       var rows = res.rows || [];
       if (!rows.length) {
         el.className = '';
-        el.innerHTML = '<p class="empty-page">No matching assignment. Try a full name or the full 10-digit phone number.</p>';
+        el.innerHTML = (res && res.upcomingOnly)
+          ? '<p class="empty-page">No upcoming assignment. Older shifts are hidden.</p>'
+          : '<p class="empty-page">No matching assignment. Try a full name or the full 10-digit phone number.</p>';
         return;
       }
       var body = rows.map(function (r) {
