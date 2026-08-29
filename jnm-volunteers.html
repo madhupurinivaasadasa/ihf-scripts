@@ -683,55 +683,6 @@ window.JNM_VOL_JSONP_URL='https://script.google.com/macros/s/AKfycbz_F_xiI_eecqR
       background: #efe0c4;
       color: var(--muted);
     }
-    @media (max-width: 720px) {
-      .wrap { padding: 10px 12px 20px; }
-      h1 { font-size: 1.5rem; }
-      .search-panel { padding: 12px; }
-      .data-actions { flex-direction: column; align-items: stretch; }
-      .data-actions .clear-filters {
-        width: 100%;
-        text-align: center;
-        padding: 12px 14px;
-        font-size: 0.95rem;
-      }
-      .phone-act, .contact-link, .contact-copy {
-        font-size: 0.78rem;
-        padding: 8px 12px;
-      }
-      table.sheet.lookup-sheet { min-width: 0; }
-      table.sheet.lookup-sheet thead { display: none; }
-      table.sheet.lookup-sheet,
-      table.sheet.lookup-sheet tbody,
-      table.sheet.lookup-sheet tr,
-      table.sheet.lookup-sheet td {
-        display: block;
-        width: 100%;
-      }
-      table.sheet.lookup-sheet tr {
-        padding: 12px;
-        margin: 0 0 10px;
-        border: 1px solid var(--line);
-        border-radius: 10px;
-        background: #fffaf1;
-      }
-      table.sheet.lookup-sheet tbody tr:nth-child(even) { background: #fffaf1; }
-      table.sheet.lookup-sheet td {
-        display: grid;
-        grid-template-columns: 7.2rem minmax(0, 1fr);
-        gap: 8px;
-        padding: 6px 0;
-        border-bottom: 0;
-      }
-      table.sheet.lookup-sheet td::before {
-        content: attr(data-label);
-        font-size: 0.68rem;
-        letter-spacing: 0.06em;
-        text-transform: uppercase;
-        color: var(--muted);
-        font-weight: 700;
-        padding-top: 3px;
-      }
-    }
   </style>
 </head>
 <body class="data-loading">
@@ -1603,18 +1554,12 @@ window.JNM_VOL_JSONP_URL='https://script.google.com/macros/s/AKfycbz_F_xiI_eecqR
         return;
       }
       var body = rows.map(function (r) {
-        return '<tr>' +
-          '<td data-label="Volunteer name">' + esc(r.volunteerName) + '</td>' +
-          '<td data-label="Volunteer phone">' + esc(fmtPhone(r.volunteerPhone) || '—') + '</td>' +
-          '<td data-label="Date">' + esc(r.date) + '</td>' +
-          '<td data-label="Time slot">' + esc(r.slot) + '</td>' +
-          '<td data-label="Key area">' + esc(r.keyArea) + '</td>' +
-          '<td data-label="Key area grouping">' + esc(r.grouping) + '</td>' +
-          '<td data-label="Area lead">' + esc(r.areaLead || '—') + '</td>' +
-          '<td data-label="Area lead phone">' + leadPhonesHtml(r.areaLeads || []) + '</td>' +
-          '</tr>';
+        return '<tr><td>' + esc(r.volunteerName) + '</td><td>' + esc(fmtPhone(r.volunteerPhone) || '—') +
+          '</td><td>' + esc(r.date) + '</td><td>' + esc(r.slot) + '</td><td>' + esc(r.keyArea) +
+          '</td><td>' + esc(r.grouping) + '</td><td>' + esc(r.areaLead || '—') +
+          '</td><td>' + leadPhonesHtml(r.areaLeads || []) + '</td></tr>';
       }).join('');
-      el.innerHTML = '<div class="table-wrap"><table class="sheet lookup-sheet"><thead><tr>' +
+      el.innerHTML = '<div class="table-wrap"><table class="sheet"><thead><tr>' +
         '<th>Volunteer name</th><th>Volunteer phone</th><th>Date</th><th>Time slot</th>' +
         '<th>Key area</th><th>Key area grouping</th><th>Area lead</th><th>Area lead phone</th>' +
         '</tr></thead><tbody>' + body + '</tbody></table></div>';
