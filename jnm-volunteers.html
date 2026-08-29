@@ -236,8 +236,9 @@ window.JNM_VOL_JSONP_URL='https://script.google.com/macros/s/AKfycbz_F_xiI_eecqR
     }
     .clear-filters:hover { background: #f7ead4; }
     .clear-filters:disabled { opacity: 0.45; cursor: default; }
-    .data-actions { display: flex; align-items: center; gap: 10px; margin: 10px 0 0; }
+    .data-actions { display: flex; align-items: center; flex-wrap: wrap; gap: 10px 14px; margin: 10px 0 0; }
     .data-actions .clear-filters { padding: 6px 12px; font-size: 0.8rem; }
+    .sheet-stamp { color: var(--muted); font-size: 0.82rem; line-height: 1.35; }
     header.mast.lookup-only { justify-content: flex-start; }
     .lookup-only .nav { display: none; }
     .table-wrap {
@@ -739,6 +740,7 @@ window.JNM_VOL_JSONP_URL='https://script.google.com/macros/s/AKfycbz_F_xiI_eecqR
       </div>
       <div class="data-actions">
         <button type="button" class="clear-filters" id="refreshData" disabled>Refresh from sheet</button>
+        <span class="sheet-stamp" id="sheetStamp"></span>
       </div>
     </div>
 
@@ -883,6 +885,34 @@ window.JNM_VOL_JSONP_URL='https://script.google.com/macros/s/AKfycbz_F_xiI_eecqR
       return String(s == null ? '' : s).replace(/[&<>"']/g, function (c) {
         return ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]);
       });
+    }
+    function sheetUpdatedIso(payload) {
+      if (payload && payload.sheetUpdated) return payload.sheetUpdated;
+      var ver = String((payload && payload.dataVersion) || '');
+      var i = ver.lastIndexOf('|');
+      if (i >= 0) {
+        var n = Number(ver.slice(i + 1));
+        if (n) return new Date(n).toISOString();
+      }
+      return '';
+    }
+    function fmtSheetStamp(iso) {
+      if (!iso) return '';
+      var d = new Date(iso);
+      if (isNaN(d.getTime())) return '';
+      return d.toLocaleString('en-US', {
+        timeZone: 'America/Los_Angeles',
+        month: 'short',
+        day: 'numeric',
+        hour: 'numeric',
+        minute: '2-digit'
+      }) + ' PT';
+    }
+    function setSheetStamp(payload) {
+      var el = document.getElementById('sheetStamp');
+      if (!el) return;
+      var label = fmtSheetStamp(sheetUpdatedIso(payload));
+      el.textContent = label ? ('Sheet ' + label) : '';
     }
     function fmtPhone(p) {
       var d = phoneDigits10(p);
@@ -1611,6 +1641,7 @@ window.JNM_VOL_JSONP_URL='https://script.google.com/macros/s/AKfycbz_F_xiI_eecqR
       DATA._asgMap = null;
       DATA_VERSION = String(payload.dataVersion || '');
       setAppReady(true);
+      setSheetStamp(payload);
       document.getElementById('status').className = 'status';
       document.getElementById('status').textContent = statusMsg != null
         ? statusMsg
@@ -1650,7 +1681,7 @@ window.JNM_VOL_JSONP_URL='https://script.google.com/macros/s/AKfycbz_F_xiI_eecqR
           return;
         }
         VolCache.save(VIEW, ds.dataVersion, ds);
-        applyPayload(ds, false, 'Updated from sheet');
+        applyPayload(ds, false, '');
       }
       function doneFail(err) {
         setRefreshBusy(false);
