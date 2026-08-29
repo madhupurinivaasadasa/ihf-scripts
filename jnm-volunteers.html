@@ -236,6 +236,8 @@ window.JNM_VOL_JSONP_URL='https://script.google.com/macros/s/AKfycbz_F_xiI_eecqR
     }
     .clear-filters:hover { background: #f7ead4; }
     .clear-filters:disabled { opacity: 0.45; cursor: default; }
+    .data-actions { display: flex; align-items: center; gap: 10px; margin: 10px 0 0; }
+    .data-actions .clear-filters { padding: 6px 12px; font-size: 0.8rem; }
     header.mast.lookup-only { justify-content: flex-start; }
     .lookup-only .nav { display: none; }
     .table-wrap {
@@ -282,17 +284,6 @@ window.JNM_VOL_JSONP_URL='https://script.google.com/macros/s/AKfycbz_F_xiI_eecqR
       border-color: var(--saffron);
     }
     .hint { margin: 8px 0 0; color: var(--muted); font-size: 0.85rem; }
-    .access-hint {
-      margin: 12px 0 0;
-      padding: 10px 12px;
-      background: #f7ead4;
-      border: 1px solid var(--line);
-      border-radius: 10px;
-      color: var(--muted);
-      font-size: 0.82rem;
-      line-height: 1.45;
-    }
-    .access-hint a { color: var(--maroon); font-weight: 600; }
     .suggest {
       position: absolute;
       left: 0; right: 0; top: 100%;
@@ -705,7 +696,6 @@ window.JNM_VOL_JSONP_URL='https://script.google.com/macros/s/AKfycbz_F_xiI_eecqR
           <div id="suggest" class="suggest" role="listbox"></div>
         </div>
         <p class="hint" id="searchHint"></p>
-        <p class="access-hint" id="accessHint" hidden></p>
       </div>
       <div id="rosterSearch" hidden>
         <div class="filter-grid">
@@ -747,6 +737,9 @@ window.JNM_VOL_JSONP_URL='https://script.google.com/macros/s/AKfycbz_F_xiI_eecqR
           <button type="button" class="clear-filters" id="clearFilters" disabled>Clear filters</button>
         </div>
       </div>
+      <div class="data-actions">
+        <button type="button" class="clear-filters" id="refreshData" disabled>Refresh from sheet</button>
+      </div>
     </div>
 
     <div class="stats" id="stats"></div>
@@ -767,6 +760,7 @@ window.JNM_VOL_JSONP_URL='https://script.google.com/macros/s/AKfycbz_F_xiI_eecqR
     var DATA = null;
     var DATA_VERSION = '';
     var selected = null;
+    var refreshBusy = false;
 
     var VolCache = (function () {
       var DB = 'jnm_vol_v1';
@@ -838,6 +832,8 @@ window.JNM_VOL_JSONP_URL='https://script.google.com/macros/s/AKfycbz_F_xiI_eecqR
       });
       var clearBtn = document.getElementById('clearFilters');
       if (clearBtn) clearBtn.disabled = !ready;
+      var refreshBtn = document.getElementById('refreshData');
+      if (refreshBtn && !refreshBusy) refreshBtn.disabled = !ready;
     }
 
     function gasRun(action, params, cb) {
@@ -1279,22 +1275,6 @@ window.JNM_VOL_JSONP_URL='https://script.google.com/macros/s/AKfycbz_F_xiI_eecqR
         : '';
       document.getElementById('searchLabel').textContent = 'Search';
       document.getElementById('q').placeholder = 'Type a name or a full phone number, then press Enter';
-      var access = document.getElementById('accessHint');
-      if (access) {
-        var publicUrl = window.JNM_VOL_PUBLIC_URL || '';
-        var onPublicPage = !!window.JNM_VOL_DATA_URL;
-        if (!lookup) {
-          access.hidden = true;
-          access.innerHTML = '';
-        } else if (onPublicPage) {
-          access.hidden = false;
-          access.textContent = 'If a chat app blocked the Google link, you are on the backup page. Bookmark this one.';
-        } else {
-          access.hidden = false;
-          access.innerHTML = 'WhatsApp and Messages sometimes fail on the Google link. Open it in Safari or Chrome, or a private window. Do not open the Google Sheet.' +
-            (publicUrl ? ' Backup page (no Google login): <a href="' + esc(publicUrl) + '">' + esc(publicUrl) + '</a>' : '');
-        }
-      }
     }
 
     function renderStats(_stats) {
@@ -1626,13 +1606,15 @@ window.JNM_VOL_JSONP_URL='https://script.google.com/macros/s/AKfycbz_F_xiI_eecqR
       }, 120);
     }
 
-    function applyPayload(payload, fromCache) {
+    function applyPayload(payload, fromCache, statusMsg) {
       DATA = payload || {};
       DATA._asgMap = null;
       DATA_VERSION = String(payload.dataVersion || '');
       setAppReady(true);
       document.getElementById('status').className = 'status';
-      document.getElementById('status').textContent = fromCache ? 'Loaded from this device' : '';
+      document.getElementById('status').textContent = statusMsg != null
+        ? statusMsg
+        : (fromCache ? 'Loaded from this device' : '');
       renderStats(payload.stats);
       if (VIEW === 'roster') {
         applyRosterFilter();
@@ -1644,6 +1626,51 @@ window.JNM_VOL_JSONP_URL='https://script.google.com/macros/s/AKfycbz_F_xiI_eecqR
         document.getElementById('q').value = q0;
         renderLookup(lookupLocal({ query: q0 }));
       }
+    }
+
+    function setRefreshBusy(busy) {
+      refreshBusy = busy;
+      var btn = document.getElementById('refreshData');
+      if (!btn) return;
+      btn.disabled = busy || document.body.classList.contains('data-loading');
+      btn.textContent = busy ? 'Reading sheet…' : 'Refresh from sheet';
+    }
+
+    function refreshFromSheet() {
+      if (refreshBusy) return;
+      var status = document.getElementById('status');
+      status.className = 'status';
+      status.textContent = 'Reading the sheet…';
+      setRefreshBusy(true);
+      function doneOk(ds) {
+        setRefreshBusy(false);
+        if (!ds || !ds.ok || !(ds.assignments || []).length) {
+          status.className = 'status error';
+          status.textContent = (ds && ds.error) || 'Could not refresh';
+          return;
+        }
+        VolCache.save(VIEW, ds.dataVersion, ds);
+        applyPayload(ds, false, 'Updated from sheet');
+      }
+      function doneFail(err) {
+        setRefreshBusy(false);
+        status.className = 'status error';
+        status.textContent = DATA
+          ? 'Could not refresh; still showing the last loaded list. ' + err
+          : String(err);
+      }
+      if (isGas()) {
+        gasRun('dataset', { force: true }, function (ds) {
+          if (!ds || ds.ok === false) doneFail((ds && ds.error) || 'Refresh failed');
+          else doneOk(ds);
+        });
+        return;
+      }
+      if (window.JNM_VOL_JSONP_URL) {
+        tryJsonpRefresh(true, doneOk, doneFail);
+        return;
+      }
+      doneFail('This preview does not read the live sheet.');
     }
 
     function fetchDataset(onFailKeepCache) {
@@ -1679,6 +1706,7 @@ window.JNM_VOL_JSONP_URL='https://script.google.com/macros/s/AKfycbz_F_xiI_eecqR
     }
 
     setupChrome();
+    document.getElementById('refreshData').addEventListener('click', refreshFromSheet);
     ['groupSelect', 'areaSelect', 'leadSelect', 'tcSelect'].forEach(function (id) {
       bindCombo(document.getElementById(id));
     });
@@ -1730,19 +1758,42 @@ window.JNM_VOL_JSONP_URL='https://script.google.com/macros/s/AKfycbz_F_xiI_eecqR
         .catch(onErr);
     }
 
-    function tryJsonpRefresh() {
+    function tryJsonpRefresh(force, onOk, onFail) {
       var url = window.JNM_VOL_JSONP_URL;
-      if (!url) return;
+      if (!url) {
+        if (onFail) onFail('No live sheet URL');
+        return;
+      }
+      var settled = false;
+      var timer = setTimeout(function () {
+        if (settled) return;
+        settled = true;
+        if (onFail) onFail('Sheet refresh timed out');
+      }, 20000);
       window.jnmVolJsonp = function (ds) {
+        if (settled) return;
+        settled = true;
+        clearTimeout(timer);
         if (ds && ds.ok && (ds.assignments || []).length) {
-          VolCache.save(VIEW, ds.dataVersion || 'jsonp', ds);
-          applyPayload(ds, false);
+          if (onOk) onOk(ds);
+          else {
+            VolCache.save(VIEW, ds.dataVersion || 'jsonp', ds);
+            applyPayload(ds, false);
+          }
+        } else if (onFail) {
+          onFail((ds && ds.error) || 'Empty dataset');
         }
       };
       var s = document.createElement('script');
-      s.src = url + (url.indexOf('?') >= 0 ? '&' : '?') + 'callback=jnmVolJsonp';
+      s.src = url + (url.indexOf('?') >= 0 ? '&' : '?') +
+        'callback=jnmVolJsonp' + (force ? '&force=1' : '');
       s.async = true;
-      s.onerror = function () {};
+      s.onerror = function () {
+        if (settled) return;
+        settled = true;
+        clearTimeout(timer);
+        if (onFail) onFail('Could not reach the sheet');
+      };
       document.head.appendChild(s);
     }
 
