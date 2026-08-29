@@ -763,6 +763,7 @@ window.JNM_VOL_JSONP_URL='https://script.google.com/macros/s/AKfycbz_F_xiI_eecqR
     var DATA_VERSION = '';
     var selected = null;
     var refreshBusy = false;
+    var jsonpSeq = 0;
 
     var VolCache = (function () {
       var DB = 'jnm_vol_v1';
@@ -1667,13 +1668,22 @@ window.JNM_VOL_JSONP_URL='https://script.google.com/macros/s/AKfycbz_F_xiI_eecqR
       btn.textContent = busy ? 'Reading sheet…' : 'Refresh from sheet';
     }
 
+    function metaLooksReliable(boot) {
+      if (!boot) return false;
+      if (boot.sheetUpdated) return true;
+      return String(boot.dataVersion || '').indexOf('|') >= 0;
+    }
+
     function refreshFromSheet() {
       if (refreshBusy) return;
       var status = document.getElementById('status');
       status.className = 'status';
-      status.textContent = 'Reading the sheet…';
+      status.textContent = 'Checking sheet…';
       setRefreshBusy(true);
-      function doneOk(ds) {
+      var finished = false;
+      function doneOk(ds, msg) {
+        if (finished) return;
+        finished = true;
         setRefreshBusy(false);
         if (!ds || !ds.ok || !(ds.assignments || []).length) {
           status.className = 'status error';
@@ -1681,24 +1691,67 @@ window.JNM_VOL_JSONP_URL='https://script.google.com/macros/s/AKfycbz_F_xiI_eecqR
           return;
         }
         VolCache.save(VIEW, ds.dataVersion, ds);
-        applyPayload(ds, false, '');
+        applyPayload(ds, false, msg || '');
       }
       function doneFail(err) {
+        if (finished) return;
+        finished = true;
         setRefreshBusy(false);
         status.className = 'status error';
         status.textContent = DATA
-          ? 'Could not refresh; still showing the last loaded list. ' + err
-          : String(err);
+          ? 'Could not refresh; still showing the last loaded list.'
+          : String(err || 'Could not refresh');
+      }
+      function alreadyCurrent(boot) {
+        if (finished) return;
+        finished = true;
+        setRefreshBusy(false);
+        if (boot) setSheetStamp(boot);
+        status.className = 'status';
+        status.textContent = 'Already up to date';
+      }
+      function fetchFull(force) {
+        status.textContent = 'Reading the sheet…';
+        if (isGas()) {
+          var gasSettled = false;
+          var gasTimer = setTimeout(function () {
+            if (gasSettled || finished) return;
+            gasSettled = true;
+            tryJsonpRefresh({ force: !!force }, doneOk, doneFail);
+          }, 25000);
+          gasRun('dataset', { force: !!force }, function (ds) {
+            if (gasSettled || finished) return;
+            gasSettled = true;
+            clearTimeout(gasTimer);
+            if (ds && ds.ok && (ds.assignments || []).length) doneOk(ds);
+            else tryJsonpRefresh({ force: !!force }, doneOk, doneFail);
+          });
+          return;
+        }
+        tryJsonpRefresh({ force: !!force }, doneOk, doneFail);
+      }
+      function afterMeta(boot) {
+        if (finished) return;
+        if (!boot || !boot.ok) {
+          fetchFull(true);
+          return;
+        }
+        if (metaLooksReliable(boot) && DATA &&
+            String(DATA.dataVersion) === String(boot.dataVersion)) {
+          alreadyCurrent(boot);
+          return;
+        }
+        fetchFull(!metaLooksReliable(boot));
       }
       if (isGas()) {
-        gasRun('dataset', { force: true }, function (ds) {
-          if (!ds || ds.ok === false) doneFail((ds && ds.error) || 'Refresh failed');
-          else doneOk(ds);
+        gasRun('bootstrap', {}, function (boot) {
+          if (boot && boot.ok) afterMeta(boot);
+          else tryJsonpRefresh({ kind: 'meta' }, afterMeta, function () { fetchFull(true); });
         });
         return;
       }
       if (window.JNM_VOL_JSONP_URL) {
-        tryJsonpRefresh(true, doneOk, doneFail);
+        tryJsonpRefresh({ kind: 'meta' }, afterMeta, function () { fetchFull(true); });
         return;
       }
       doneFail('This preview does not read the live sheet.');
@@ -1789,40 +1842,65 @@ window.JNM_VOL_JSONP_URL='https://script.google.com/macros/s/AKfycbz_F_xiI_eecqR
         .catch(onErr);
     }
 
-    function tryJsonpRefresh(force, onOk, onFail) {
+    function tryJsonpRefresh(opts, onOk, onFail) {
+      if (typeof opts === 'function') {
+        onFail = onOk;
+        onOk = opts;
+        opts = {};
+      }
+      opts = opts || {};
+      var force = !!opts.force;
+      var kind = String(opts.kind || '');
       var url = window.JNM_VOL_JSONP_URL;
       if (!url) {
         if (onFail) onFail('No live sheet URL');
         return;
       }
+      jsonpSeq += 1;
+      var seq = jsonpSeq;
+      var cbName = 'jnmVolJsonp_' + seq;
       var settled = false;
       var timer = setTimeout(function () {
-        if (settled) return;
+        if (settled || seq !== jsonpSeq) return;
         settled = true;
+        try { delete window[cbName]; } catch (e) { window[cbName] = undefined; }
         if (onFail) onFail('Sheet refresh timed out');
-      }, 20000);
-      window.jnmVolJsonp = function (ds) {
-        if (settled) return;
+      }, kind === 'meta' ? 15000 : 60000);
+      window[cbName] = function (ds) {
+        if (settled || seq !== jsonpSeq) return;
         settled = true;
         clearTimeout(timer);
-        if (ds && ds.ok && (ds.assignments || []).length) {
+        try { delete window[cbName]; } catch (e2) { window[cbName] = undefined; }
+        if (!ds || !ds.ok) {
+          if (onFail) onFail((ds && ds.error) || 'Empty dataset');
+          return;
+        }
+        if (kind === 'meta') {
+          if (onOk) onOk(ds);
+          return;
+        }
+        if ((ds.assignments || []).length) {
           if (onOk) onOk(ds);
           else {
             VolCache.save(VIEW, ds.dataVersion || 'jsonp', ds);
             applyPayload(ds, false);
           }
         } else if (onFail) {
-          onFail((ds && ds.error) || 'Empty dataset');
+          onFail('Empty dataset');
         }
       };
+      var extra = 'callback=' + encodeURIComponent(cbName);
+      if (force) extra += '&force=1';
+      if (kind) extra += '&kind=' + encodeURIComponent(kind);
       var s = document.createElement('script');
-      s.src = url + (url.indexOf('?') >= 0 ? '&' : '?') +
-        'callback=jnmVolJsonp' + (force ? '&force=1' : '');
+      s.src = url + (url.indexOf('?') >= 0 ? '&' : '?') + extra;
       s.async = true;
+      s.referrerPolicy = 'no-referrer';
       s.onerror = function () {
-        if (settled) return;
+        if (settled || seq !== jsonpSeq) return;
         settled = true;
         clearTimeout(timer);
+        try { delete window[cbName]; } catch (e3) { window[cbName] = undefined; }
         if (onFail) onFail('Could not reach the sheet');
       };
       document.head.appendChild(s);
