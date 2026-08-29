@@ -1,0 +1,1800 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<script>
+window.JNM_VOL_VIEW='lookup';
+window.JNM_VOL_DATA_URL='jnm-vol-lookup.json';
+window.JNM_VOL_LOOKUP_URL="https://madhupurinivaasadasa.github.io/ihf-scripts/jnm-volunteers.html";
+window.JNM_VOL_JSONP_URL='https://script.google.com/macros/s/AKfycbz_F_xiI_eecqRV7BgdsRB1Wi8ZCrG1IRak525vyrbUbFwKsum1FbpUB8PthkLhmbXUQQ/exec?format=jsonp';
+</script>
+
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>JNM 2026 · Volunteers</title>
+  <link rel="manifest" href="?manifest=1" />
+  <meta name="theme-color" content="#7a1f1a" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,600;0,700;1,600&family=Source+Sans+3:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --paper: #f3e6d0;
+      --paper-2: #efe0c4;
+      --ink: #2c1810;
+      --muted: #6b5346;
+      --maroon: #7a1f1a;
+      --maroon-deep: #4e1210;
+      --saffron: #d45a1a;
+      --gold: #c9a227;
+      --line: rgba(122, 31, 26, 0.18);
+      --card: #fffaf1;
+      --tier1: #7a1f1a;
+      --tier2: #1f5c45;
+      --tier3: #2c3d7a;
+      --ok: #1f5c45;
+      --font-display: "Cormorant Garamond", Georgia, serif;
+      --font-body: "Source Sans 3", sans-serif;
+      --radius: 14px;
+    }
+    * { box-sizing: border-box; }
+    html, body { margin: 0; min-height: 100%; }
+    body {
+      font-family: var(--font-body);
+      color: var(--ink);
+      background:
+        radial-gradient(900px 420px at 8% -10%, rgba(212, 90, 26, 0.12), transparent 55%),
+        radial-gradient(700px 380px at 100% 0%, rgba(122, 31, 26, 0.08), transparent 50%),
+        linear-gradient(180deg, #f7ead4 0%, var(--paper) 40%, #ead9b8 100%);
+    }
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      opacity: 0.12;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.8' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.55'/%3E%3C/svg%3E");
+    }
+    .wrap {
+      position: relative;
+      max-width: 920px;
+      margin: 0 auto;
+      padding: 18px 16px 48px;
+    }
+    .wrap.roster-wrap { max-width: 1120px; }
+    header.mast {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px 20px;
+      align-items: flex-end;
+      justify-content: space-between;
+      border-bottom: 3px solid var(--maroon);
+      padding-bottom: 12px;
+      margin-bottom: 18px;
+    }
+    .kicker {
+      font-size: 0.72rem;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--saffron);
+      font-weight: 700;
+    }
+    h1 {
+      font-family: var(--font-display);
+      font-size: 2.05rem;
+      line-height: 0.95;
+      margin: 4px 0 0;
+      color: var(--maroon-deep);
+    }
+    .nav {
+      display: flex;
+      gap: 8px;
+    }
+    .nav a {
+      text-decoration: none;
+      color: var(--maroon);
+      border: 1px solid var(--line);
+      background: var(--card);
+      padding: 8px 12px;
+      border-radius: 999px;
+      font-size: 0.85rem;
+      font-weight: 600;
+    }
+    .nav a.active {
+      background: var(--maroon);
+      color: #f7ead4;
+      border-color: var(--maroon);
+    }
+    .search-panel {
+      background: var(--card);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      padding: 16px;
+      margin-bottom: 16px;
+      position: relative;
+      z-index: 5;
+    }
+    .search-panel label {
+      display: block;
+      font-size: 0.75rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--muted);
+      font-weight: 700;
+      margin-bottom: 6px;
+    }
+    .filter-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
+    .wrap.roster-wrap .filter-grid {
+      grid-template-columns: 1fr 1fr;
+    }
+    @media (min-width: 900px) {
+      .wrap.roster-wrap .filter-grid { grid-template-columns: 1fr 1fr 1fr 1fr; }
+    }
+    @media (max-width: 640px) {
+      .filter-grid, .wrap.roster-wrap .filter-grid { grid-template-columns: 1fr; }
+    }
+    select.roster-select {
+      width: 100%;
+      font: 500 1.02rem var(--font-body);
+      padding: 12px 14px;
+      border-radius: 10px;
+      border: 1px solid rgba(44, 24, 16, 0.22);
+      background: #fff;
+      color: var(--ink);
+      appearance: none;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath fill='%237a1f1a' d='M1 1l5 5 5-5'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 14px center;
+      padding-right: 36px;
+    }
+    select.roster-select:focus {
+      outline: 2px solid var(--saffron);
+      border-color: var(--saffron);
+    }
+    select.roster-select:disabled {
+      background-color: #efe0c4;
+      color: var(--muted);
+    }
+    .combo { position: relative; }
+    .combo-input {
+      width: 100%;
+      font: 500 1.02rem var(--font-body);
+      padding: 12px 36px 12px 14px;
+      border-radius: 10px;
+      border: 1px solid rgba(44, 24, 16, 0.22);
+      background: #fff url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath fill='%237a1f1a' d='M1 1l5 5 5-5'/%3E%3C/svg%3E") no-repeat right 14px center;
+      color: var(--ink);
+    }
+    .combo-input:focus {
+      outline: 2px solid var(--saffron);
+      border-color: var(--saffron);
+    }
+    .combo-input:disabled {
+      background-color: #efe0c4;
+      color: var(--muted);
+    }
+    .combo-menu {
+      position: absolute;
+      left: 0;
+      right: 0;
+      top: calc(100% + 4px);
+      z-index: 40;
+      background: #fff;
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      max-height: 280px;
+      overflow: auto;
+      box-shadow: 0 8px 24px rgba(44, 24, 16, 0.12);
+    }
+    .combo-menu[hidden] { display: none; }
+    .combo-menu button {
+      display: block;
+      width: 100%;
+      text-align: left;
+      border: 0;
+      background: transparent;
+      padding: 10px 12px;
+      font: 500 0.95rem var(--font-body);
+      color: var(--ink);
+      cursor: pointer;
+      border-bottom: 1px solid var(--line);
+    }
+    .combo-menu button:hover, .combo-menu button.active { background: #f7ead4; }
+    .combo-menu button[data-value=""] { color: var(--muted); font-weight: 600; }
+    .combo-empty {
+      padding: 10px 12px;
+      color: var(--muted);
+      font-size: 0.85rem;
+    }
+    .combo-select {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      opacity: 0;
+      pointer-events: none;
+    }
+    .filter-actions {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      margin-top: 10px;
+    }
+    .filter-actions .hint { margin: 0; flex: 1; }
+    .clear-filters {
+      font: 600 0.85rem var(--font-body);
+      color: var(--maroon);
+      background: #fff;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      padding: 8px 14px;
+      cursor: pointer;
+      white-space: nowrap;
+    }
+    .clear-filters:hover { background: #f7ead4; }
+    .clear-filters:disabled { opacity: 0.45; cursor: default; }
+    header.mast.lookup-only { justify-content: flex-start; }
+    .lookup-only .nav { display: none; }
+    .table-wrap {
+      overflow-x: auto;
+      background: var(--card);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+    }
+    table.sheet {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.9rem;
+      min-width: 720px;
+    }
+    table.sheet th {
+      background: var(--maroon-deep);
+      color: #f7ead4;
+      font-size: 0.72rem;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      text-align: left;
+      padding: 10px 12px;
+      font-weight: 700;
+    }
+    table.sheet td {
+      padding: 10px 12px;
+      border-bottom: 1px solid var(--line);
+      vertical-align: top;
+    }
+    table.sheet tbody tr:nth-child(odd) { background: #fffaf1; }
+    table.sheet tbody tr:nth-child(even) { background: #f3e6d0; }
+    .search-row { position: relative; }
+    input[type="search"] {
+      width: 100%;
+      font: 500 1.05rem var(--font-body);
+      padding: 12px 14px;
+      border-radius: 10px;
+      border: 1px solid rgba(44, 24, 16, 0.22);
+      background: #fff;
+      color: var(--ink);
+    }
+    input[type="search"]:focus {
+      outline: 2px solid var(--saffron);
+      border-color: var(--saffron);
+    }
+    .hint { margin: 8px 0 0; color: var(--muted); font-size: 0.85rem; }
+    .access-hint {
+      margin: 12px 0 0;
+      padding: 10px 12px;
+      background: #f7ead4;
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      color: var(--muted);
+      font-size: 0.82rem;
+      line-height: 1.45;
+    }
+    .access-hint a { color: var(--maroon); font-weight: 600; }
+    .suggest {
+      position: absolute;
+      left: 0; right: 0; top: 100%;
+      z-index: 5;
+      background: #fff;
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      margin-top: 4px;
+      max-height: 320px;
+      overflow: auto;
+      display: none;
+    }
+    .suggest.open { display: block; }
+    .suggest button {
+      display: block;
+      width: 100%;
+      text-align: left;
+      border: 0;
+      background: transparent;
+      padding: 10px 12px;
+      font: 500 0.95rem var(--font-body);
+      color: var(--ink);
+      cursor: pointer;
+      border-bottom: 1px solid var(--line);
+    }
+    .suggest button:hover, .suggest button.active { background: #f7ead4; }
+    .suggest .meta { display: block; color: var(--muted); font-size: 0.78rem; font-weight: 400; }
+    .stats {
+      display: grid;
+      gap: 10px;
+      margin: 0 0 16px;
+    }
+    .stats[hidden] { display: none !important; }
+    .stats-scope {
+      font-size: 0.72rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--muted);
+      font-weight: 700;
+    }
+    .stat-cards {
+      display: grid;
+      grid-template-columns: repeat(5, minmax(0, 1fr));
+      gap: 8px;
+    }
+    @media (max-width: 800px) {
+      .stat-cards { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+    }
+    @media (max-width: 520px) {
+      .stat-cards { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    }
+    .stat-card {
+      background: var(--card);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      padding: 10px 12px;
+    }
+    .stat-card .k {
+      font-size: 0.68rem;
+      letter-spacing: 0.07em;
+      text-transform: uppercase;
+      color: var(--muted);
+      font-weight: 700;
+    }
+    .stat-card .v {
+      font-family: var(--font-display);
+      font-size: 1.85rem;
+      color: var(--maroon-deep);
+      line-height: 1.05;
+      margin-top: 2px;
+    }
+    .stat-card .m {
+      font-size: 0.75rem;
+      color: var(--muted);
+      font-weight: 600;
+      margin-top: 2px;
+    }
+    .stat-card.t1 .v { color: var(--tier1); }
+    .stat-card.t2 .v { color: var(--tier2); }
+    .stat-card.t3 .v { color: var(--tier3); }
+    .stat-days {
+      display: grid;
+      gap: 8px;
+    }
+    @media (min-width: 720px) {
+      .stat-days { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    }
+    @media (min-width: 1000px) {
+      .stat-days { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+    }
+    .stat-day {
+      background: var(--card);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      padding: 10px 12px;
+    }
+    .stat-day.jnm {
+      background: rgba(122, 31, 26, 0.08);
+      border-color: rgba(122, 31, 26, 0.28);
+    }
+    .stat-day-title {
+      font-family: var(--font-display);
+      font-size: 1.15rem;
+      color: var(--maroon-deep);
+      margin-bottom: 6px;
+    }
+    .stat-day-nums {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px 12px;
+      font-size: 0.8rem;
+      color: var(--muted);
+      font-weight: 600;
+    }
+    .stat-day-nums b { color: var(--ink); font-size: 0.95rem; }
+    .stat-day-nums .t1 b { color: var(--tier1); }
+    .stat-day-nums .t2 b { color: var(--tier2); }
+    .stat-day-nums .t3 b { color: var(--tier3); }
+    .chip {
+      background: rgba(122, 31, 26, 0.08);
+      color: var(--maroon-deep);
+      border-radius: 999px;
+      padding: 4px 10px;
+      font-size: 0.78rem;
+      font-weight: 600;
+    }
+    .status { color: var(--muted); font-size: 0.85rem; margin-bottom: 12px; }
+    .status.error { color: var(--maroon); }
+    .person-id {
+      background: var(--card);
+      border-left: 5px solid var(--saffron);
+      padding: 14px 16px;
+      border-radius: 0 var(--radius) var(--radius) 0;
+      margin-bottom: 16px;
+    }
+    .fields {
+      display: grid;
+      grid-template-columns: 72px 1fr;
+      gap: 4px 12px;
+      align-items: baseline;
+    }
+    .fields dt {
+      font-size: 0.72rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--muted);
+      font-weight: 700;
+    }
+    .fields dd { margin: 0; font-weight: 600; }
+    .fields dd.empty { color: var(--muted); font-weight: 400; }
+    .day-details {
+      background: var(--card);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      margin-bottom: 14px;
+    }
+    .day-details > summary {
+      font-family: var(--font-display);
+      font-size: 1.4rem;
+      color: var(--maroon);
+      cursor: pointer;
+      padding: 12px 16px;
+      list-style: none;
+    }
+    .day-details > summary::-webkit-details-marker { display: none; }
+    .day-details > summary::before {
+      content: "▸ ";
+      font-size: 0.85em;
+      color: var(--saffron);
+    }
+    .day-details[open] > summary::before { content: "▾ "; }
+    .day-details.jnm > summary { background: rgba(122, 31, 26, 0.08); }
+    .day-count {
+      font-family: var(--font-body);
+      font-size: 0.8rem;
+      color: var(--muted);
+      font-weight: 600;
+      margin-left: 8px;
+    }
+    .shift-details {
+      border-top: 1px solid var(--line);
+    }
+    .shift-details > summary {
+      cursor: pointer;
+      list-style: none;
+      padding: 0;
+    }
+    .shift-details > summary::-webkit-details-marker { display: none; }
+    .shift-sum {
+      display: grid;
+      grid-template-columns: 1.1fr 1.3fr 1fr 1.3fr 1fr auto;
+      gap: 8px;
+      padding: 10px 16px;
+      font-size: 0.88rem;
+      align-items: start;
+    }
+    .shift-sum:hover { background: rgba(212, 90, 26, 0.08); }
+    .shift-sum .col-label {
+      display: none;
+    }
+    .shift-head {
+      display: grid;
+      grid-template-columns: 1.1fr 1.3fr 1fr 1.3fr 1fr auto;
+      gap: 8px;
+      padding: 8px 16px;
+      font-size: 0.68rem;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: #f7ead4;
+      background: var(--maroon-deep);
+      font-weight: 700;
+    }
+    .shift-details .nested {
+      min-width: 0;
+      margin: 0 16px 12px;
+      border: 1px solid var(--line);
+    }
+    .shift-details .nested table.sheet { min-width: 0; }
+    .phone-cell {
+      display: inline-flex;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 6px;
+    }
+    .phone-num {
+      color: var(--maroon);
+      font-weight: 600;
+      text-decoration: none;
+    }
+    .phone-num:hover { text-decoration: underline; }
+    .contact-actions {
+      display: inline-flex;
+      flex-shrink: 0;
+      gap: 3px;
+      align-items: center;
+    }
+    .phone-act,
+    .contact-link,
+    .contact-copy {
+      font-size: 0.68rem;
+      font-weight: 700;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      text-decoration: none;
+      padding: 2px 7px;
+      border-radius: 999px;
+      border: 1px solid var(--line);
+      background: #fff;
+      color: var(--maroon);
+      line-height: 1.4;
+      cursor: pointer;
+      font-family: inherit;
+    }
+    .phone-act.wa,
+    .contact-link--wa {
+      background: #ecfdf3;
+      color: #166534;
+      border-color: #86efac;
+    }
+    .phone-act:hover,
+    .contact-link:hover,
+    .contact-copy:hover { filter: brightness(0.97); }
+    .shift-details > summary { position: relative; }
+    .shift-chevron {
+      color: var(--saffron);
+      font-size: 0.85rem;
+      font-weight: 700;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      white-space: nowrap;
+    }
+    .shift-arrow { display: inline-block; }
+    .shift-details[open] .shift-arrow { transform: rotate(90deg); }
+    @media (max-width: 720px) {
+      .shift-head { display: none; }
+      .shift-sum {
+        grid-template-columns: 1fr;
+        gap: 4px;
+      }
+      .shift-sum .col-label {
+        display: inline;
+        color: var(--muted);
+        font-size: 0.68rem;
+        text-transform: uppercase;
+        letter-spacing: 0.06em;
+        margin-right: 6px;
+      }
+    }
+    .asg {
+      background: var(--card);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      padding: 14px 16px;
+      margin-bottom: 12px;
+    }
+    .asg h3 {
+      font-family: var(--font-display);
+      font-size: 1.35rem;
+      margin: 0 0 4px;
+    }
+    .asg .when { color: var(--saffron); font-weight: 700; font-size: 0.92rem; }
+    .asg .group { color: var(--muted); font-size: 0.85rem; margin-bottom: 10px; }
+    .meta-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 10px;
+    }
+    @media (min-width: 640px) {
+      .meta-grid { grid-template-columns: 1fr 1fr; }
+    }
+    .block h4 {
+      margin: 0 0 6px;
+      font-size: 0.72rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+    .tier-label {
+      display: inline-block;
+      font-size: 0.7rem;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      padding: 2px 8px;
+      border-radius: 999px;
+      color: #fff;
+      margin: 12px 0 6px;
+    }
+    .tier-label.t1 { background: var(--tier1); }
+    .tier-label.t2 { background: var(--tier2); }
+    .tier-label.t3 { background: var(--tier3); }
+    .tier-label.lead { background: var(--saffron); }
+    .tier-label.tc { background: var(--maroon); }
+    table.vol {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.9rem;
+    }
+    table.vol th {
+      text-align: left;
+      font-size: 0.68rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--muted);
+      border-bottom: 1px solid var(--line);
+      padding: 4px 6px;
+    }
+    table.vol td {
+      padding: 6px;
+      border-bottom: 1px solid var(--line);
+      vertical-align: top;
+      word-break: break-word;
+    }
+    table.vol tr.self td { background: rgba(212, 90, 26, 0.1); font-weight: 600; }
+    .empty-page { color: var(--muted); padding: 20px 4px; }
+    .loading-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      z-index: 50;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 14px;
+      background: rgba(44, 24, 16, 0.48);
+      color: #f7ead4;
+      font-weight: 600;
+    }
+    .loading-overlay.show { display: flex; }
+    .loading-spinner {
+      width: 40px;
+      height: 40px;
+      border: 3px solid rgba(247, 234, 212, 0.28);
+      border-top-color: #d45a1a;
+      border-radius: 50%;
+      animation: vol-spin 0.8s linear infinite;
+    }
+    @keyframes vol-spin { to { transform: rotate(360deg); } }
+    body.data-loading { overflow: hidden; }
+    body.data-loading .wrap {
+      pointer-events: none;
+      filter: grayscale(0.4);
+      opacity: 0.42;
+    }
+    input[type="search"]:disabled {
+      background: #efe0c4;
+      color: var(--muted);
+    }
+  </style>
+</head>
+<body class="data-loading">
+  <div class="wrap">
+    <header class="mast" id="mast">
+      <div>
+        <div class="kicker">Sri Krishna Janmashtami 2026</div>
+        <h1 id="pageTitle">Volunteer lookup</h1>
+      </div>
+      <nav class="nav" aria-label="Apps">
+        <a id="navLookup">Volunteer lookup</a>
+        <a id="navRoster">Lead / TC roster</a>
+      </nav>
+    </header>
+
+    <div class="search-panel">
+      <div id="lookupSearch">
+        <label id="searchLabel" for="q">Search by name, phone, or email</label>
+        <div class="search-row">
+          <input id="q" type="search" autocomplete="off" enterkeyhint="search" disabled />
+          <div id="suggest" class="suggest" role="listbox"></div>
+        </div>
+        <p class="hint" id="searchHint"></p>
+        <p class="access-hint" id="accessHint" hidden></p>
+      </div>
+      <div id="rosterSearch" hidden>
+        <div class="filter-grid">
+          <div class="combo">
+            <label for="groupInput">Area grouping</label>
+            <input id="groupInput" class="combo-input" type="search" placeholder="Search groupings…" autocomplete="off" spellcheck="false" disabled />
+            <div id="groupMenu" class="combo-menu" role="listbox" hidden></div>
+            <select id="groupSelect" class="roster-select combo-select" tabindex="-1" disabled>
+              <option value="">All groupings</option>
+            </select>
+          </div>
+          <div class="combo">
+            <label for="areaInput">Key area</label>
+            <input id="areaInput" class="combo-input" type="search" placeholder="Search key areas…" autocomplete="off" spellcheck="false" disabled />
+            <div id="areaMenu" class="combo-menu" role="listbox" hidden></div>
+            <select id="areaSelect" class="roster-select combo-select" tabindex="-1" disabled>
+              <option value="">All key areas</option>
+            </select>
+          </div>
+          <div class="combo">
+            <label for="leadInput">Area lead</label>
+            <input id="leadInput" class="combo-input" type="search" placeholder="Search area leads…" autocomplete="off" spellcheck="false" disabled />
+            <div id="leadMenu" class="combo-menu" role="listbox" hidden></div>
+            <select id="leadSelect" class="roster-select combo-select" tabindex="-1" disabled>
+              <option value="">All area leads</option>
+            </select>
+          </div>
+          <div class="combo">
+            <label for="tcInput">TC incharge</label>
+            <input id="tcInput" class="combo-input" type="search" placeholder="Search TC incharge…" autocomplete="off" spellcheck="false" disabled />
+            <div id="tcMenu" class="combo-menu" role="listbox" hidden></div>
+            <select id="tcSelect" class="roster-select combo-select" tabindex="-1" disabled>
+              <option value="">All TC incharge</option>
+            </select>
+          </div>
+        </div>
+        <div class="filter-actions">
+          <p class="hint" id="rosterHint">Type to search any list. Start with grouping to narrow key areas, leads, and TCs. Janmashtami (Sep 4) is first.</p>
+          <button type="button" class="clear-filters" id="clearFilters" disabled>Clear filters</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="stats" id="stats"></div>
+    <div class="status" id="status"></div>
+    <div id="results"></div>
+  </div>
+  <div id="loadingOverlay" class="loading-overlay show" aria-live="polite" aria-busy="true">
+    <div class="loading-spinner" aria-hidden="true"></div>
+    <span id="loadingOverlayText">Loading assignments…</span>
+  </div>
+
+  <script>
+    var VIEW = (function () {
+      if (window.JNM_VOL_VIEW) return window.JNM_VOL_VIEW;
+      var sp = new URLSearchParams(location.search);
+      return sp.get('view') === 'roster' ? 'roster' : 'lookup';
+    })();
+    var DATA = null;
+    var DATA_VERSION = '';
+    var selected = null;
+
+    var VolCache = (function () {
+      var DB = 'jnm_vol_v1';
+      var STORE = 'dataset';
+      var META = 'meta';
+      var DB_VERSION = 1;
+
+      function openDb() {
+        return new Promise(function (resolve, reject) {
+          if (!window.indexedDB) {
+            reject(new Error('no idb'));
+            return;
+          }
+          var req = indexedDB.open(DB, DB_VERSION);
+          req.onupgradeneeded = function (e) {
+            var db = e.target.result;
+            if (!db.objectStoreNames.contains(STORE)) db.createObjectStore(STORE);
+            if (!db.objectStoreNames.contains(META)) db.createObjectStore(META);
+          };
+          req.onsuccess = function () { resolve(req.result); };
+          req.onerror = function () { reject(req.error); };
+        });
+      }
+
+      function load(view) {
+        if (!window.indexedDB) return Promise.resolve(null);
+        return openDb().then(function (db) {
+          return new Promise(function (resolve, reject) {
+            var tx = db.transaction(STORE, 'readonly');
+            var req = tx.objectStore(STORE).get(String(view));
+            req.onsuccess = function () { resolve(req.result || null); };
+            req.onerror = function () { reject(req.error); };
+          });
+        }).catch(function () { return null; });
+      }
+
+      function save(view, dataVersion, payload) {
+        if (!window.indexedDB || !payload) return Promise.resolve();
+        return openDb().then(function (db) {
+          return new Promise(function (resolve, reject) {
+            var tx = db.transaction([STORE, META], 'readwrite');
+            tx.objectStore(STORE).put({
+              savedAt: Date.now(),
+              dataVersion: String(dataVersion || ''),
+              payload: payload,
+            }, String(view));
+            tx.objectStore(META).put(String(dataVersion || ''), String(view) + '_ver');
+            tx.oncomplete = function () { resolve(); };
+            tx.onerror = function () { reject(tx.error); };
+          });
+        }).catch(function () {});
+      }
+
+      return { load: load, save: save };
+    })();
+
+    function setAppReady(ready, msg) {
+      document.body.classList.toggle('data-loading', !ready);
+      var overlay = document.getElementById('loadingOverlay');
+      overlay.classList.toggle('show', !ready);
+      overlay.setAttribute('aria-busy', ready ? 'false' : 'true');
+      if (msg) document.getElementById('loadingOverlayText').textContent = msg;
+      var q = document.getElementById('q');
+      if (q) q.disabled = !ready;
+      ['leadSelect', 'tcSelect', 'areaSelect', 'groupSelect',
+       'leadInput', 'tcInput', 'areaInput', 'groupInput'].forEach(function (id) {
+        var el = document.getElementById(id);
+        if (el) el.disabled = !ready;
+      });
+      var clearBtn = document.getElementById('clearFilters');
+      if (clearBtn) clearBtn.disabled = !ready;
+    }
+
+    function gasRun(action, params, cb) {
+      google.script.run.withSuccessHandler(cb).withFailureHandler(function (err) {
+        cb({ ok: false, error: String(err) });
+      }).api(action, params);
+    }
+
+    function run(action, params, cb) {
+      if (DATA && (action === 'lookupSuggest' || action === 'lookup' ||
+          action === 'rosterSuggest' || action === 'roster')) {
+        if (action === 'lookupSuggest') {
+          if (!lookupQueryOk(params.query)) { cb({ ok: true, hits: [] }); return; }
+          cb({
+            ok: true,
+            hits: suggestLocal(DATA.lookupPeople, params.query).slice(0, 8).map(function (p) {
+              var h = { name: p.name, phone: p.phone, email: p.email, norm: p.norm };
+              if (p.phone && p.phone.length >= 4) h.phoneHint = p.phone.slice(-4);
+              return h;
+            }),
+          });
+          return;
+        }
+        if (action === 'rosterSuggest') {
+          cb({ ok: true, hits: suggestLocal(DATA.leadPeople, params.query) });
+          return;
+        }
+        if (action === 'lookup') { cb(lookupLocal(params)); return; }
+        if (action === 'roster') { cb(rosterLocal(params)); return; }
+      }
+      if (!isGas()) {
+        if (action === 'bootstrap') {
+          cb({ ok: true, appVersion: DATA && DATA.appVersion, dataVersion: DATA && DATA.dataVersion });
+          return;
+        }
+        if (action === 'dataset') {
+          cb(DATA);
+          return;
+        }
+        cb({ ok: false, error: 'Not loaded' });
+        return;
+      }
+      gasRun(action, params, cb);
+    }
+
+    function esc(s) {
+      return String(s == null ? '' : s).replace(/[&<>"']/g, function (c) {
+        return ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]);
+      });
+    }
+    function fmtPhone(p) {
+      var d = phoneDigits10(p);
+      if (d) return d.slice(0, 3) + '-' + d.slice(3, 6) + '-' + d.slice(6);
+      return p || '';
+    }
+    function phoneDigits(raw) {
+      return String(raw || '').replace(/\D/g, '');
+    }
+    function phoneDigits10(p) {
+      var d = phoneDigits(p);
+      if (d.length === 11 && d.charAt(0) === '1') d = d.slice(1);
+      return d.length === 10 ? d : '';
+    }
+    function telHref(p) {
+      var digits = phoneDigits(p);
+      if (!digits) return '';
+      if (digits.length === 10) return 'tel:+1' + digits;
+      if (digits.length === 11 && digits.charAt(0) === '1') return 'tel:+' + digits;
+      return '';
+    }
+    function whatsappHref(p) {
+      var digits = phoneDigits(p);
+      if (!digits) return '';
+      if (digits.length === 10) digits = '1' + digits;
+      else if (!(digits.length === 11 && digits.charAt(0) === '1')) return '';
+      return 'https://wa.me/' + digits;
+    }
+    function copyContact(text, label) {
+      var status = document.getElementById('status');
+      if (!text) return;
+      function done(msg) { if (status) { status.className = 'status'; status.textContent = msg; } }
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(text).then(function () {
+          done((label || 'Value') + ' copied.');
+        }).catch(function () { done('Copy: ' + text); });
+      } else {
+        done('Copy: ' + text);
+      }
+    }
+    function phoneLinksHtml(phone) {
+      var d = phoneDigits10(phone);
+      if (!d) return '—';
+      var shown = fmtPhone(d);
+      var tel = telHref(d);
+      var wa = whatsappHref(d);
+      return '<span class="phone-cell">' +
+        '<a class="phone-num" href="' + esc(tel) + '" title="Call ' + esc(shown) + '">' + esc(shown) + '</a>' +
+        '<span class="contact-actions">' +
+        '<a class="contact-link" href="' + esc(tel) + '" title="Call ' + esc(shown) + '">Call</a>' +
+        '<a class="contact-link contact-link--wa" href="' + esc(wa) +
+        '" target="_blank" rel="noopener noreferrer" title="WhatsApp ' + esc(shown) + '">WA</a>' +
+        '<button type="button" class="contact-copy" data-copy="' + esc(shown) +
+        '" data-copy-label="Phone" title="Copy phone">Copy</button>' +
+        '</span></span>';
+    }
+    function bindContactCopy(root) {
+      if (!root || root.getAttribute('data-copy-bound')) return;
+      root.setAttribute('data-copy-bound', '1');
+      root.addEventListener('click', function (e) {
+        var link = e.target.closest && e.target.closest('.phone-cell a, .contact-link, .phone-act, .phone-num');
+        if (link) e.stopPropagation();
+        var btn = e.target.closest && e.target.closest('.contact-copy');
+        if (!btn) return;
+        e.preventDefault();
+        e.stopPropagation();
+        copyContact(btn.getAttribute('data-copy'), btn.getAttribute('data-copy-label'));
+      }, true);
+    }
+    function isGas() {
+      return !!(window.google && google.script && google.script.run);
+    }
+    function normalize(s) {
+      return String(s || '').toLowerCase().replace(/\b(prabhuji|prabhu|mataji|prb|mtj|dasa|dasi|das|dd|ji)\b/g, ' ')
+        .replace(/[^a-z0-9\s]/g, ' ').replace(/\s+/g, ' ').trim();
+    }
+    function personMatches(p, qRaw) {
+      var q = String(qRaw || '').trim().toLowerCase();
+      if (!q) return false;
+      var ph = phoneDigits10(qRaw);
+      if (ph && p.phone === ph) return true;
+      if (VIEW !== 'lookup' && p.email && p.email.indexOf(q) >= 0) return true;
+      var nq = normalize(q);
+      if (nq && p.norm && p.norm.indexOf(nq) >= 0) return true;
+      var tokens = nq.split(' ').filter(Boolean);
+      if (tokens.length > 1 && p.norm) return tokens.every(function (t) { return p.norm.indexOf(t) >= 0; });
+      return false;
+    }
+    function suggestLocal(list, q) {
+      return (list || []).filter(function (p) { return personMatches(p, q); }).slice(0, 12);
+    }
+    function asgById() {
+      if (DATA && DATA._asgMap) return DATA._asgMap;
+      var m = {};
+      ((DATA && DATA.assignments) || []).forEach(function (a) { m[a.id] = a; });
+      if (DATA) DATA._asgMap = m;
+      return m;
+    }
+    function personKey(p) {
+      return (p && (p.phone || p.email || p.norm)) || '';
+    }
+    function fieldNorm(v) {
+      return String(v || '').replace(/\s+/g, ' ').trim();
+    }
+    function rosterFilterState() {
+      return {
+        lead: document.getElementById('leadSelect').value,
+        tc: document.getElementById('tcSelect').value,
+        area: document.getElementById('areaSelect').value,
+        group: document.getElementById('groupSelect').value,
+      };
+    }
+    function assignmentHasPerson(a, field, key) {
+      if (!key) return true;
+      return (a[field] || []).some(function (p) { return personKey(p) === key; });
+    }
+    function assignmentMatches(a, f, skip) {
+      if (skip !== 'group' && f.group && fieldNorm(a.grouping) !== f.group) return false;
+      if (skip !== 'area' && f.area && fieldNorm(a.keyArea) !== f.area) return false;
+      if (skip !== 'lead' && f.lead && !assignmentHasPerson(a, 'leads', f.lead)) return false;
+      if (skip !== 'tc' && f.tc && !assignmentHasPerson(a, 'tc', f.tc)) return false;
+      return true;
+    }
+    function matchingAssignments(skip) {
+      var f = rosterFilterState();
+      return ((DATA && DATA.assignments) || []).filter(function (a) {
+        return assignmentMatches(a, f, skip);
+      });
+    }
+    function uniquePeopleFromAsgs(asgs, field) {
+      var seen = {};
+      var out = [];
+      asgs.forEach(function (a) {
+        (a[field] || []).forEach(function (p) {
+          var k = personKey(p);
+          if (!k || seen[k]) return;
+          seen[k] = true;
+          out.push(p);
+        });
+      });
+      out.sort(function (a, b) {
+        return String(a.name || '').localeCompare(String(b.name || ''));
+      });
+      return out;
+    }
+    function uniqueFieldFromAsgs(asgs, field) {
+      var seen = {};
+      var out = [];
+      asgs.forEach(function (a) {
+        var s = fieldNorm(a[field]);
+        if (!s) return;
+        var k = s.toLowerCase();
+        if (seen[k]) return;
+        seen[k] = true;
+        out.push(s);
+      });
+      out.sort(function (a, b) { return a.localeCompare(b); });
+      return out;
+    }
+    function fillSelect(sel, people, allLabel, autoIfOne) {
+      var prev = sel.value;
+      var sig = people.map(personKey).sort().join('\n');
+      var sameSet = sel.getAttribute('data-opt-sig') === sig;
+      sel.innerHTML = '<option value="">' + esc(allLabel) + '</option>' + people.map(function (p) {
+        return '<option value="' + esc(personKey(p)) + '">' + esc(p.name) + '</option>';
+      }).join('');
+      sel.setAttribute('data-opt-sig', sig);
+      if (prev && Array.prototype.some.call(sel.options, function (o) { return o.value === prev; })) {
+        sel.value = prev;
+      } else if (autoIfOne && people.length === 1 && !sameSet) {
+        sel.value = personKey(people[0]);
+      }
+    }
+    function fillValueSelect(sel, values, allLabel) {
+      var prev = sel.value;
+      sel.innerHTML = '<option value="">' + esc(allLabel) + '</option>' + values.map(function (v) {
+        return '<option value="' + esc(v) + '">' + esc(v) + '</option>';
+      }).join('');
+      if (prev && Array.prototype.some.call(sel.options, function (o) { return o.value === prev; })) {
+        sel.value = prev;
+      }
+    }
+    function comboParts(sel) {
+      var id = sel.id.replace(/Select$/, '');
+      return {
+        sel: sel,
+        input: document.getElementById(id + 'Input'),
+        menu: document.getElementById(id + 'Menu')
+      };
+    }
+    function syncComboFromSelect(sel) {
+      var p = comboParts(sel);
+      if (!p.input) return;
+      var opt = sel.options[sel.selectedIndex];
+      p.input.value = sel.value ? (opt ? opt.text : '') : '';
+      if (sel.options[0]) p.input.placeholder = sel.options[0].text + ' — type to search';
+    }
+    function closeComboMenu(menu, input) {
+      if (menu) menu.hidden = true;
+      if (input) input.setAttribute('aria-expanded', 'false');
+    }
+    function closeAllComboMenus() {
+      ['group', 'area', 'lead', 'tc'].forEach(function (id) {
+        closeComboMenu(document.getElementById(id + 'Menu'), document.getElementById(id + 'Input'));
+      });
+    }
+    function comboMatch(text, q) {
+      q = String(q || '').trim().toLowerCase();
+      if (!q) return true;
+      var t = String(text || '').toLowerCase();
+      if (t.indexOf(q) >= 0) return true;
+      return q.split(/\s+/).every(function (tok) { return tok && t.indexOf(tok) >= 0; });
+    }
+    function comboSelectedText(sel) {
+      if (!sel.value) return '';
+      var opt = sel.options[sel.selectedIndex];
+      return opt ? opt.text : '';
+    }
+    function renderComboMenu(sel, query) {
+      var p = comboParts(sel);
+      if (!p.menu) return;
+      var filterQ = query;
+      if (filterQ === comboSelectedText(sel)) filterQ = '';
+      var allLabel = sel.options[0] ? sel.options[0].text : 'All';
+      var matches = [];
+      Array.prototype.forEach.call(sel.options, function (opt, i) {
+        if (i === 0) return;
+        if (comboMatch(opt.text, filterQ)) matches.push(opt);
+      });
+      var html = '<button type="button" role="option" data-value="">' + esc(allLabel) + '</button>';
+      html += matches.map(function (opt) {
+        var on = opt.value === sel.value ? ' active' : '';
+        return '<button type="button" role="option" class="' + on + '" data-value="' +
+          esc(opt.value) + '">' + esc(opt.text) + '</button>';
+      }).join('');
+      if (filterQ && !matches.length) {
+        html += '<div class="combo-empty">No matches for “' + esc(filterQ) + '”</div>';
+      }
+      p.menu.innerHTML = html;
+      p.menu.hidden = false;
+      p.input.setAttribute('aria-expanded', 'true');
+    }
+    function pickComboOption(sel, value) {
+      var p = comboParts(sel);
+      sel.value = value || '';
+      syncComboFromSelect(sel);
+      closeComboMenu(p.menu, p.input);
+      applyRosterFilter();
+    }
+    function bindCombo(sel) {
+      var p = comboParts(sel);
+      if (!p.input || !p.menu || p.input.getAttribute('data-combo-bound')) return;
+      p.input.setAttribute('data-combo-bound', '1');
+      p.input.setAttribute('aria-expanded', 'false');
+      p.input.addEventListener('focus', function () { renderComboMenu(sel, p.input.value); });
+      p.input.addEventListener('click', function () { renderComboMenu(sel, p.input.value); });
+      p.input.addEventListener('input', function () { renderComboMenu(sel, p.input.value); });
+      p.input.addEventListener('keydown', function (e) {
+        if (e.key === 'Escape') {
+          e.preventDefault();
+          syncComboFromSelect(sel);
+          closeComboMenu(p.menu, p.input);
+          p.input.blur();
+          return;
+        }
+        if (e.key === 'Enter') {
+          e.preventDefault();
+          var q = String(p.input.value || '').trim();
+          if (!q) { pickComboOption(sel, ''); return; }
+          var buttons = p.menu.querySelectorAll('button[data-value]');
+          var hit = null;
+          Array.prototype.forEach.call(buttons, function (btn) {
+            if (!btn.getAttribute('data-value')) return;
+            if (!hit) hit = btn;
+            if (btn.getAttribute('data-value') === sel.value) hit = btn;
+          });
+          var exact = null;
+          Array.prototype.forEach.call(sel.options, function (opt, i) {
+            if (i && opt.text.toLowerCase() === q.toLowerCase()) exact = opt.value;
+          });
+          if (exact != null) pickComboOption(sel, exact);
+          else if (hit) pickComboOption(sel, hit.getAttribute('data-value'));
+        }
+      });
+      p.menu.addEventListener('mousedown', function (e) {
+        var btn = e.target.closest('button[data-value]');
+        if (!btn) return;
+        e.preventDefault();
+        pickComboOption(sel, btn.getAttribute('data-value'));
+      });
+      p.input.addEventListener('blur', function () {
+        setTimeout(function () {
+          if (p.menu.hidden) return;
+          closeComboMenu(p.menu, p.input);
+          syncComboFromSelect(sel);
+        }, 150);
+      });
+    }
+    function fillRosterDropdowns() {
+      var guard = 0;
+      while (guard++ < 5) {
+        var before = rosterFilterState();
+        fillValueSelect(document.getElementById('groupSelect'), uniqueFieldFromAsgs(matchingAssignments('group'), 'grouping'), 'All groupings');
+        fillValueSelect(document.getElementById('areaSelect'), uniqueFieldFromAsgs(matchingAssignments('area'), 'keyArea'), 'All key areas');
+        fillSelect(document.getElementById('leadSelect'), uniquePeopleFromAsgs(matchingAssignments('lead'), 'leads'), 'All area leads', true);
+        fillSelect(document.getElementById('tcSelect'), uniquePeopleFromAsgs(matchingAssignments('tc'), 'tc'), 'All TC incharge', true);
+        var after = rosterFilterState();
+        if (before.lead === after.lead && before.tc === after.tc &&
+            before.area === after.area && before.group === after.group) break;
+      }
+      ['groupSelect', 'areaSelect', 'leadSelect', 'tcSelect'].forEach(function (id) {
+        syncComboFromSelect(document.getElementById(id));
+      });
+    }
+    function rosterFromDropdowns() {
+      var f = rosterFilterState();
+      var assignments = matchingAssignments(null);
+      assignments.sort(rosterSort);
+      return { ok: true, assignments: assignments, filtered: !!(f.lead || f.tc || f.area || f.group) };
+    }
+    function lookupQueryOk(q) {
+      if (phoneDigits10(q)) return true;
+      var nq = normalize(q).replace(/[0-9]+/g, ' ').replace(/\s+/g, ' ').trim();
+      return nq.length >= 3;
+    }
+    function lookupLocal(params) {
+      if (!lookupQueryOk(params.query)) return { ok: true, rows: [] };
+      var people = suggestLocal(DATA.lookupPeople, params.query);
+      var map = asgById();
+      var rows = [];
+      people.forEach(function (p) {
+        var assignments = (p.assignmentIds || []).map(function (id) { return map[id]; }).filter(Boolean);
+        assignments.sort(function (a, b) { return (a.daySort - b.daySort) || (a.slotSort - b.slotSort); });
+        assignments.forEach(function (a) {
+          rows.push({
+            volunteerName: p.name,
+            volunteerPhone: p.phone || '',
+            date: a.day || '',
+            slot: a.slot || '',
+            keyArea: a.keyArea || '',
+            grouping: a.grouping || '',
+            areaLead: (a.leads || []).map(function (x) { return x.name; }).filter(Boolean).join(', '),
+            areaLeads: a.leads || [],
+          });
+        });
+      });
+      return { ok: true, rows: rows.slice(0, 40) };
+    }
+    function rosterLocal(params) {
+      var q = String((params && params.query) || '').trim();
+      var people = [];
+      var assignments = [];
+      if (!q && !(params && params.phone) && !(params && params.email)) {
+        assignments = (DATA.assignments || []).slice();
+      } else {
+        people = suggestLocal(DATA.leadPeople, params.query);
+        var map = asgById();
+        var seen = {};
+        people.forEach(function (p) {
+          (p.assignmentIds || []).forEach(function (id) {
+            if (seen[id] || !map[id]) return;
+            seen[id] = true;
+            assignments.push(map[id]);
+          });
+        });
+      }
+      assignments.sort(rosterSort);
+      return { ok: true, people: people, assignments: assignments };
+    }
+
+    function setupChrome() {
+      var lookup = VIEW !== 'roster';
+      var lookupUrl = window.JNM_VOL_LOOKUP_URL || '?view=lookup';
+      var rosterUrl = window.JNM_VOL_ROSTER_URL || '?view=roster';
+      document.getElementById('mast').className = lookup ? 'mast lookup-only' : 'mast';
+      document.querySelector('.wrap').className = lookup ? 'wrap' : 'wrap roster-wrap';
+      document.getElementById('pageTitle').textContent = lookup ? 'Volunteer Assignment Lookup' : 'Lead / TC roster';
+      document.title = lookup ? 'JNM 2026 · Volunteer lookup' : 'JNM 2026 · Lead / TC roster';
+      var navL = document.getElementById('navLookup');
+      var navR = document.getElementById('navRoster');
+      navL.href = lookupUrl;
+      navR.href = rosterUrl;
+      navL.className = lookup ? 'active' : '';
+      navR.className = lookup ? '' : 'active';
+      document.getElementById('lookupSearch').hidden = !lookup;
+      document.getElementById('rosterSearch').hidden = lookup;
+      document.getElementById('stats').hidden = lookup;
+      document.getElementById('searchHint').textContent = lookup
+        ? 'Matching assignments appear below with time slot, area lead, and area lead phone. Phone search needs the full 10-digit number.'
+        : '';
+      document.getElementById('searchLabel').textContent = 'Search';
+      document.getElementById('q').placeholder = 'Type a name or a full phone number, then press Enter';
+      var access = document.getElementById('accessHint');
+      if (access) {
+        var publicUrl = window.JNM_VOL_PUBLIC_URL || '';
+        var onPublicPage = !!window.JNM_VOL_DATA_URL;
+        if (!lookup) {
+          access.hidden = true;
+          access.innerHTML = '';
+        } else if (onPublicPage) {
+          access.hidden = false;
+          access.textContent = 'If a chat app blocked the Google link, you are on the backup page. Bookmark this one.';
+        } else {
+          access.hidden = false;
+          access.innerHTML = 'WhatsApp and Messages sometimes fail on the Google link. Open it in Safari or Chrome, or a private window. Do not open the Google Sheet.' +
+            (publicUrl ? ' Backup page (no Google login): <a href="' + esc(publicUrl) + '">' + esc(publicUrl) + '</a>' : '');
+        }
+      }
+    }
+
+    function renderStats(_stats) {
+      if (VIEW !== 'roster') document.getElementById('stats').innerHTML = '';
+    }
+
+    function rosterDayRank(a) {
+      var day = String(a && a.day || '').replace(/\s+/g, ' ').trim().toLowerCase();
+      if (a.daySort === 20260904) return 0;
+      if (day.indexOf('sep 3 & 4') >= 0 || day.indexOf('sep 3 and 4') >= 0) return 1;
+      if (a.daySort === 20260905) return 2;
+      return 100 + (Number(a.daySort) || 0);
+    }
+    function rosterSort(a, b) {
+      var ra = rosterDayRank(a);
+      var rb = rosterDayRank(b);
+      if (ra !== rb) return ra - rb;
+      return (a.daySort - b.daySort) || (a.slotSort - b.slotSort) ||
+        String(a.keyArea || '').localeCompare(String(b.keyArea || ''));
+    }
+    function dayTitle(day, rank) {
+      var label = day || 'Date not set';
+      if (rank === 0) return 'Janmashtami · ' + label;
+      return label;
+    }
+    function personVolKey(p) {
+      if (!p || !p.name) return '';
+      return String(p.phone || p.norm || p.name).toLowerCase();
+    }
+    function uniquePeopleKeys(assignments, field) {
+      var seen = {};
+      (assignments || []).forEach(function (a) {
+        (a[field] || []).forEach(function (p) {
+          var k = personVolKey(p);
+          if (k) seen[k] = true;
+        });
+      });
+      return Object.keys(seen);
+    }
+    function uniqueAreaCount(assignments) {
+      var seen = {};
+      (assignments || []).forEach(function (a) {
+        var s = fieldNorm(a.keyArea).toLowerCase();
+        if (s) seen[s] = true;
+      });
+      return Object.keys(seen).length;
+    }
+    function computeRosterStats(assignments) {
+      var list = assignments || [];
+      var t1 = uniquePeopleKeys(list, 'tier1');
+      var t2 = uniquePeopleKeys(list, 'tier2');
+      var t3 = uniquePeopleKeys(list, 'tier3');
+      var vol = {};
+      t1.concat(t2, t3).forEach(function (k) { vol[k] = true; });
+      var groups = [];
+      list.slice().sort(rosterSort).forEach(function (a) {
+        var last = groups[groups.length - 1];
+        if (!last || last.day !== a.day) groups.push({ day: a.day, rank: rosterDayRank(a), items: [a] });
+        else last.items.push(a);
+      });
+      return {
+        areas: uniqueAreaCount(list),
+        shifts: list.length,
+        volunteers: Object.keys(vol).length,
+        tier1: t1.length,
+        tier2: t2.length,
+        tier3: t3.length,
+        byDay: groups.map(function (g) {
+          var gt1 = uniquePeopleKeys(g.items, 'tier1');
+          var gt2 = uniquePeopleKeys(g.items, 'tier2');
+          var gt3 = uniquePeopleKeys(g.items, 'tier3');
+          var gvol = {};
+          gt1.concat(gt2, gt3).forEach(function (k) { gvol[k] = true; });
+          return {
+            day: g.day || 'Date not set',
+            rank: g.rank,
+            areas: uniqueAreaCount(g.items),
+            shifts: g.items.length,
+            volunteers: Object.keys(gvol).length,
+            tier1: gt1.length,
+            tier2: gt2.length,
+            tier3: gt3.length
+          };
+        })
+      };
+    }
+    function fmtCount(n) {
+      return String(Number(n) || 0).replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+    }
+    function rosterScopeLabel(filtered) {
+      if (!filtered) return 'All assignments';
+      var bits = ['groupSelect', 'areaSelect', 'leadSelect', 'tcSelect'].map(function (id) {
+        var sel = document.getElementById(id);
+        if (!sel || !sel.value) return '';
+        return sel.options[sel.selectedIndex] ? sel.options[sel.selectedIndex].text : '';
+      }).filter(Boolean);
+      return bits.length ? 'Filtered · ' + bits.join(' · ') : 'Filtered';
+    }
+    function statCardHtml(label, value, meta, extraClass) {
+      return '<div class="stat-card' + (extraClass ? ' ' + extraClass : '') + '">' +
+        '<div class="k">' + esc(label) + '</div>' +
+        '<div class="v">' + fmtCount(value) + '</div>' +
+        (meta ? '<div class="m">' + esc(meta) + '</div>' : '') +
+        '</div>';
+    }
+    function renderRosterStats(assignments, filtered) {
+      var root = document.getElementById('stats');
+      if (!root || VIEW !== 'roster') return;
+      var s = computeRosterStats(assignments);
+      var days = s.byDay.map(function (d) {
+        return '<div class="stat-day' + (d.rank === 0 ? ' jnm' : '') + '">' +
+          '<div class="stat-day-title">' + esc(dayTitle(d.day, d.rank)) + '</div>' +
+          '<div class="stat-day-nums">' +
+          '<span><b>' + fmtCount(d.areas) + '</b> area' + (d.areas === 1 ? '' : 's') + '</span>' +
+          '<span><b>' + fmtCount(d.shifts) + '</b> shift' + (d.shifts === 1 ? '' : 's') + '</span>' +
+          '<span><b>' + fmtCount(d.volunteers) + '</b> vol' + (d.volunteers === 1 ? '' : 's') + '</span>' +
+          '<span class="t1"><b>' + fmtCount(d.tier1) + '</b> T1</span>' +
+          '<span class="t2"><b>' + fmtCount(d.tier2) + '</b> T2</span>' +
+          '<span class="t3"><b>' + fmtCount(d.tier3) + '</b> T3</span>' +
+          '</div></div>';
+      }).join('');
+      root.hidden = false;
+      root.innerHTML =
+        '<div class="stats-scope">' + esc(rosterScopeLabel(filtered)) + '</div>' +
+        '<div class="stat-cards">' +
+        statCardHtml('Areas', s.areas, s.shifts + (s.shifts === 1 ? ' shift' : ' shifts')) +
+        statCardHtml('Volunteers', s.volunteers, 'unique across T1–T3') +
+        statCardHtml('Tier 1', s.tier1, '', 't1') +
+        statCardHtml('Tier 2', s.tier2, '', 't2') +
+        statCardHtml('Tier 3', s.tier3, '', 't3') +
+        '</div>' +
+        (days ? '<div class="stat-days">' + days + '</div>' : '');
+    }
+    function leadNames(leads) {
+      return (leads || []).map(function (p) { return p.name; }).filter(Boolean).join(', ') || '—';
+    }
+    function leadPhonesHtml(leads) {
+      var bits = (leads || []).map(function (p) {
+        return phoneDigits10(p.phone) ? phoneLinksHtml(p.phone) : '';
+      }).filter(Boolean);
+      return bits.length ? bits.join(' ') : '—';
+    }
+    function rosterVolunteers(a) {
+      var rows = [];
+      var seen = {};
+      function add(list, role) {
+        (list || []).forEach(function (p) {
+          if (!p || !p.name) return;
+          var k = p.phone || p.norm || p.name.toLowerCase();
+          if (seen[k]) return;
+          seen[k] = true;
+          rows.push({ name: p.name, phone: p.phone, role: role });
+        });
+      }
+      add(a.leads, 'Area lead');
+      add(a.tc, 'TC incharge');
+      add(a.tier1, 'Tier 1');
+      add(a.tier2, 'Tier 2');
+      add(a.tier3, 'Tier 3');
+      return rows;
+    }
+    function shiftSummaryHtml(a) {
+      var n = rosterVolunteers(a).length;
+      return '<details class="shift-details" open data-asg="' + esc(String(a.id)) + '"><summary><div class="shift-sum">' +
+        '<span><span class="col-label">Time slot</span>' + esc(a.slot || '—') + '</span>' +
+        '<span><span class="col-label">Key area</span>' + esc(a.keyArea || '—') + '</span>' +
+        '<span><span class="col-label">Grouping</span>' + esc(a.grouping || '—') + '</span>' +
+        '<span><span class="col-label">Area lead</span>' + esc(leadNames(a.leads)) + '</span>' +
+        '<span><span class="col-label">Lead phone</span>' + leadPhonesHtml(a.leads) + '</span>' +
+        '<span class="shift-chevron"><span class="shift-arrow">▸</span>' + n + '</span>' +
+        '</div></summary><div class="shift-body"></div></details>';
+    }
+    function fillShiftBody(details) {
+      if (!details || details.getAttribute('data-filled')) return;
+      var id = details.getAttribute('data-asg');
+      var a = asgById()[id];
+      var body = details.querySelector('.shift-body');
+      if (!a || !body) return;
+      var vols = rosterVolunteers(a);
+      body.innerHTML = vols.length
+        ? '<div class="table-wrap nested"><table class="sheet"><thead><tr>' +
+          '<th>Role</th><th>Volunteer name</th><th>Volunteer phone</th></tr></thead><tbody>' +
+          vols.map(function (v) {
+            return '<tr><td>' + esc(v.role) + '</td><td>' + esc(v.name) + '</td><td>' +
+              phoneLinksHtml(v.phone) + '</td></tr>';
+          }).join('') + '</tbody></table></div>'
+        : '<p class="empty-page" style="padding:8px 16px">No volunteers listed.</p>';
+      details.setAttribute('data-filled', '1');
+    }
+    function fillDayShifts(dayEl) {
+      var box = dayEl.querySelector('.day-shifts');
+      if (!box || box.getAttribute('data-filled')) return;
+      var ids = (box.getAttribute('data-ids') || '').split(',').filter(Boolean);
+      var map = asgById();
+      box.innerHTML = ids.map(function (id) {
+        return map[id] ? shiftSummaryHtml(map[id]) : '';
+      }).join('');
+      box.setAttribute('data-filled', '1');
+      Array.prototype.forEach.call(box.querySelectorAll('.shift-details[open]'), fillShiftBody);
+    }
+    function bindRosterToggles(root) {
+      Array.prototype.forEach.call(root.querySelectorAll('.day-details'), function (dayEl) {
+        dayEl.addEventListener('toggle', function () {
+          if (dayEl.open) fillDayShifts(dayEl);
+        });
+        if (dayEl.open) fillDayShifts(dayEl);
+      });
+      root.addEventListener('click', function (e) {
+        if (e.target.closest && e.target.closest('.phone-cell a, .phone-act, .phone-num, .contact-link, .contact-copy')) {
+          e.stopPropagation();
+        }
+      }, true);
+      root.addEventListener('toggle', function (e) {
+        var t = e.target;
+        if (t && t.classList && t.classList.contains('shift-details') && t.open) fillShiftBody(t);
+      }, true);
+    }
+    function renderLookup(res) {
+      var el = document.getElementById('results');
+      var rows = res.rows || [];
+      if (!rows.length) {
+        el.innerHTML = '<p class="empty-page">No matching assignment. Try a full name or the full 10-digit phone number.</p>';
+        return;
+      }
+      var body = rows.map(function (r) {
+        return '<tr><td>' + esc(r.volunteerName) + '</td><td>' + esc(fmtPhone(r.volunteerPhone) || '—') +
+          '</td><td>' + esc(r.date) + '</td><td>' + esc(r.slot) + '</td><td>' + esc(r.keyArea) +
+          '</td><td>' + esc(r.grouping) + '</td><td>' + esc(r.areaLead || '—') +
+          '</td><td>' + leadPhonesHtml(r.areaLeads || []) + '</td></tr>';
+      }).join('');
+      el.innerHTML = '<div class="table-wrap"><table class="sheet"><thead><tr>' +
+        '<th>Volunteer name</th><th>Volunteer phone</th><th>Date</th><th>Time slot</th>' +
+        '<th>Key area</th><th>Key area grouping</th><th>Area lead</th><th>Area lead phone</th>' +
+        '</tr></thead><tbody>' + body + '</tbody></table></div>';
+      bindContactCopy(el);
+    }
+    function renderRoster(res) {
+      var el = document.getElementById('results');
+      var assignments = ((res && res.assignments) || []).slice().sort(rosterSort);
+      renderRosterStats(assignments, !!(res && res.filtered));
+      if (!assignments.length) {
+        el.innerHTML = '<p class="empty-page">No matching shifts for that area lead or TC.</p>';
+        return;
+      }
+      var groups = [];
+      assignments.forEach(function (a) {
+        var last = groups[groups.length - 1];
+        if (!last || last.day !== a.day) {
+          groups.push({ day: a.day, rank: rosterDayRank(a), items: [a] });
+        } else {
+          last.items.push(a);
+        }
+      });
+      var autoOpen = !!res.filtered || assignments.length <= 24;
+      el.innerHTML = groups.map(function (g) {
+        var open = autoOpen && (g.rank === 0 || groups.length === 1) ? ' open' : '';
+        var jnm = g.rank === 0 ? ' jnm' : '';
+        var ids = g.items.map(function (a) { return a.id; }).join(',');
+        return '<details class="day-details' + jnm + '"' + open + '>' +
+          '<summary>' + esc(dayTitle(g.day, g.rank)) +
+          '<span class="day-count">' + g.items.length + ' area' + (g.items.length === 1 ? '' : 's') + '</span></summary>' +
+          '<div class="shift-head"><span>Time slot</span><span>Key area</span><span>Grouping</span>' +
+          '<span>Area lead</span><span>Lead phone</span><span>Vols</span></div>' +
+          '<div class="day-shifts" data-ids="' + esc(ids) + '"></div>' +
+          '</details>';
+      }).join('');
+      bindRosterToggles(el);
+      bindContactCopy(el);
+    }
+    function applyRosterFilter() {
+      fillRosterDropdowns();
+      renderRoster(rosterFromDropdowns());
+    }
+    function clearRosterFilters() {
+      ['groupSelect', 'areaSelect', 'leadSelect', 'tcSelect'].forEach(function (id) {
+        var el = document.getElementById(id);
+        el.value = '';
+        el.removeAttribute('data-opt-sig');
+      });
+      applyRosterFilter();
+    }
+
+    function showSuggest(hits) {
+      var box = document.getElementById('suggest');
+      if (!hits || !hits.length) { box.className = 'suggest'; box.innerHTML = ''; return; }
+      box.innerHTML = hits.map(function (p, i) {
+        var meta = VIEW === 'lookup'
+          ? (p.phoneHint ? '•••-' + esc(p.phoneHint) : '')
+          : [fmtPhone(p.phone) || '', p.email || ''].filter(Boolean).join(' · ');
+        return '<button type="button" data-i="' + i + '"><strong>' + esc(p.name) + '</strong>' +
+          (meta ? '<span class="meta">' + meta + '</span>' : '') + '</button>';
+      }).join('');
+      box.className = 'suggest open';
+      box._hits = hits;
+      Array.prototype.forEach.call(box.querySelectorAll('button'), function (btn) {
+        btn.addEventListener('click', function () {
+          pick(hits[Number(btn.getAttribute('data-i'))]);
+        });
+      });
+    }
+
+    function pick(person) {
+      selected = person;
+      document.getElementById('q').value = person.name;
+      document.getElementById('suggest').className = 'suggest';
+      var params = { query: person.name };
+      if (VIEW !== 'lookup' && person.phone) params.phone = person.phone;
+      if (VIEW !== 'lookup' && person.email) params.email = person.email;
+      document.getElementById('status').textContent = '';
+      var res = VIEW === 'roster' ? rosterLocal(params) : lookupLocal(params);
+      if (VIEW === 'roster') renderRoster(res);
+      else renderLookup(res);
+    }
+
+    var suggestTimer = null;
+    function onQueryInput() {
+      var q = document.getElementById('q').value;
+      clearTimeout(suggestTimer);
+      if (!q.trim()) {
+        showSuggest([]);
+        if (VIEW === 'roster') renderRoster({ assignments: (DATA && DATA.assignments) || [] });
+        return;
+      }
+      if (VIEW === 'lookup' && !lookupQueryOk(q)) { showSuggest([]); return; }
+      suggestTimer = setTimeout(function () {
+        run(VIEW === 'roster' ? 'rosterSuggest' : 'lookupSuggest', { query: q }, function (res) {
+          showSuggest((res && res.hits) || []);
+        });
+      }, 120);
+    }
+
+    function applyPayload(payload, fromCache) {
+      DATA = payload || {};
+      DATA._asgMap = null;
+      DATA_VERSION = String(payload.dataVersion || '');
+      setAppReady(true);
+      document.getElementById('status').className = 'status';
+      document.getElementById('status').textContent = fromCache ? 'Loaded from this device' : '';
+      renderStats(payload.stats);
+      if (VIEW === 'roster') {
+        applyRosterFilter();
+        return;
+      }
+      var sp = new URLSearchParams(location.search);
+      var q0 = sp.get('q') || document.getElementById('q').value || '';
+      if (String(q0).trim()) {
+        document.getElementById('q').value = q0;
+        renderLookup(lookupLocal({ query: q0 }));
+      }
+    }
+
+    function fetchDataset(onFailKeepCache) {
+      run('dataset', {}, function (ds) {
+        if (!ds || !ds.ok || !(ds.assignments || []).length) {
+          if (!onFailKeepCache) {
+            setAppReady(false, (ds && ds.error) || 'Could not load assignments');
+            document.getElementById('status').className = 'status error';
+            document.getElementById('status').textContent = (ds && ds.error) || 'Could not read the sheet';
+          }
+          return;
+        }
+        VolCache.save(VIEW, ds.dataVersion, ds);
+        applyPayload(ds, false);
+      });
+    }
+
+    function bootFromNetwork(hadCache, cachedVersion) {
+      run('bootstrap', {}, function (boot) {
+        if (!boot || !boot.ok) {
+          if (!hadCache) {
+            setAppReady(false, (boot && boot.error) || 'Could not read the sheet');
+            document.getElementById('status').className = 'status error';
+            document.getElementById('status').textContent = (boot && boot.error) || 'Could not read the sheet';
+          }
+          return;
+        }
+        if (hadCache && String(cachedVersion) === String(boot.dataVersion)) return;
+        if (!hadCache) setAppReady(false, 'Loading assignments…');
+        else document.getElementById('status').textContent = 'Updating…';
+        fetchDataset(hadCache);
+      });
+    }
+
+    setupChrome();
+    ['groupSelect', 'areaSelect', 'leadSelect', 'tcSelect'].forEach(function (id) {
+      bindCombo(document.getElementById(id));
+    });
+    document.getElementById('leadSelect').addEventListener('change', applyRosterFilter);
+    document.getElementById('tcSelect').addEventListener('change', applyRosterFilter);
+    document.getElementById('areaSelect').addEventListener('change', applyRosterFilter);
+    document.getElementById('groupSelect').addEventListener('change', applyRosterFilter);
+    document.getElementById('clearFilters').addEventListener('click', clearRosterFilters);
+    document.getElementById('q').addEventListener('input', onQueryInput);
+    document.getElementById('q').addEventListener('keydown', function (e) {
+      if (e.key === 'Enter') {
+        e.preventDefault();
+        var hits = document.getElementById('suggest')._hits || [];
+        if (hits[0]) pick(hits[0]);
+        else {
+          var q = document.getElementById('q').value;
+          document.getElementById('status').textContent = '';
+          if (VIEW === 'roster') renderRoster(rosterLocal({ query: q }));
+          else renderLookup(lookupLocal({ query: q }));
+        }
+        document.getElementById('suggest').className = 'suggest';
+      }
+    });
+    document.addEventListener('click', function (e) {
+      if (!e.target.closest('.search-row')) document.getElementById('suggest').className = 'suggest';
+      var combo = e.target.closest('.combo');
+      ['groupSelect', 'areaSelect', 'leadSelect', 'tcSelect'].forEach(function (id) {
+        var sel = document.getElementById(id);
+        var p = comboParts(sel);
+        if (combo && p.input && combo.contains(p.input)) return;
+        closeComboMenu(p.menu, p.input);
+        if (!combo) syncComboFromSelect(sel);
+      });
+    });
+
+    function loadJsonUrl(url, onErr) {
+      fetch(url)
+        .then(function (r) {
+          if (!r.ok) throw new Error('HTTP ' + r.status);
+          return r.json();
+        })
+        .then(function (payload) {
+          if (!payload || !(payload.assignments || []).length) throw new Error('Empty dataset');
+          payload.ok = true;
+          payload.dataVersion = payload.dataVersion || 'static';
+          VolCache.save(VIEW, payload.dataVersion, payload);
+          applyPayload(payload, false);
+        })
+        .catch(onErr);
+    }
+
+    function tryJsonpRefresh() {
+      var url = window.JNM_VOL_JSONP_URL;
+      if (!url) return;
+      window.jnmVolJsonp = function (ds) {
+        if (ds && ds.ok && (ds.assignments || []).length) {
+          VolCache.save(VIEW, ds.dataVersion || 'jsonp', ds);
+          applyPayload(ds, false);
+        }
+      };
+      var s = document.createElement('script');
+      s.src = url + (url.indexOf('?') >= 0 ? '&' : '?') + 'callback=jnmVolJsonp';
+      s.async = true;
+      s.onerror = function () {};
+      document.head.appendChild(s);
+    }
+
+    function start() {
+      setAppReady(false, 'Loading assignments…');
+      if (window.JNM_VOL_DATA_URL) {
+        loadJsonUrl(window.JNM_VOL_DATA_URL, function (err) {
+          setAppReady(false, 'Could not load volunteer list');
+          document.getElementById('status').className = 'status error';
+          document.getElementById('status').textContent = 'Could not load volunteer list. ' + err;
+        });
+        tryJsonpRefresh();
+        return;
+      }
+      if (!isGas()) {
+        loadJsonUrl('fixtures/assignments.json', function (err) {
+          setAppReady(false, 'Local preview needs fixtures');
+          document.getElementById('status').className = 'status error';
+          document.getElementById('status').textContent = 'Local preview needs fixtures/assignments.json — run python3 parse_assignments.py --fixtures. ' + err;
+        });
+        return;
+      }
+      VolCache.load(VIEW).then(function (cached) {
+        var payload = cached && cached.payload;
+        var hadCache = !!(payload && (
+          (payload.assignments && payload.assignments.length) ||
+          (payload.lookupPeople && payload.lookupPeople.length)
+        ));
+        if (hadCache) applyPayload(payload, true);
+        bootFromNetwork(hadCache, cached && cached.dataVersion);
+      });
+    }
+    start();
+    window.runVolContactTests = function () {
+      var results = [];
+      function assert(name, cond, detail) {
+        results.push({ name: name, ok: !!cond, detail: detail || '' });
+      }
+      assert('tel 10-digit', telHref('669-600-1704') === 'tel:+16696001704', telHref('669-600-1704'));
+      assert('tel +1 11-digit', telHref('16696001704') === 'tel:+16696001704', telHref('16696001704'));
+      assert('tel rejects 9-digit', telHref('669600170') === '', telHref('669600170'));
+      assert('wa 10-digit', whatsappHref('669-600-1704') === 'https://wa.me/16696001704', whatsappHref('669-600-1704'));
+      assert('wa +1 11-digit', whatsappHref('16696001704') === 'https://wa.me/16696001704', whatsappHref('16696001704'));
+      var html = phoneLinksHtml('408-338-5853');
+      assert('lead html tel', html.indexOf('href="tel:+14083385853"') >= 0, html);
+      assert('lead html wa', html.indexOf('href="https://wa.me/14083385853"') >= 0, html);
+      assert('lead html Call', html.indexOf('>Call</a>') >= 0, html);
+      assert('lead html WA', html.indexOf('>WA</a>') >= 0, html);
+      assert('lead html copy', html.indexOf('contact-copy') >= 0, html);
+      assert('empty phone', phoneLinksHtml('') === '—', phoneLinksHtml(''));
+      return results;
+    };
+  </script>
+</body>
+</html>
