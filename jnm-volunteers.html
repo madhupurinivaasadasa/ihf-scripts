@@ -1554,14 +1554,17 @@ window.JNM_VOL_JSONP_URL='https://script.google.com/macros/s/AKfycbz_F_xiI_eecqR
         return;
       }
       var body = rows.map(function (r) {
-        return '<tr><td>' + esc(r.volunteerName) + '</td><td>' + esc(fmtPhone(r.volunteerPhone) || '—') +
-          '</td><td>' + esc(r.date) + '</td><td>' + esc(r.slot) + '</td><td>' + esc(r.keyArea) +
-          '</td><td>' + esc(r.grouping) + '</td><td>' + esc(r.areaLead || '—') +
-          '</td><td>' + leadPhonesHtml(r.areaLeads || []) + '</td></tr>';
+        return '<tr><td>' + esc(r.areaLead || '—') +
+          '</td><td>' + leadPhonesHtml(r.areaLeads || []) +
+          '</td><td>' + esc(r.volunteerName) +
+          '</td><td>' + esc(r.date) + '</td><td>' + esc(r.slot) +
+          '</td><td>' + esc(r.keyArea) + '</td><td>' + esc(r.grouping) +
+          '</td><td>' + esc(fmtPhone(r.volunteerPhone) || '—') + '</td></tr>';
       }).join('');
       el.innerHTML = '<div class="table-wrap"><table class="sheet"><thead><tr>' +
-        '<th>Volunteer name</th><th>Volunteer phone</th><th>Date</th><th>Time slot</th>' +
-        '<th>Key area</th><th>Key area grouping</th><th>Area lead</th><th>Area lead phone</th>' +
+        '<th>Area lead</th><th>Area lead phone</th><th>Volunteer name</th>' +
+        '<th>Date</th><th>Time slot</th><th>Key area</th><th>Key area grouping</th>' +
+        '<th>Volunteer phone</th>' +
         '</tr></thead><tbody>' + body + '</tbody></table></div>';
       bindContactCopy(el);
     }
