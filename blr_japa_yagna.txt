@@ -1,0 +1,705 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="csrf-token" content="NR0yamuvxq5lBbs9jZ0akLCqgTmqpsQ7QU1IPM3Q">
+<meta name="app-base" content="https://www.iskconbangalore.org/koti-japa-yagna">
+<title>Koti Japa Yagna · ISKCON Bangalore</title>
+<meta name="description" content="Welcome Krishna this Janmashtami with an offering of His own names. Chant the maha-mantra on your beads, log your rounds, and rise together, Koti by Koti. An initiative of ISKCON Bangalore · Swagatam Krishna 2026.">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<!-- Marcellus = English display headings · Hanken Grotesk = body · EB Garamond =
+     all Sanskrit/transliteration (marquee, verse, mantras, quotes) because it is
+     the one loaded face that carries the FULL IAST set, incl. the under-dot
+     letters (ṛ ṣ ṇ …) that Marcellus lacks. Noto Sans backs body diacritics. -->
+<link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital@0;1&family=Hanken+Grotesk:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=Marcellus&family=Noto+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+
+<link rel="stylesheet" href="https://www.iskconbangalore.org/koti-japa-yagna/public/assets/site.css?v=21">
+</head>
+<body>
+
+<!-- Japa-mala brand mark (a ring of beads with a larger head/sumeru bead) -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="japa-mala" viewBox="0 0 40 40">
+    <circle cx="20" cy="7" r="3.4"/>
+    <circle cx="26.5" cy="8.7" r="2.3"/>
+    <circle cx="31.3" cy="13.5" r="2.3"/>
+    <circle cx="33" cy="20" r="2.3"/>
+    <circle cx="31.3" cy="26.5" r="2.3"/>
+    <circle cx="26.5" cy="31.3" r="2.3"/>
+    <circle cx="20" cy="33" r="2.3"/>
+    <circle cx="13.5" cy="31.3" r="2.3"/>
+    <circle cx="8.7" cy="26.5" r="2.3"/>
+    <circle cx="7" cy="20" r="2.3"/>
+    <circle cx="8.7" cy="13.5" r="2.3"/>
+    <circle cx="13.5" cy="8.7" r="2.3"/>
+  </symbol>
+</svg>
+
+<!-- ============================ NAV ================================= -->
+<nav class="nav">
+  <div class="wrap">
+    <!-- Brand = parent festival. IT: point this href at the real Swagatam Krishna landing page. -->
+    <a class="nav-brand" href="#" data-swagatam aria-label="Swagatam Krishna">
+      <b class="nav-title">Swagatam Krishna</b>
+    </a>
+    <div class="nav-links" id="nav-links">
+      <!-- Home = this Koti Japa Yagna page. -->
+      <a href="https://www.iskconbangalore.org/koti-japa-yagna">Home</a>
+      <a href="#why" data-guest-only>Why chant</a>
+      <a href="#sankalpa" data-guest-only>Sankalpa</a>
+      <a href="#learn">Learn</a>
+      <a href="#board">Leaderboard</a>
+      <a href="#faq">FAQ</a>
+    </div>
+    <div class="nav-actions">
+      <a class="nav-login" data-open-login data-guest-only href="#">Log in</a>
+      <a class="btn btn-primary btn-sm" data-guest-only href="#sankalpa">Join the yagna</a>
+      <button class="btn btn-primary btn-sm" data-open-log data-user-only hidden>Offer rounds</button>
+      <a class="nav-login" data-logout data-user-only href="#" hidden>Log out</a>
+      <button class="nav-toggle" data-nav-toggle aria-label="Menu" aria-expanded="false" aria-controls="nav-links">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </div>
+</nav>
+
+<!-- ====================== LOGGED-IN DASHBOARD ======================
+     Shown only to a signed-in chanter (data-user-only). The guest marketing
+     hero + pitch sections below are data-guest-only, so a logged-in devotee
+     lands straight on their own dashboard instead of the sales page. -->
+<section class="dash" data-user-only hidden>
+  <!-- Dark greeting band: who they are, today's offering, one big CTA -->
+  <div class="dash-hero">
+    <div class="wrap">
+      <div class="dash-hero-main">
+        <span class="live-pill"><span class="dot-live"></span> Your sankalpa · <b data-dash-vow>·</b> rounds a day</span>
+        <h1>Hare Krishna,<br><em data-dash-name>devotee</em></h1>
+        <p class="dash-today" data-dash-today>Ready to offer today's rounds?</p>
+        <div class="dash-cta">
+          <button class="btn btn-primary" data-open-log>Offer today's rounds →</button>
+          <a class="btn btn-outline-gold" href="#board">See the leaderboard</a>
+        </div>
+      </div>
+      <!-- days-chanted flame medallion -->
+      <div class="dash-flame" data-dash-flame>
+        <div class="flame-ring">
+          <div class="flame-num" data-dash-flame-days>0</div>
+          <div class="flame-lbl">days chanted</div>
+        </div>
+        <div class="flame-sub" data-dash-flame-sub>Offer today to add to your count</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Light band: stats + calendar + history -->
+  <div class="wrap dash-body">
+    <div class="dash-stats">
+      <div class="dstat"><b class="tabular" data-dash-names>0</b><span>holy names offered</span></div>
+      <div class="dstat"><b class="tabular" data-dash-days>0</b><span>days chanted</span></div>
+      <div class="dstat"><b class="tabular" data-dash-rounds>0</b><span>rounds so far</span></div>
+      <div class="dstat"><b class="tabular" data-dash-remaining>0</b><span>days to Janmashtami</span></div>
+    </div>
+
+    <div class="dash-grid">
+      <div class="dash-card dash-cal-card">
+        <div class="dash-card-head">
+          <h2>Your chanting days</h2>
+          <div class="cal-legend">
+            <span><i class="dot chanted"></i> chanted</span>
+            <span><i class="dot missed"></i> missed</span>
+            <span><i class="dot today"></i> today</span>
+          </div>
+        </div>
+        <div class="cal-filters">
+          <select class="cal-select" data-dash-cal-month aria-label="Month"></select>
+          <select class="cal-select" data-dash-cal-year aria-label="Year"></select>
+        </div>
+        <div class="cal-weekdays" aria-hidden="true"><span>S</span><span>M</span><span>T</span><span>W</span><span>T</span><span>F</span><span>S</span></div>
+        <div class="cal" data-dash-cal role="grid" aria-label="Your chanting calendar"><!-- cells injected by site.js --></div>
+        <div class="cal-caption" data-dash-cal-caption>Tap today or yesterday to add or update your rounds. The yagna runs to Janmashtami.</div>
+      </div>
+
+      <div class="dash-card dash-hist-card">
+        <div class="dash-card-head"><h2>Recent offerings</h2></div>
+        <div class="dash-history" data-dash-history><!-- rows injected by site.js --></div>
+      </div>
+    </div>
+
+    <div class="dash-foot">
+      <span>Offering <b data-dash-per-round>1,728</b> holy names for every round you chant.</span>
+      <a data-logout href="#">Sign out</a>
+    </div>
+  </div>
+</section>
+
+<!-- ============================ HERO ================================ -->
+<header class="hero" data-guest-only>
+  <div class="wrap">
+    <div>
+      <h1><em>Koti</em><br>Japa Yagna</h1>
+      <div class="hero-sub">This Janmashtami, invite Krishna into your life by chanting His holy names.</div>
+      <p class="hero-lead">Chant the maha-mantra on your own beads, log your rounds each day, and watch the offering rise together with devotees across the world, Koti by Koti.</p>
+      <div class="hero-cta">
+        <a class="btn btn-primary" href="#sankalpa">Make your sankalpa →</a>
+        <a class="btn btn-outline-gold" href="#learn">Learn to chant</a>
+      </div>
+      <div class="countdown">
+        <div class="cd-unit"><div class="cd-num" data-cd-days>·</div><div class="cd-lbl">Days</div></div>
+        <div class="cd-colon">:</div>
+        <div class="cd-unit"><div class="cd-num" data-cd-hours>·</div><div class="cd-lbl">Hours</div></div>
+        <div class="cd-colon">:</div>
+        <div class="cd-unit"><div class="cd-num" data-cd-mins>·</div><div class="cd-lbl">Mins</div></div>
+        <div class="cd-colon">:</div>
+        <div class="cd-unit"><div class="cd-num" data-cd-secs>·</div><div class="cd-lbl">Secs</div></div>
+      </div>
+    </div>
+
+    <!-- Mala Ring -->
+    <div class="ring-col">
+      <div class="ring">
+        <svg viewBox="0 0 240 240" aria-hidden="true">
+          <circle cx="120" cy="120" r="104" fill="none" stroke="rgba(201,162,75,.16)" stroke-width="10"></circle>
+          <circle class="ring-arc" cx="120" cy="120" r="104" fill="none" stroke="#c9a24b" stroke-width="10"
+                  stroke-linecap="round" stroke-dasharray="653" stroke-dashoffset="653" data-ring-arc></circle>
+        </svg>
+        <div class="ring-center">
+          <div class="ring-label">Names offered</div>
+          <div class="ring-count" data-ring-count>0</div>
+          <div class="ring-note" data-ring-note>the first Koti, rising</div>
+        </div>
+      </div>
+      <div class="ring-pct"><b data-ring-pct>0%</b> into the next Koti</div>
+    </div>
+  </div>
+</header>
+
+<!-- ========================= STAT STRIP ============================= -->
+<div class="stat-strip" data-guest-only>
+  <div class="wrap">
+    <div class="stat">
+      <div class="stat-num tabular" data-stat="totalRounds">1,85,569</div>
+      <div class="stat-lbl">Total rounds</div>
+      <div class="stat-sub" data-stat="totalRoundsToday">Today +498</div>
+    </div>
+    <div class="stat">
+      <div class="stat-num tabular" data-stat="chanters">3,184</div>
+      <div class="stat-lbl">Chanters joined</div>
+      <div class="stat-sub" data-stat="chantersToday">Today +41</div>
+    </div>
+    <div class="stat">
+      <div class="stat-num tabular" data-stat="cities">41</div>
+      <div class="stat-lbl">Cities chanting</div>
+      <div class="stat-sub" data-stat="citiesSub">across India &amp; beyond</div>
+    </div>
+  </div>
+</div>
+
+<!-- ========================== MARQUEE =============================== -->
+<div class="marquee" aria-hidden="true" data-guest-only>
+  <div class="marquee-track">
+    <span class="sanskrit">Hare Kṛṣṇa Hare Kṛṣṇa Kṛṣṇa Kṛṣṇa Hare Hare&nbsp;&nbsp;·&nbsp;&nbsp;Hare Rāma Hare Rāma Rāma Rāma Hare Hare&nbsp;&nbsp;·&nbsp;&nbsp;Hare Kṛṣṇa Hare Kṛṣṇa Kṛṣṇa Kṛṣṇa Hare Hare&nbsp;&nbsp;·&nbsp;&nbsp;Hare Rāma Hare Rāma Rāma Rāma Hare Hare&nbsp;&nbsp;·&nbsp;&nbsp;</span>
+    <span class="sanskrit">Hare Kṛṣṇa Hare Kṛṣṇa Kṛṣṇa Kṛṣṇa Hare Hare&nbsp;&nbsp;·&nbsp;&nbsp;Hare Rāma Hare Rāma Rāma Rāma Hare Hare&nbsp;&nbsp;·&nbsp;&nbsp;Hare Kṛṣṇa Hare Kṛṣṇa Kṛṣṇa Kṛṣṇa Hare Hare&nbsp;&nbsp;·&nbsp;&nbsp;Hare Rāma Hare Rāma Rāma Rāma Hare Hare&nbsp;&nbsp;·&nbsp;&nbsp;</span>
+  </div>
+</div>
+
+<!-- ====================== ACTIVITY TICKER =========================== -->
+<div class="activity" data-guest-only>
+  <div class="activity-pill">
+    <span class="dot-live"></span>
+    <span data-activity><b>Arun</b> from Bengaluru just offered <b class="n">4</b> rounds <span class="act-when">· just now</span></span>
+  </div>
+</div>
+
+<!-- ========================== WHY CHANT ============================= -->
+<section id="why" class="section why" data-guest-only>
+  <div class="wrap">
+    <div class="split">
+      <div class="photo">
+        <img class="photo-fill" data-img="why-photo" src="https://www.iskconbangalore.org/koti-japa-yagna/public/uploads/radha-krishnachandra.jpg" alt="Sri Sri Radha Krishnachandra, ISKCON Bangalore" loading="lazy">
+        <div class="photo-caption">Sri Sri Radha Krishnachandra · Bengaluru</div>
+      </div>
+      <div>
+        <span class="eyebrow accent">Why we chant</span>
+        <div class="verse">harer nāma harer nāma<br><span class="em">harer nāmaiva kevalam</span><br>kalau nāsty eva nāsty eva<br>nāsty eva gatir anyathā</div>
+        <div class="verse-translation">"In this age of quarrel and hypocrisy, the only means of deliverance is chanting the holy name of the Lord. There is no other way. There is no other way. There is no other way."</div>
+        <div class="verse-cite">Śrī Caitanya-caritāmṛta · Ādi-līlā 17.21</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ======================= SRILA PRABHUPADA ======================== -->
+<section class="section prabhupada" data-guest-only>
+  <div class="wrap">
+    <div class="split">
+      <div class="photo prabhupada-photo">
+        <img class="photo-fill" data-img="prabhupada" src="https://www.iskconbangalore.org/koti-japa-yagna/public/uploads/prabhupada.jpg" alt="His Divine Grace A.C. Bhaktivedanta Swami Prabhupāda, Founder-Ācārya of ISKCON" loading="lazy">
+      </div>
+      <div>
+        <span class="eyebrow accent">Founder-Ācārya of ISKCON</span>
+        <h2 class="prabhupada-name">A.C. Bhaktivedanta<br>Swami Prabhupāda</h2>
+        <p class="prabhupada-intro">He carried the chanting of the Hare Kṛṣṇa mahā-mantra from a single room to millions of hearts across the world. In his own words:</p>
+        <div class="pq-list">
+          <blockquote class="pq">“Live peacefully, chant Hare Krishna and be happy in your life.”<cite>Letter to Gurudāsa &amp; Yamunā · 5 May 1967</cite></blockquote>
+          <blockquote class="pq">“If you chant this Hare Kṛṣṇa mantra you'll get all perfection, all perfection.”<cite>Lecture on Caitanya-caritāmṛta · Madhya 23.14</cite></blockquote>
+          <blockquote class="pq">“Chanting is so nice that as soon as you take to chanting … immediately the cleansing process begins.”<cite>Lecture on Śrīmad-Bhāgavatam 2.1.1 · New York, 19 April 1973</cite></blockquote>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ========================== THE MANTRAS =========================== -->
+<section id="mantras" class="section mantras" data-guest-only>
+  <div class="wrap" style="max-width:880px">
+    <div class="section-head center">
+      <span class="eyebrow accent">The Holy Names</span>
+      <h2>The mantras you'll chant</h2>
+      <p>Chant the Pañca-tattva mantra once to begin, then the Hare Krishna maha-mantra on your beads.</p>
+    </div>
+    <div class="mantra">
+      <div class="mantra-label">To begin, the Pañca-tattva mantra</div>
+      <!-- .br-sm breaks show only on mobile: 2 lines on desktop, 4 short lines on phones -->
+      <p class="mantra-text sanskrit">śrī-kṛṣṇa-caitanya<br class="br-sm"> prabhu-nityānanda<br>śrī-advaita gadādhara<br class="br-sm"> śrīvāsādi-gaura-bhakta-vṛnda</p>
+      <p class="mantra-meaning">First we offer our respects to Śrī Caitanya Mahāprabhu and His associates, praying for their mercy to chant the Holy Names purely and with love.</p>
+    </div>
+    <div class="mantra">
+      <div class="mantra-label">The maha-mantra</div>
+      <p class="mantra-text sanskrit">Hare Kṛṣṇa Hare Kṛṣṇa<br class="br-sm"> Kṛṣṇa Kṛṣṇa Hare Hare<br>Hare Rāma Hare Rāma<br class="br-sm"> Rāma Rāma Hare Hare</p>
+      <p class="mantra-meaning">“These three words, Hare, Kṛṣṇa and Rāma, are the transcendental seeds of the mahā-mantra. The chanting is a spiritual call for the Lord and His energy … like the genuine cry of a child for its mother's presence.”<cite>Śrīla Prabhupāda · The Science of Self-Realization</cite></p>
+    </div>
+  </div>
+</section>
+
+<div class="wrap" data-guest-only><div class="bead-divider" aria-hidden="true"></div></div>
+
+<!-- ========================= HOW IT WORKS =========================== -->
+<section id="how" class="section" data-guest-only>
+  <div class="wrap">
+    <div class="how-head">
+      <div class="section-head">
+        <span class="eyebrow">Join in a minute</span>
+        <h2>How the yagna works</h2>
+        <p>No app to download. Chant on your own beads, wherever you are.</p>
+      </div>
+      <img class="how-illo" src="https://www.iskconbangalore.org/koti-japa-yagna/public/uploads/hand.beads223x223.jpg" alt="A hand chanting japa on beads">
+    </div>
+    <div class="steps">
+      <div class="step">
+        <div class="step-num">01</div>
+        <h3>Register</h3>
+        <p>Your name, mobile and city. This also registers you for the Swagatam Krishna Janmashtami celebration.</p>
+      </div>
+      <div class="step">
+        <div class="step-num">02</div>
+        <h3>Chant &amp; hear</h3>
+        <p>Chant the maha-mantra on your beads. One round of 108 is an offering of 1,728 holy names.</p>
+      </div>
+      <div class="step">
+        <div class="step-num">03</div>
+        <h3>Log your rounds</h3>
+        <p>Submit your rounds each day. Keep your streak, climb the leaderboard, watch the offering rise.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- =========================== FOUNDER ============================== -->
+<section class="section founder" data-guest-only>
+  <div class="wrap">
+    <div class="split">
+      <div class="photo">
+        <img class="photo-fill" data-img="founder-photo" src="https://www.iskconbangalore.org/koti-japa-yagna/public/uploads/mpp.jpg" alt="Sri Madhu Pandit Dasa, President, ISKCON Bangalore" loading="lazy">
+      </div>
+      <div>
+        <span class="eyebrow accent">A word from our president</span>
+        <blockquote>"When we chant the Holy Name together, we are not counting numbers. We are welcoming Krishna repeatedly, bead after bead, into our hearts. Let your voice be one of the crores that invite Him not only to your home this Janmashtami, but into this world at large, to usher in the much-needed peace on this earth."</blockquote>
+        <div class="attrib">
+          <div class="avatar">M</div>
+          <div>
+            <div class="name">Sri Madhu Pandit Dasa</div>
+            <div class="role">President, ISKCON Bangalore</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ========================== SANKALPA ============================== -->
+<section id="sankalpa" class="section sankalpa" data-guest-only>
+  <div class="wrap">
+    <div class="section-head center">
+      <span class="eyebrow accent">Make your sankalpa</span>
+      <h2>Commit to your daily Japa</h2>
+      <p>Choose how many rounds of the maha-mantra you'll chant each day, from now to Janmashtami, and hold to it as your vow.</p>
+    </div>
+    <div class="sankalpa-card">
+      <div class="segmented" data-segmented>
+        <!-- segments injected by site.js -->
+        <span class="unit">rounds / day</span>
+      </div>
+      <div style="margin-top:28px">
+        <!-- force the number onto its own second line so the wrap is consistent
+             regardless of how many digits it is -->
+        <div class="proj">By Janmashtami you'll offer<br><b data-proj>·</b> holy names</div>
+        <div class="proj-support"><span class="tabular" data-proj-rounds>·</span> rounds · <span data-proj-every>·</span> every day for <span data-proj-days>·</span> days</div>
+        <div class="proj-poetic" data-proj-poetic>·</div>
+      </div>
+      <div style="margin-top:30px">
+        <a class="btn btn-primary" data-open-modal href="#">Register &amp; begin your&nbsp;sankalpa&nbsp;→</a>
+      </div>
+      <div class="streak-note"><span class="star">✦</span> Keep a daily streak, a flame for every day you complete your vow.</div>
+    </div>
+    <div class="sankalpa-why">
+      <h3 class="sankalpa-why-h">Why a vow, and why any number is a beginning</h3>
+      <p class="sankalpa-lead">A sankalpa is a vow. What Krishna treasures is not the size of your offering, but the steady, determined heart behind it.</p>
+      <figure class="sankalpa-q">
+        <blockquote>“Always chanting My glories, endeavoring with great determination … these great souls perpetually worship Me with devotion.”</blockquote>
+        <figcaption>Bhagavad-gītā 9.14</figcaption>
+      </figure>
+      <p class="sankalpa-lead">And no one is ever turned away for beginning small.</p>
+      <figure class="sankalpa-q">
+        <blockquote>“…you can begin a new life. … Try also to chant as many times as possible the Hare Kṛṣṇa mantra on japa beads.”</blockquote>
+        <figcaption>Śrīla Prabhupāda · Letter, 1973</figcaption>
+      </figure>
+    </div>
+  </div>
+</section>
+
+<!-- ========================= LEARN TO CHANT ========================= -->
+<section id="learn" class="section learn">
+  <div class="wrap">
+    <div class="section-head">
+      <span class="eyebrow">New to japa?</span>
+      <h2>Learn to chant</h2>
+      <p>Short guides to begin, and to chant along with us, one round at a time.</p>
+    </div>
+    <div class="learn-grid">
+      <div class="video-feature" data-feature><!-- selected video (player) injected by site.js --></div>
+      <div class="video-col">
+        <div class="video-list" data-video-list><!-- all videos injected by site.js (scrollable) --></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ========================= LEADERBOARD ============================ -->
+<section id="board" class="section board">
+  <div class="wrap">
+    <div class="section-head center" style="margin-bottom:8px">
+      <span class="eyebrow">Leaderboard of devotion</span>
+      <h2>Every round, from every heart</h2>
+      <p>Chanters offering their hearts through the maha-mantra, updated live.</p>
+      <div class="tabs">
+        <div class="tabs-inner" role="tablist" aria-label="Leaderboard range">
+          <button class="tab active" data-tab="today" role="tab" aria-selected="true">Today</button>
+          <button class="tab" data-tab="overall" role="tab" aria-selected="false">Overall</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="podium" data-podium><!-- top-3 podium injected by site.js --></div>
+    <div class="board-list" data-board-list><!-- ranked rows injected by site.js --></div>
+
+    <div class="section-head" style="margin:32px 0 0">
+      <span class="eyebrow">Cities leading the yagna</span>
+    </div>
+    <div class="cities" data-cities><!-- city chips injected by site.js --></div>
+  </div>
+</section>
+
+<!-- ============================ VOICES ============================== -->
+<section class="section voices" data-guest-only>
+  <div class="wrap" style="max-width:860px">
+    <div class="section-head center" style="margin-bottom:20px">
+      <span class="eyebrow">Voices from the yagna</span>
+      <h2 style="margin-bottom:0">Why they keep chanting</h2>
+    </div>
+    <div class="voices-list">
+      <div class="voice">
+        <div class="voice-quote">"I set out to chant just two rounds. By the tenth day it had quietly become the best part of my morning."</div>
+        <div class="voice-by">
+          <div class="voice-avatar">DP</div>
+          <div class="voice-name"><b>Divya P.</b> · Mysuru</div>
+        </div>
+      </div>
+      <div class="voice indent">
+        <div class="voice-quote">"My whole family logs their rounds together at night now. The children ask if we've 'fed the counter' yet."</div>
+        <div class="voice-by">
+          <div class="voice-avatar">KR</div>
+          <div class="voice-name"><b>Karthik R.</b> · Bengaluru</div>
+        </div>
+      </div>
+      <div class="voice">
+        <div class="voice-quote">"I had never chanted before in my life. The guided round made it simple, and now I cannot imagine my day without it."</div>
+        <div class="voice-by">
+          <div class="voice-avatar">MS</div>
+          <div class="voice-name"><b>Meena S.</b> · Bengaluru</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================= FAQ =============================== -->
+<section id="faq" class="section faq">
+  <div class="wrap" style="max-width:820px">
+    <div class="section-head center">
+      <span class="eyebrow">Questions &amp; answers</span>
+      <h2>Everything you need to begin</h2>
+      <p>New to chanting? These cover the essentials. Still stuck? Reach us any time.</p>
+    </div>
+    <div class="faq-list" data-faq><!-- items injected by site.js --></div>
+  </div>
+</section>
+
+<!-- =========================== CTA BAND ============================= -->
+<div class="cta-band" data-guest-only>
+  <div class="band-photo"><img class="photo-fill" data-img="band-photo" src="https://www.iskconbangalore.org/koti-japa-yagna/public/uploads/radha-krishnachandra.jpg" alt="" style="object-position:center 20%" loading="lazy"></div>
+  <div class="band-overlay"></div>
+  <section class="band-inner">
+    <div class="wrap">
+      <h2>Let this be Bangalore's welcome to Krishna</h2>
+      <p>Add your voice to a rising ocean of the Holy Name. Register today and make your sankalpa.</p>
+      <a class="btn btn-gold" href="#sankalpa">Join the Koti Japa Yagna →</a>
+    </div>
+  </section>
+</div>
+
+<!-- ============================ FOOTER ============================== -->
+<footer class="footer">
+  <div class="wrap">
+    <div class="footer-wordmark">Koti Japa Yagna</div>
+    <!-- Parent-festival link. IT: point href at the real Swagatam Krishna landing page. -->
+    <div>An initiative of ISKCON Bangalore · <a class="footer-swagatam" href="/swagatam-krishna" data-swagatam>Swagatam Krishna 2026 ↗</a></div>
+    <div class="footer-links">
+      <a href="#why" data-guest-only>Why chant</a>
+      <a href="#sankalpa" data-guest-only>Your sankalpa</a>
+      <a href="#learn">Learn</a>
+      <a href="#board">Leaderboard</a>
+      <a href="#faq">FAQ</a>
+    </div>
+    <div class="footer-hare">Hare Krishna</div>
+  </div>
+</footer>
+
+<!-- ====================== REGISTRATION MODAL ======================== -->
+<div class="modal-backdrop" data-modal hidden>
+  <div class="modal" role="dialog" aria-modal="true" aria-label="Register for the Koti Japa Yagna">
+    <button class="modal-close" data-modal-close aria-label="Close">✕</button>
+    <div class="modal-dots" aria-hidden="true">
+      <span class="modal-dot active" data-step-dot></span>
+      <span class="modal-dot" data-step-dot></span>
+    </div>
+
+    <!-- Step 1: form -->
+    <div class="modal-step" data-step="form">
+      <div class="modal-kicker">Make your sankalpa</div>
+      <h3>Join the Koti Japa Yagna</h3>
+      <p>Begin one offering of the Holy Name today. This also welcomes you to Swagatam Krishna, Janmashtami 2026.</p>
+      <label class="field-label" for="r-name">Your name</label>
+      <input class="field" id="r-name" data-r-name placeholder="e.g. Ananya" autocomplete="name">
+      <label class="field-label" for="r-mobile">Mobile number</label>
+      <div class="phone-field">
+        <div class="cc" data-cc>
+          <div class="cc-badge" aria-hidden="true">
+            <img class="cc-flag" src="https://flagcdn.com/in.svg" width="22" height="16" alt="">
+            <span class="cc-dial">+91</span>
+          </div>
+          <input type="hidden" data-r-cc value="+91" data-len="10">
+        </div>
+        <input class="field phone-num" id="r-mobile" data-r-mobile placeholder="Mobile number" inputmode="numeric" autocomplete="tel-national">
+      </div>
+      <p class="field-error" data-r-mobile-error hidden>That mobile number is already registered. Try logging in instead.</p>
+      <div class="field-row">
+        <div>
+          <label class="field-label" for="r-gender">Gender</label>
+          <select class="field" id="r-gender" data-r-gender>
+            <option value="" disabled selected>Select</option>
+            <option value="Female">Female</option>
+            <option value="Male">Male</option>
+            <option value="Other">Other</option>
+          </select>
+        </div>
+        <div>
+          <label class="field-label" for="r-age">Age</label>
+          <input class="field" id="r-age" data-r-age type="number" min="1" max="120" inputmode="numeric" placeholder="e.g. 28">
+        </div>
+      </div>
+      <label class="field-label" for="r-city">City</label>
+      <div class="city-field" data-city-field>
+        <input class="field" id="r-city" data-r-city placeholder="e.g. Bengaluru" autocomplete="off" autocapitalize="words">
+        <ul class="city-menu" data-city-menu hidden role="listbox"></ul>
+      </div>
+      <label class="field-label" for="r-email">Email</label>
+      <input class="field" id="r-email" data-r-email type="email" placeholder="you@example.com" autocomplete="email">
+      <label class="field-label" for="r-pass">Create a password</label>
+      <input class="field" id="r-pass" data-r-pass type="password" placeholder="At least 6 characters" autocomplete="new-password">
+      <p class="field-help" style="margin:-8px 0 16px">You'll use your mobile number and this password to log in and update your rounds.</p>
+
+      <label class="field-label" for="r-rounds">Rounds a day <span class="opt">your daily vow</span></label>
+      <input class="field" id="r-rounds" data-r-rounds type="number" min="1" max="108" inputmode="numeric" placeholder="e.g. 2">
+      <p class="field-help" style="margin:-8px 0 16px">This is the number you selected. Change it to whatever you'd like to commit to.</p>
+
+      <label class="field-label">Have you chanted japa before?</label>
+      <div class="choice" data-experience role="radiogroup" aria-label="Have you chanted japa before?">
+        <button type="button" class="choice-opt" data-exp="new" role="radio" aria-checked="false">
+          <b>I'm new to japa</b><span>Guide me from the very first round</span>
+        </button>
+        <button type="button" class="choice-opt" data-exp="practitioner" role="radio" aria-checked="false">
+          <b>I already chant</b><span>I have a daily practice</span>
+        </button>
+      </div>
+      <div class="field-reveal" data-exp-rounds hidden>
+        <label class="field-label" for="r-current">Rounds you already chant daily</label>
+        <input class="field" id="r-current" data-r-current type="number" min="1" max="200" inputmode="numeric" placeholder="e.g. 16" style="margin-bottom:0">
+      </div>
+
+      <p class="field-help">A one-time code will be sent to verify your number.</p>
+      <label class="field-check">
+        <input type="checkbox" data-r-terms>
+        <span>I have read and accept the <a href="https://www.iskconbangalore.org/koti-japa-yagna/terms" target="_blank" rel="noopener">Terms &amp; Conditions</a>, and I consent to receive communications from ISKCON Bangalore.</span>
+      </label>
+      <p class="field-error" data-r-missing hidden></p>
+      <button class="modal-btn" data-to-otp disabled>Continue →</button>
+      <div class="modal-links" style="justify-content:center"><a data-to-login>Already registered? Log in</a></div>
+    </div>
+
+    <!-- Step 2: otp -->
+    <div class="modal-step" data-step="otp" hidden>
+      <div class="modal-kicker">Verify your number</div>
+      <h3>Enter your code</h3>
+      <p>We've sent a one-time code to <b><span data-otp-mobile></span></b>. Enter it to complete your sankalpa.</p>
+      <input class="otp-input" data-r-otp placeholder="••••" inputmode="numeric" maxlength="6">
+      <p class="field-error" data-r-otp-error hidden>That code is incorrect or has expired. Try again.</p>
+      <button class="modal-btn" data-verify disabled>Verify &amp; begin →</button>
+      <div class="modal-back"><a data-back-to-form>← Edit details</a></div>
+    </div>
+
+    <!-- Step 3: done -->
+    <div class="modal-step" data-step="done" hidden>
+      <div class="modal-done">
+        <div class="done-check">✓</div>
+        <h3>Welcome to the yagna, <span data-done-name>devotee</span></h3>
+        <p class="done-lead" data-done-lead>You're registered. We're opening your WhatsApp group, <b><span data-wa-label>your group</span></b>, in a new tab — that's where you'll get your morning and evening chanting reminders.</p>
+        <a class="btn-whatsapp" data-done-whatsapp href="#" target="_blank" rel="noopener">
+          <span class="wa-icon" aria-hidden="true"></span> Join on WhatsApp
+        </a>
+        <div class="done-redirect-note" data-done-note>Didn't open automatically? Tap the button above.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ======================== DAILY LOG MODAL ========================
+     Opens for registered chanters, either "today" (from the nav/dashboard
+     CTA) or for a specific past day (tapped on the dashboard calendar, to
+     add or correct a day) — see the log-forday badge below. -->
+<div class="modal-backdrop" data-log-modal hidden>
+  <div class="modal" role="dialog" aria-modal="true" aria-label="Log your rounds">
+    <button class="modal-close" data-log-close aria-label="Close">✕</button>
+
+    <!-- entry -->
+    <div class="modal-step" data-log-step="entry">
+      <div class="modal-kicker">Your daily offering</div>
+      <h3>Hare Krishna,<br><span data-log-name>devotee</span></h3>
+      <p data-log-status>How many rounds have you chanted today?</p>
+      <div class="log-forday" data-log-for hidden></div>
+
+      <div class="log-counter">
+        <button type="button" class="log-step-btn" data-log-dec aria-label="One fewer round">−</button>
+        <div class="log-count"><input class="log-count-input tabular" data-log-rounds type="number" min="1" max="108" inputmode="numeric" aria-label="Rounds chanted" value="2"><small>rounds</small></div>
+        <button type="button" class="log-step-btn" data-log-inc aria-label="One more round">+</button>
+      </div>
+      <div class="log-quick" data-log-quick><!-- quick chips injected by site.js --></div>
+
+      <button class="modal-btn" data-log-submit>Offer these rounds →</button>
+
+      <div class="log-stats">
+        <div><b class="tabular" data-log-total>0</b><span>names offered</span></div>
+        <div><b class="tabular" data-log-streak>0</b><span>day streak</span></div>
+        <div><b class="tabular" data-log-days>0</b><span>days chanted</span></div>
+      </div>
+      <div class="log-signout"><a data-log-signout>Not you? Sign out</a></div>
+    </div>
+
+    <!-- confirmation -->
+    <div class="modal-step" data-log-step="logged" hidden>
+      <div class="modal-done">
+        <div class="done-check">✓</div>
+        <h3>Offered with love</h3>
+        <p style="margin:12px auto 6px;max-width:340px">You've offered <b data-log-just>·</b> rounds <span data-log-when>today</span>. Your names rise with the whole community's, Koti by Koti.</p>
+        <div class="done-proj">Total <span data-log-total-2>·</span> names · <span data-log-streak-2>·</span>-day streak</div>
+        <button class="modal-btn" data-log-close>Hare Krishna →</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- =========================== LOGIN MODAL =========================
+     Everyday login = mobile + password. OTP is only used at registration
+     (to verify the number) and to reset a forgotten password. -->
+<div class="modal-backdrop" data-login-modal hidden>
+  <div class="modal" role="dialog" aria-modal="true" aria-label="Log in">
+    <button class="modal-close" data-login-close aria-label="Close">✕</button>
+
+    <!-- log in -->
+    <div class="modal-step" data-login-step="login">
+      <div class="modal-kicker">Welcome back</div>
+      <h3>Log in to log your rounds</h3>
+      <p>Use the mobile number and password you registered with.</p>
+      <label class="field-label" for="l-mobile">Mobile number</label>
+      <input class="field" id="l-mobile" data-l-mobile placeholder="10-digit mobile" inputmode="numeric" autocomplete="tel-national">
+      <label class="field-label" for="l-pass">Password</label>
+      <input class="field" id="l-pass" data-l-pass type="password" placeholder="Your password" autocomplete="current-password">
+      <p class="field-error" data-login-error hidden>That mobile number and password don't match. Try again, or reset your password.</p>
+      <button class="modal-btn" data-login-submit>Log in →</button>
+      <div class="modal-links">
+        <a data-forgot>Forgot password?</a>
+        <a data-to-register>New here? Register</a>
+      </div>
+    </div>
+
+    <!-- forgot · mobile -->
+    <div class="modal-step" data-login-step="forgot-mobile" hidden>
+      <div class="modal-kicker">Reset password</div>
+      <h3>Reset your password</h3>
+      <p>Enter your registered mobile number and we'll send a one-time code.</p>
+      <label class="field-label" for="f-mobile">Mobile number</label>
+      <input class="field" id="f-mobile" data-f-mobile placeholder="10-digit mobile" inputmode="numeric">
+      <p class="field-error" data-forgot-error hidden>We couldn't find an account with that number.</p>
+      <button class="modal-btn" data-forgot-send disabled>Send code →</button>
+      <div class="modal-back"><a data-forgot-back>← Back to log in</a></div>
+    </div>
+
+    <!-- forgot · otp -->
+    <div class="modal-step" data-login-step="forgot-otp" hidden>
+      <div class="modal-kicker">Reset password</div>
+      <h3>Enter your code</h3>
+      <p>We've sent a one-time code to <b>+91 <span data-forgot-mobile></span></b>.</p>
+      <input class="otp-input" data-f-otp placeholder="••••" inputmode="numeric" maxlength="6">
+      <p class="field-error" data-forgot-otp-error hidden>That code is incorrect or has expired. Try again.</p>
+      <button class="modal-btn" data-forgot-verify disabled>Verify →</button>
+      <div class="modal-back"><a data-forgot-back>← Back</a></div>
+    </div>
+
+    <!-- forgot · new password -->
+    <div class="modal-step" data-login-step="forgot-new" hidden>
+      <div class="modal-kicker">Reset password</div>
+      <h3>Choose a new password</h3>
+      <label class="field-label" for="f-pass">New password</label>
+      <input class="field" id="f-pass" data-f-pass type="password" placeholder="At least 6 characters" autocomplete="new-password">
+      <button class="modal-btn" data-forgot-save disabled>Save &amp; log in →</button>
+    </div>
+  </div>
+</div>
+
+<script src="https://www.iskconbangalore.org/koti-japa-yagna/public/assets/data.js?v=20"></script>
+<script src="https://www.iskconbangalore.org/koti-japa-yagna/public/assets/site.js?v=27"></script>
+</body>
+</html>

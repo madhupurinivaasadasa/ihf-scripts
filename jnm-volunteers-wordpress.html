@@ -1,0 +1,160 @@
+<!--
+  COPY FROM THIS FILE (not from chat).
+
+  Open:
+    ihf-scripts/jnm-volunteers-wordpress.html
+  Same copy:
+    crm_python/crm_dashboard/jnm_volunteers/jnm-volunteers-wordpress.html
+
+  Select all → copy → WPBakery Blank Page → Raw HTML → paste as ONE block.
+
+  Public volunteer lookup only. Iframes GitHub Pages (not script.google.com).
+-->
+<style>
+  html, body {
+    margin: 0 !important;
+    padding: 0 !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    height: 100% !important;
+    background: #f3e6d0 !important;
+    overflow: hidden !important;
+  }
+  .page_wrap,
+  .page_content_wrap,
+  .content_wrap,
+  .content,
+  .vc_row, .vc_column, .vc_column-inner,
+  .wpb_wrapper, .wpb_raw_html, .wpb_content_element,
+  article, main, .site-content, .page-content {
+    width: 100% !important;
+    max-width: 100% !important;
+    margin: 0 !important;
+    padding: 0 !important;
+  }
+  .page_title_wrap,
+  .top_panel,
+  .footer_wrap,
+  footer {
+    display: none !important;
+  }
+  #jnmBlank {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    height: 100dvh;
+    height: 100svh;
+    background: #4e1210;
+  }
+  #jnmBar {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 8px 14px;
+    background: #fff;
+    border-bottom: 3px solid #7a1f1a;
+    flex: 0 0 auto;
+  }
+  #jnmBar a {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    text-decoration: none;
+    color: #4e1210;
+    min-width: 0;
+  }
+  #jnmBar img {
+    width: 42px;
+    height: 42px;
+    border-radius: 50%;
+    object-fit: cover;
+    flex-shrink: 0;
+  }
+  #jnmBar strong {
+    font: 700 0.95rem/1.15 "Palatino Linotype", Palatino, "Times New Roman", serif;
+    letter-spacing: 0.02em;
+  }
+  #jnmBar span {
+    display: block;
+    font: 600 0.68rem/1.2 sans-serif;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: #d45a1a;
+  }
+  #jnmVolFrame {
+    display: block;
+    flex: 1 1 auto;
+    width: 100%;
+    min-height: 0;
+    border: 0;
+    background: #f3e6d0;
+  }
+  @media (max-width: 720px) {
+    #jnmBar { padding: 8px 12px; }
+    #jnmBar img { width: 36px; height: 36px; }
+    #jnmBar strong { font-size: 0.85rem; }
+  }
+  @media (orientation: landscape) {
+    #jnmBar { padding: 4px 12px; }
+    #jnmBar img { width: 28px; height: 28px; }
+    #jnmBar span { display: none; }
+  }
+</style>
+<div id="jnmBlank">
+  <header id="jnmBar">
+    <a href="https://www.kbmandir.org/">
+      <img src="https://i0.wp.com/www.kbmandir.org/wp-content/uploads/2020/11/cropped-l.jpg?fit=180%2C180&amp;ssl=1" width="42" height="42" alt="Sri Krishna Balaram Mandir" />
+      <div>
+        <span>Sri Krishna Janmashtami 2026</span>
+        <strong>Sri Krishna Balaram Mandir</strong>
+      </div>
+    </a>
+  </header>
+  <iframe
+    id="jnmVolFrame"
+    title="Janmashtami 2026 volunteer assignment lookup"
+    src="https://madhupurinivaasadasa.github.io/ihf-scripts/jnm-volunteers.html"
+    loading="eager"
+    referrerpolicy="no-referrer"
+    allow="clipboard-write"
+  ></iframe>
+</div>
+<script>
+(function () {
+  function viewportH() {
+    if (window.visualViewport && window.visualViewport.height) {
+      return window.visualViewport.height;
+    }
+    return window.innerHeight;
+  }
+  function sizeFrame() {
+    var frame = document.getElementById("jnmVolFrame");
+    var bar = document.getElementById("jnmBar");
+    var blank = document.getElementById("jnmBlank");
+    if (!frame) return;
+    var admin = document.body.classList.contains("admin-bar") ? 32 : 0;
+    var h = Math.floor(viewportH() - admin);
+    if (blank) {
+      blank.style.height = h + "px";
+      blank.style.width = "100%";
+    }
+    var barH = bar ? Math.ceil(bar.getBoundingClientRect().height) : 56;
+    var frameH = h - barH;
+    if (frameH < 160) frameH = 160;
+    frame.style.width = "100%";
+    frame.style.height = frameH + "px";
+  }
+  function sizeSoon() {
+    sizeFrame();
+    setTimeout(sizeFrame, 50);
+    setTimeout(sizeFrame, 200);
+    setTimeout(sizeFrame, 500);
+  }
+  window.addEventListener("load", sizeSoon);
+  window.addEventListener("resize", sizeSoon);
+  window.addEventListener("orientationchange", sizeSoon);
+  if (window.visualViewport) {
+    window.visualViewport.addEventListener("resize", sizeSoon);
+  }
+})();
+</script>
