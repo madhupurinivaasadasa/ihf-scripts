@@ -15,12 +15,12 @@ window.donationForms = {
     // },
     "kbm-festival": {
         label: "",
-        tagline: "Celebrate Sri Radhashtami Jayanthi with devotion",
-        description: "Celebrate Sri Radhashtami filled with devotion and spiritual festivities",
+        tagline: "Celebrate Bhadra Purnima with devotion",
+        description: "Celebrate Bhadra Purnima filled with devotion and spiritual festivities",
         price: "",
-        img: "https://secure.kbmandir.org/neon/resource/ihf/images/Sri%20Radhashtami%202026.jpeg",
-        vpf: "https://secure.kbmandir.org/forms/kbm-festival-seva-vpf",
-        ihf: "https://secure.kbmandir.org/forms/kbm-festival-seva-ihf",
+        img: "https://secure.kbmandir.org/neon/resource/ihf/images/bhadra_purnima_2026.jpeg",
+        vpf: "https://form.jotform.com/kbmandir/bhadra-purnima",
+        ihf: "https://form.jotform.com/kbmandir/bhadra-purnima",
         bgColor: "#FFE5B4",
         icon: "🕉️"
     },
