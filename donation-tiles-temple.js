@@ -13,17 +13,17 @@ window.donationForms = {
     //     bgColor: "#FFD700",
     //     icon: "🕉️"
     // },
-    // "kbm-festival": {
-    //     label: "",
-    //     tagline: "Celebrate Sri Vijayadashami with devotion",
-    //     description: "Celebrate Sri Vijayadashami filled with devotion and spiritual festivities",
-    //     price: "",
-    //     img: "https://secure.kbmandir.org/neon/resource/ihf/images/Sri%20Vijayadashami%202026.jpeg",
-    //     vpf: "https://secure.kbmandir.org/forms/kbm-festival-seva-vpf",
-    //     ihf: "https://secure.kbmandir.org/forms/kbm-festival-seva-ihf",
-    //     bgColor: "#FFE5B4",
-    //     icon: "🕉️"
-    // },
+    "kbm-festival": {
+        label: "",
+        tagline: "Celebrate Deepavali & Govardhana Puja with devotion",
+        description: "Celebrate Deepavali & Govardhana Puja filled with devotion and spiritual festivities",
+        price: "",
+        img: "https://secure.kbmandir.org/neon/resource/ihf/images/Deepavali_2026.jpeg",
+        vpf: "https://secure.kbmandir.org/forms/kbm-festival-seva-vpf",
+        ihf: "https://secure.kbmandir.org/forms/kbm-festival-seva-ihf",
+        bgColor: "#FFE5B4",
+        icon: "🕉️"
+    },
     // "janmashtami-2026": {
     //     label: "",
     //     tagline: "Celebrate Sri Krishna Janmashtami with devotion",
@@ -45,6 +45,17 @@ window.donationForms = {
         ihf: "https://secure.kbmandir.org/forms/goshala-project-ihf",
         bgColor: "#87CEEB",
         icon: "🐄"
+    },
+    "deity-seva": {
+        label: "Daily Deity Seva",
+        tagline: "Serve the deities every day",
+        description: "Support daily archana, arati, and worship services for Sri Krishna Balaram.",
+        price: "",
+        img: "https://www.kbmandir.org/wp-content/uploads/2022/03/2022_14.jpg",
+        vpf: "https://secure.kbmandir.org/forms/deity-sevas-vpf",
+        ihf: "https://secure.kbmandir.org/forms/deity-sevas-ihf",
+        bgColor: "#A8E6CF",
+        icon: "🙏"
     },
     // "new-temple-project": {
     //     label: "New Temple Project",
@@ -100,17 +111,6 @@ window.donationForms = {
         ihf: "https://secure.kbmandir.org/forms/nitya-prasada-seva-sponsorships-ihf",
         bgColor: "#F7DC6F",
         icon: "🥘"
-    },
-    "deity-seva": {
-        label: "Daily Deity Seva",
-        tagline: "Serve the deities every day",
-        description: "Support daily archana, arati, and worship services for Sri Krishna Balaram.",
-        price: "",
-        img: "https://www.kbmandir.org/wp-content/uploads/2022/03/2022_14.jpg",
-        vpf: "https://secure.kbmandir.org/forms/deity-sevas-vpf",
-        ihf: "https://secure.kbmandir.org/forms/deity-sevas-ihf",
-        bgColor: "#A8E6CF",
-        icon: "🙏"
     },
     "cow-feeding-seva": {
         label: "Cow Feeding Seva",
