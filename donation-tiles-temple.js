@@ -35,6 +35,17 @@ window.donationForms = {
     //     bgColor: "#FFE5B4",
     //     icon: "🕉️"
     // },
+    "sastra-seva": {
+        label: "Gita Dana Seva",
+        tagline: "Spread sacred knowledge",
+        description: "Sponsor the distribution of Bhagavad Gita and other sacred texts.",
+        price: "",
+        img: "https://secure.kbmandir.org/neon/resource/ihf/images/gita_jayanti_donate.jpg",
+        vpf: "https://secure.kbmandir.org/forms/book-distribution-vpf",
+        ihf: "https://secure.kbmandir.org/forms/book-distribution-ihf",
+        bgColor: "#FFB347",
+        icon: "📖"
+    },
     "goshala-project": {
         label: "Goshala Project",
         tagline: "Help build mother cow's home!",
@@ -45,17 +56,6 @@ window.donationForms = {
         ihf: "https://secure.kbmandir.org/forms/goshala-project-ihf",
         bgColor: "#87CEEB",
         icon: "🐄"
-    },
-    "deity-seva": {
-        label: "Daily Deity Seva",
-        tagline: "Serve the deities every day",
-        description: "Support daily archana, arati, and worship services for Sri Krishna Balaram.",
-        price: "",
-        img: "https://www.kbmandir.org/wp-content/uploads/2022/03/2022_14.jpg",
-        vpf: "https://secure.kbmandir.org/forms/deity-sevas-vpf",
-        ihf: "https://secure.kbmandir.org/forms/deity-sevas-ihf",
-        bgColor: "#A8E6CF",
-        icon: "🙏"
     },
     // "new-temple-project": {
     //     label: "New Temple Project",
@@ -112,6 +112,17 @@ window.donationForms = {
         bgColor: "#F7DC6F",
         icon: "🥘"
     },
+    "deity-seva": {
+        label: "Daily Deity Seva",
+        tagline: "Serve the deities every day",
+        description: "Support daily archana, arati, and worship services for Sri Krishna Balaram.",
+        price: "",
+        img: "https://www.kbmandir.org/wp-content/uploads/2022/03/2022_14.jpg",
+        vpf: "https://secure.kbmandir.org/forms/deity-sevas-vpf",
+        ihf: "https://secure.kbmandir.org/forms/deity-sevas-ihf",
+        bgColor: "#A8E6CF",
+        icon: "🙏"
+    },
     "cow-feeding-seva": {
         label: "Cow Feeding Seva",
         tagline: "Protect and serve mother cow",
@@ -133,17 +144,6 @@ window.donationForms = {
         ihf: "https://secure.kbmandir.org/forms/gopuja-ihf",
         bgColor: "#FFD700",
         icon: "🐄"
-    },
-    "sastra-seva": {
-        label: "Gita Dana Seva",
-        tagline: "Spread sacred knowledge",
-        description: "Sponsor the distribution of Bhagavad Gita and other sacred texts.",
-        price: "",
-        img: "https://secure.kbmandir.org/neon/resource/ihf/images/gita_jayanti_donate.jpg",
-        vpf: "https://secure.kbmandir.org/forms/book-distribution-vpf",
-        ihf: "https://secure.kbmandir.org/forms/book-distribution-ihf",
-        bgColor: "#FFB347",
-        icon: "📖"
     },
     "general-donation": {
         label: "General Donation",
